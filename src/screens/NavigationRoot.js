@@ -4,27 +4,31 @@ import { createMaterialBottomTabNavigator } from 'react-navigation-material-bott
 import Icon from 'react-native-vector-icons/FontAwesome';
 import DashboardScreen from './DashboardScreen';
 import AddAssetScreen from './AddAssetScreen';
-
-const ICONS_PER_SCREEN = {
-  Dashboard: 'pie-chart',
-  AddAsset: 'plus-circle'
-};
+import labels from '~/labels/en';
 
 export default createAppContainer(
   createMaterialBottomTabNavigator(
     {
-      Dashboard: DashboardScreen,
-      AddAsset: AddAssetScreen,
+      Dashboard: {
+        screen: DashboardScreen,
+        navigationOptions: {
+          title: labels.dashboardTab,
+          tabBarIcon: ({ tintColor }) => (
+            <Icon name="pie-chart" size={18} color={tintColor} />
+          )
+        }
+      },
+      AddAsset: {
+        screen: AddAssetScreen,
+        navigationOptions: {
+          title: labels.addAssetTab,
+          tabBarIcon: ({ tintColor }) => (
+            <Icon name="plus-circle" size={18} color={tintColor} />
+          )
+        },
+      }
     },
     {
-      defaultNavigationOptions: ({ navigation }) => ({
-        tabBarIcon: ({ tintColor }) => {
-          const { routeName } = navigation.state;
-          return (
-            <Icon name={ICONS_PER_SCREEN[routeName]} size={18} color={tintColor} />
-          );
-        }
-      }),
       barStyle: {
         backgroundColor: 'white',
       },

@@ -2,6 +2,7 @@ import React from 'react';
 import { createStackNavigator } from 'react-navigation-stack';
 import styled from 'styled-components/native';
 import ActionButton from '~/components/ActionButton';
+import labels from '~/labels/en';
 
 const DashboardScreen = () => (
   <SafeArea>
@@ -10,7 +11,7 @@ const DashboardScreen = () => (
       <AuthorText>Peter Lynch</AuthorText>
     </QuoteView>
     <ButtonView>
-      <ActionButton label="Add asset" />
+      <ActionButton label={labels.addAssetButton} />
     </ButtonView>
   </SafeArea>
 );
