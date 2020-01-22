@@ -49,6 +49,15 @@ const ButtonView = styled.View`
   margin-bottom: 30px;
 `;
 
-export default createStackNavigator({
-  Dashboard: DashboardScreen,
-});
+export default createStackNavigator(
+  {
+    Dashboard: DashboardScreen
+  },
+  {
+    defaultNavigationOptions: {
+      header: () => (
+        null
+      )
+    }
+  }
+);

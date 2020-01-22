@@ -29,6 +29,11 @@ export default createAppContainer(
       }
     },
     {
+      defaultNavigationOptions: {
+        header: () => (
+          null
+        )
+      },
       barStyle: {
         backgroundColor: 'white',
       },

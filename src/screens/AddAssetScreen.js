@@ -23,6 +23,15 @@ const styles = StyleSheet.create({
   }
 });
 
-export default createStackNavigator({
-  AddAsset: AddAssetScreen,
-});
+export default createStackNavigator(
+  {
+    AddAsset: AddAssetScreen,
+  },
+  {
+    defaultNavigationOptions: {
+      header: () => (
+        null
+      )
+    }
+  }
+);
