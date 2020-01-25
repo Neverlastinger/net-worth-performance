@@ -11,7 +11,9 @@
   },
   "dependencies": {
     "@react-native-community/masked-view": "^0.1.6",
+    "i18next": "^19.0.3",
     "react": "16.9.0",
+    "react-i18next": "^11.3.1",
     "react-native": "0.61.5",
     "react-native-gesture-handler": "^1.5.3",
     "react-native-paper": "^3.4.0",

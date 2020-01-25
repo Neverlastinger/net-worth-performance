@@ -2,16 +2,15 @@ import React from 'react';
 import { createStackNavigator } from 'react-navigation-stack';
 import styled from 'styled-components/native';
 import ActionButton from '~/components/ActionButton';
-import labels from '~/labels/en';
 
 const DashboardScreen = () => (
   <SafeArea>
     <QuoteView>
-      <QuoteText>Know what you own, and know why you own it.</QuoteText>
-      <AuthorText>Peter Lynch</AuthorText>
+      <QuoteText>{t('initialQuote')}</QuoteText>
+      <AuthorText>{t('initialQuoteAuthor')}</AuthorText>
     </QuoteView>
     <ButtonView>
-      <ActionButton label={labels.addAssetButton} />
+      <ActionButton label={t('addAssetButton')} />
     </ButtonView>
   </SafeArea>
 );
