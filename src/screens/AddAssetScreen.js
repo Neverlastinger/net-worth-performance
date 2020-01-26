@@ -1,27 +1,22 @@
 import React from 'react';
 import {
   SafeAreaView,
-  StyleSheet,
-  View,
-  Text
+  View
 } from 'react-native';
 import { createStackNavigator } from 'react-navigation-stack';
+import TextField from '~/components/TextField';
+import CategoryActionSheet from '~/components/CategoryActionSheet';
 
 const AddAssetScreen = () => (
   <SafeAreaView>
     <View>
-      <Text style={styles.text}>Add asset</Text>
+      <TextField label={t('assetName')} />
+      <TextField label={t('amount')} keyboardType="numeric" />
+      <CategoryActionSheet />
+
     </View>
   </SafeAreaView>
 );
-
-const styles = StyleSheet.create({
-  text: {
-    alignSelf: 'center',
-    fontSize: 36,
-    textAlign: 'center'
-  }
-});
 
 export default createStackNavigator(
   {

@@ -4,6 +4,7 @@ import { createMaterialBottomTabNavigator } from 'react-navigation-material-bott
 import Icon from 'react-native-vector-icons/FontAwesome';
 import DashboardScreen from './DashboardScreen';
 import AddAssetScreen from './AddAssetScreen';
+import { BRAND_COLOR_BLUE } from '~/styles';
 
 export default createAppContainer(
   createMaterialBottomTabNavigator(
@@ -36,7 +37,7 @@ export default createAppContainer(
       barStyle: {
         backgroundColor: 'white',
       },
-      activeColor: '#0070ea'
+      activeColor: BRAND_COLOR_BLUE
     }
   )
 );
