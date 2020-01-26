@@ -1,22 +1,38 @@
 import React from 'react';
 import {
-  SafeAreaView,
   View
 } from 'react-native';
+import styled from 'styled-components/native';
 import { createStackNavigator } from 'react-navigation-stack';
 import TextField from '~/components/TextField';
-import CategoryActionSheet from '~/components/CategoryActionSheet';
+import CategorySelectField from '~/components/CategorySelectField';
+import CurrencySelectField from '~/components/CurrencySelectField';
+import ActionButton from '~/components/ActionButton';
 
 const AddAssetScreen = () => (
-  <SafeAreaView>
+  <SafeArea>
     <View>
       <TextField label={t('assetName')} />
       <TextField label={t('amount')} keyboardType="numeric" />
-      <CategoryActionSheet />
-
+      <CategorySelectField />
+      <CurrencySelectField />
     </View>
-  </SafeAreaView>
+    <ButtonView>
+      <ActionButton label={t('saveAsset')} />
+    </ButtonView>
+  </SafeArea>
 );
+
+const SafeArea = styled.SafeAreaView`
+  flex: 1
+`;
+
+const ButtonView = styled.View`
+  flex: 1;
+  align-items: center;
+  justify-content: flex-end;
+  margin-bottom: 30px;
+`;
 
 export default createStackNavigator(
   {

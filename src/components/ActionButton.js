@@ -17,6 +17,7 @@ const Button = styled.TouchableOpacity`
 const Text = styled.Text`
   font-size: 18px;
   color: white;
+  text-align: center;
 `;
 
 export default ActionButton;

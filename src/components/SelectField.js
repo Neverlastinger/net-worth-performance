@@ -5,7 +5,8 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import TextField from '~/components/TextField';
 import ActionSheet from '~/components/ActionSheet';
 
-const CategoryActionSheet = () => {
+const SelectField = ({ label, actionSheetTitle, actionSheetOptions }) => {
+  const [value, setValue] = useState();
   const [isActionSheetOpen, setIsActionSheetOpen] = useState(false);
 
   const openActionSheet = () => {
@@ -16,13 +17,23 @@ const CategoryActionSheet = () => {
     setIsActionSheetOpen(false);
   };
 
+  const onValueSelected = (newValue) => {
+    setValue(newValue);
+  };
+
   return (
     <TouchableOpacity onPress={openActionSheet}>
       <View>
-        <TextField label={t('category')} editable={false} pointerEvents="none" />
+        <TextField label={label} editable={false} pointerEvents="none" value={value} />
         <DropdownIcon name="chevron-down" size={8} color="#cacaca" />
       </View>
-      <ActionSheet isOpen={isActionSheetOpen} onClose={closeActionSheet} />
+      <ActionSheet
+        isOpen={isActionSheetOpen}
+        onClose={closeActionSheet}
+        onValueSelected={onValueSelected}
+        title={actionSheetTitle}
+        options={actionSheetOptions}
+      />
     </TouchableOpacity>
   );
 };
@@ -33,4 +44,4 @@ const DropdownIcon = styled(Icon)`
   right: 24px;
 `;
 
-export default CategoryActionSheet;
+export default SelectField;
