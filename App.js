@@ -6,7 +6,7 @@ import NavigationRoot from '~/screens/NavigationRoot';
 
 const App = () => (
   <>
-    <StatusBar barStyle="dark-content" />
+    <StatusBar backgroundColor="white" barStyle="dark-content" />
     <NavigationRoot />
   </>
 );
