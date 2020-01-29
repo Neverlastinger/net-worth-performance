@@ -4,7 +4,7 @@ import styled from 'styled-components/native';
 import { createStackNavigator } from 'react-navigation-stack';
 import useKeyboardShown from '~/hooks/useKeyboardShown';
 import TextField from '~/components/TextField';
-import CategorySelectField from '~/components/CategorySelectField';
+import CategorySelectField from '~/components/CategorySelectField/CategorySelectField';
 import CurrencySelectField from '~/components/CurrencySelectField';
 import ActionButton from '~/components/ActionButton';
 
