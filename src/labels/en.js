@@ -11,7 +11,7 @@ export default {
     categoryListTitle: 'Asset Category',
     currency: 'Currency',
     currencyListTitle: 'Asset Currency',
-    cancel: 'Cancel',
+    close: 'Close',
     saveAsset: 'Save asset',
     categories: {
       cash: 'Cash',

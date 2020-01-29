@@ -1,13 +1,27 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { TouchableOpacity, View } from 'react-native';
 import styled from 'styled-components/native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import TextField from '~/components/TextField';
 import ActionSheet from '~/components/ActionSheet';
 
-const SelectField = ({ label, actionSheetTitle, actionSheetOptions }) => {
+/**
+ * Represents a component that looks very similar to an input field, but brings out an action sheet to select an option.
+ *
+ * @param {String} label: input label
+ * @param {String} actionSheetTitle
+ * @param {Array} actionSheetOptions: array of components or strings, each one representing a row in the action sheet.
+ * @param {Function} onClose: called when the action sheet closes
+ * @param {String} selectedValue: a custom-selected value for this component;
+ *                                 when not provided, the ActionSheet itself is responsible for providing the selected value
+ */
+const SelectField = ({ label, actionSheetTitle, actionSheetOptions, onClose, selectedValue }) => {
   const [value, setValue] = useState();
   const [isActionSheetOpen, setIsActionSheetOpen] = useState(false);
+
+  useEffect(() => {
+    setIsActionSheetOpen(false);
+  }, [selectedValue]);
 
   const openActionSheet = () => {
     setIsActionSheetOpen(true);
@@ -15,6 +29,7 @@ const SelectField = ({ label, actionSheetTitle, actionSheetOptions }) => {
 
   const closeActionSheet = () => {
     setIsActionSheetOpen(false);
+    onClose && onClose();
   };
 
   const onValueSelected = (newValue) => {
@@ -24,7 +39,7 @@ const SelectField = ({ label, actionSheetTitle, actionSheetOptions }) => {
   return (
     <TouchableOpacity onPress={openActionSheet}>
       <View>
-        <TextField label={label} editable={false} pointerEvents="none" value={value} />
+        <TextField label={label} editable={false} pointerEvents="none" value={selectedValue || value} />
         <DropdownIcon name="chevron-down" size={8} color="#cacaca" />
       </View>
       <ActionSheet
