@@ -4,6 +4,7 @@ import { createMaterialBottomTabNavigator } from 'react-navigation-material-bott
 import Icon from 'react-native-vector-icons/FontAwesome';
 import DashboardScreen from './DashboardScreen';
 import AddAssetScreen from './AddAssetScreen';
+import TempScreen from './TempScreen';
 import { BRAND_COLOR_BLUE } from '~/styles';
 
 export default createAppContainer(
@@ -26,7 +27,16 @@ export default createAppContainer(
             <Icon name="plus-circle" size={18} color={tintColor} />
           )
         },
-      }
+      },
+      Temp: {
+        screen: TempScreen,
+        navigationOptions: {
+          title: 'temp',
+          tabBarIcon: ({ tintColor }) => (
+            <Icon name="exclamation-triangle" size={18} color={tintColor} />
+          )
+        },
+      },
     },
     {
       defaultNavigationOptions: {

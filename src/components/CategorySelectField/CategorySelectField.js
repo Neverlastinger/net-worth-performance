@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import SelectField from '~/components/SelectField';
-import EditCategoriesRow from './EditCategoriesRow';
+import AddRow from './AddRow';
 import DeletedRow from './DeletedRow';
 import Row from './Row';
 
@@ -63,7 +63,7 @@ const CategorySelectField = () => {
       label: t('categories.p2pLending')
     },
     {
-      component: <EditCategoriesRow />,
+      component: <AddRow />,
       height: 48,
     },
   ];
