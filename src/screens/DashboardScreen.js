@@ -1,5 +1,4 @@
 import React from 'react';
-import { createStackNavigator } from 'react-navigation-stack';
 import styled from 'styled-components/native';
 import ActionButton from '~/components/ActionButton';
 
@@ -48,15 +47,4 @@ const ButtonView = styled.View`
   margin-bottom: 30px;
 `;
 
-export default createStackNavigator(
-  {
-    Dashboard: DashboardScreen
-  },
-  {
-    defaultNavigationOptions: {
-      header: () => (
-        null
-      )
-    }
-  }
-);
+export default DashboardScreen;

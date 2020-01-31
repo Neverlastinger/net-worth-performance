@@ -1,15 +1,18 @@
 import React, { useState } from 'react';
 import SelectField from '~/components/SelectField';
-import EditCategoriesRow from './EditCategoriesRow';
+import ManageCategoriesRow from './ManageCategoriesRow';
 import DeletedRow from './DeletedRow';
 import Row from './Row';
 
 /**
  * Represents a SelectField for asset categories.
  * Provides functionality to delete a category by swiping.
+ *
+ * @param {Function} goToManageCategories: called to navigate to the manage categories screen
  */
-const CategorySelectField = () => {
+const CategorySelectField = ({ goToManageCategories }) => {
   const [selectedValue, setSelectedValue] = useState();
+  const [forceCloseActionSheet, setForceCloseActionSheet] = useState();
 
   const onSelected = (value) => {
     setSelectedValue(value);
@@ -35,6 +38,11 @@ const CategorySelectField = () => {
         !option.deleted
       ))
     ));
+  };
+
+  const onManageCategoriesClick = () => {
+    setForceCloseActionSheet(new Date());
+    goToManageCategories();
   };
 
   const INITIAL_OPTIONS = [
@@ -63,7 +71,7 @@ const CategorySelectField = () => {
       label: t('categories.p2pLending')
     },
     {
-      component: <EditCategoriesRow />,
+      component: <ManageCategoriesRow onPress={onManageCategoriesClick} />,
       height: 48,
     },
   ];
@@ -77,6 +85,7 @@ const CategorySelectField = () => {
       actionSheetOptions={options}
       onClose={removeDeletedRows}
       selectedValue={selectedValue}
+      forceClose={forceCloseActionSheet}
     />
   );
 };

@@ -1,14 +1,13 @@
 import React from 'react';
 import { View } from 'react-native';
 import styled from 'styled-components/native';
-import { createStackNavigator } from 'react-navigation-stack';
 import useKeyboardShown from '~/hooks/useKeyboardShown';
 import TextField from '~/components/TextField';
 import CategorySelectField from '~/components/CategorySelectField/CategorySelectField';
 import CurrencySelectField from '~/components/CurrencySelectField';
 import ActionButton from '~/components/ActionButton';
 
-const AddAssetScreen = () => {
+const AddAssetScreen = ({ navigation }) => {
   const isKeyboardShown = useKeyboardShown();
 
   return (
@@ -16,7 +15,7 @@ const AddAssetScreen = () => {
       <View>
         <TextField label={t('assetName')} />
         <TextField label={t('amount')} keyboardType="numeric" />
-        <CategorySelectField />
+        <CategorySelectField goToManageCategories={() => { navigation.navigate('ManageCategories'); }} />
         <CurrencySelectField />
       </View>
       <ButtonView>
@@ -39,15 +38,4 @@ const ButtonView = styled.View`
   margin-bottom: 30px;
 `;
 
-export default createStackNavigator(
-  {
-    AddAsset: AddAssetScreen,
-  },
-  {
-    defaultNavigationOptions: {
-      header: () => (
-        null
-      )
-    }
-  }
-);
+export default AddAssetScreen;

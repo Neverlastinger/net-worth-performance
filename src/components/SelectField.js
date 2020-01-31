@@ -14,14 +14,19 @@ import ActionSheet from '~/components/ActionSheet';
  * @param {Function} onClose: called when the action sheet closes
  * @param {String} selectedValue: a custom-selected value for this component;
  *                                 when not provided, the ActionSheet itself is responsible for providing the selected value
+ * @param {hack} forceClose: a random value used to close the ActionSheet
  */
-const SelectField = ({ label, actionSheetTitle, actionSheetOptions, onClose, selectedValue }) => {
+const SelectField = ({ label, actionSheetTitle, actionSheetOptions, onClose, selectedValue, forceClose }) => {
   const [value, setValue] = useState();
   const [isActionSheetOpen, setIsActionSheetOpen] = useState(false);
 
   useEffect(() => {
     setIsActionSheetOpen(false);
   }, [selectedValue]);
+
+  useEffect(() => {
+    setIsActionSheetOpen(false);
+  }, [forceClose]);
 
   const openActionSheet = () => {
     setIsActionSheetOpen(true);

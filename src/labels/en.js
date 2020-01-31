@@ -18,6 +18,9 @@ export default {
       stocks: 'Stocks',
       bonds: 'Bonds',
       p2pLending: 'P2P Lending'
-    }
+    },
+    addCategory: 'Add a category',
+    save: 'Save',
+    manageCategories: 'Add a category'
   }
 };

@@ -2,8 +2,8 @@ import React from 'react';
 import styled from 'styled-components/native';
 import { BRAND_COLOR_RED } from '~/styles';
 
-const ActionButton = ({ label }) => (
-  <Button>
+const ActionButton = ({ label, onPress }) => (
+  <Button onPress={onPress}>
     <Text>{label}</Text>
   </Button>
 );
