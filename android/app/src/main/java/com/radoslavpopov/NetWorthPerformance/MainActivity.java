@@ -1,4 +1,4 @@
-package com.networthperformance;
+package com.radoslavpopov.NetWorthPerformance;
 
 import com.facebook.react.ReactActivity;
 
