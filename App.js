@@ -1,14 +1,18 @@
 import React from 'react';
-import {
-  StatusBar
-} from 'react-native';
-import NavigationRoot from '~/screens/NavigationRoot';
+import { Provider } from 'react-redux';
+import { StatusBar } from 'react-native';
+import store from '~/store';
+import Root from '~/Root';
 
 const App = () => (
   <>
     <StatusBar backgroundColor="white" barStyle="dark-content" />
-    <NavigationRoot />
+    <Root />
   </>
 );
 
-export default App;
+export default () => (
+  <Provider store={store}>
+    <App />
+  </Provider>
+);

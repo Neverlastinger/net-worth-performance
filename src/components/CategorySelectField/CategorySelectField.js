@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { deleteAssetCategory } from '~/store/actions';
 import SelectField from '~/components/SelectField';
 import ManageCategoriesRow from './ManageCategoriesRow';
 import DeletedRow from './DeletedRow';
@@ -11,6 +13,8 @@ import Row from './Row';
  * @param {Function} goToManageCategories: called to navigate to the manage categories screen
  */
 const CategorySelectField = ({ goToManageCategories }) => {
+  const dispatch = useDispatch();
+  const categories = useSelector((state) => state.assetCategories);
   const [selectedValue, setSelectedValue] = useState();
   const [forceCloseActionSheet, setForceCloseActionSheet] = useState();
 
@@ -33,6 +37,10 @@ const CategorySelectField = ({ goToManageCategories }) => {
   };
 
   const removeDeletedRows = () => {
+    options.forEach((option) => {
+      option.deleted && dispatch(deleteAssetCategory(option.id));
+    });
+
     setOptions((prevOptions) => (
       prevOptions.filter((option) => (
         !option.deleted
@@ -45,38 +53,26 @@ const CategorySelectField = ({ goToManageCategories }) => {
     goToManageCategories();
   };
 
-  const INITIAL_OPTIONS = [
-    {
-      component: <Row label={t('categories.cash')} onDelete={() => deleteOption(1)} onSelected={onSelected} preview />,
-      height: 60,
-      id: 1,
-      label: t('categories.cash')
-    },
-    {
-      component: <Row label={t('categories.stocks')} onDelete={() => deleteOption(2)} onSelected={onSelected} />,
-      height: 60,
-      id: 2,
-      label: t('categories.stocks')
-    },
-    {
-      component: <Row label={t('categories.bonds')} onDelete={() => deleteOption(3)} onSelected={onSelected} />,
-      height: 60,
-      id: 3,
-      label: t('categories.bonds')
-    },
-    {
-      component: <Row label={t('categories.p2pLending')} onDelete={() => deleteOption(4)} onSelected={onSelected} />,
-      height: 60,
-      id: 4,
-      label: t('categories.p2pLending')
-    },
-    {
-      component: <ManageCategoriesRow onPress={onManageCategoriesClick} />,
-      height: 48,
-    },
-  ];
+  const initialOptions = categories.map((category, i) => ({
+    component: (
+      <Row
+        label={category.name}
+        onDelete={() => deleteOption(category.id)}
+        onSelected={onSelected}
+        preview={i === 0}
+      />
+    ),
+    height: 60,
+    id: category.id,
+    label: category.name
+  }));
 
-  const [options, setOptions] = useState(INITIAL_OPTIONS);
+  initialOptions.push({
+    component: <ManageCategoriesRow onPress={onManageCategoriesClick} />,
+    height: 48,
+  });
+
+  const [options, setOptions] = useState(initialOptions);
 
   return (
     <SelectField

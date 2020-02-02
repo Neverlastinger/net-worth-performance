@@ -1,20 +1,11 @@
 import React from 'react';
 import { View } from 'react-native';
 import styled from 'styled-components/native';
-import { firebase } from '@react-native-firebase/firestore';
 import useKeyboardShown from '~/hooks/useKeyboardShown';
 import TextField from '~/components/TextField';
 import CategorySelectField from '~/components/CategorySelectField/CategorySelectField';
 import CurrencySelectField from '~/components/CurrencySelectField';
 import ActionButton from '~/components/ActionButton';
-
-// Temporary. Proves the app is connected to firebase.
-(async () => {
-  const snapshot = await firebase.firestore().collection('users/neverlastinger@gmail.com/categories').get();
-  snapshot.docs.forEach((doc) => {
-    console.log(doc.data());
-  });
-})();
 
 const AddAssetScreen = ({ navigation }) => {
   const isKeyboardShown = useKeyboardShown();
