@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { deleteAssetCategory } from '~/store/actions';
 import SelectField from '~/components/SelectField';
-import ManageCategoriesRow from './ManageCategoriesRow';
+import AddCategoryRow from './AddCategoryRow';
 import DeletedRow from './DeletedRow';
 import Row from './Row';
 
@@ -17,6 +17,30 @@ const CategorySelectField = ({ goToManageCategories }) => {
   const categories = useSelector((state) => state.assetCategories);
   const [selectedValue, setSelectedValue] = useState();
   const [forceCloseActionSheet, setForceCloseActionSheet] = useState();
+  const [options, setOptions] = useState([]);
+
+  useEffect(() => {
+    const initialOptions = categories.map((category, i) => ({
+      component: (
+        <Row
+          label={category.name}
+          onDelete={() => deleteOption(category.id)}
+          onSelected={onSelected}
+          preview={i === 0}
+        />
+      ),
+      height: 60,
+      id: category.id,
+      label: category.name
+    }));
+
+    initialOptions.push({
+      component: <AddCategoryRow onPress={onManageCategoriesClick} />,
+      height: 48,
+    });
+
+    setOptions(initialOptions);
+  }, [categories]);
 
   const onSelected = (value) => {
     setSelectedValue(value);
@@ -52,27 +76,6 @@ const CategorySelectField = ({ goToManageCategories }) => {
     setForceCloseActionSheet(new Date());
     goToManageCategories();
   };
-
-  const initialOptions = categories.map((category, i) => ({
-    component: (
-      <Row
-        label={category.name}
-        onDelete={() => deleteOption(category.id)}
-        onSelected={onSelected}
-        preview={i === 0}
-      />
-    ),
-    height: 60,
-    id: category.id,
-    label: category.name
-  }));
-
-  initialOptions.push({
-    component: <ManageCategoriesRow onPress={onManageCategoriesClick} />,
-    height: 48,
-  });
-
-  const [options, setOptions] = useState(initialOptions);
 
   return (
     <SelectField

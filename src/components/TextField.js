@@ -17,7 +17,6 @@ const TextField = ({ ...props }) => {
   return (
     <Input
       type="outlined"
-      onChangeText={() => {}}
       selectionColor={BRAND_COLOR_BLUE}
       onFocus={onFocus}
       onBlur={onBlur}

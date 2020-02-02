@@ -21,6 +21,6 @@ export default {
     },
     addCategory: 'Add a category',
     save: 'Save',
-    manageCategories: 'Add a category'
+    addCategoryRowText: 'Add a new category'
   }
 };

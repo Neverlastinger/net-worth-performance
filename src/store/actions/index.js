@@ -13,3 +13,8 @@ export const deleteAssetCategory = (id) => ({
   type: actions.DELETE_ASSET_CATEGORY,
   id
 });
+
+export const addAssetCategory = (name) => ({
+  type: actions.ADD_ASSET_CATEGORY,
+  name
+});

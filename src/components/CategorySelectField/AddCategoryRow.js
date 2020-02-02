@@ -22,11 +22,11 @@ const RowIcon = styled(Icon)`
   top: 3px;
 `;
 
-const ManageCategoriesRow = ({ onPress }) => (
+const AddCategoryRow = ({ onPress }) => (
   <Wrapper onPress={onPress}>
-    <RowText>{t('manageCategories')}</RowText>
+    <RowText>{t('addCategoryRowText')}</RowText>
     <RowIcon name="plus-circle" size={16} color={BRAND_COLOR_RED} />
   </Wrapper>
 );
 
-export default ManageCategoriesRow;
+export default AddCategoryRow;

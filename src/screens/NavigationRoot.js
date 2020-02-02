@@ -5,7 +5,7 @@ import { createStackNavigator } from 'react-navigation-stack';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import DashboardScreen from './DashboardScreen';
 import AddAssetScreen from './AddAssetScreen';
-import ManageCategoriesScreen from './ManageCategoriesScreen';
+import AddCategoryScreen from './AddCategoryScreen';
 import { BRAND_COLOR_BLUE } from '~/styles';
 
 export default createAppContainer(
@@ -30,7 +30,7 @@ export default createAppContainer(
               }),
             },
             ManageCategories: {
-              screen: ManageCategoriesScreen,
+              screen: AddCategoryScreen,
               navigationOptions: () => ({
                 title: 'Add Category',
               }),

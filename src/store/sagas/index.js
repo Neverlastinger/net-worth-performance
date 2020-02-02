@@ -1,9 +1,8 @@
 import { all, spawn, call } from 'redux-saga/effects';
-import { watchFetch as watchFetchAssetCategories, watchDelete as watchDeleteAssetCategory } from './assetCategories';
+import assetCategorySagas from './assetCategories';
 
 const sagas = [
-  watchFetchAssetCategories,
-  watchDeleteAssetCategory
+  ...assetCategorySagas
 ];
 
 /**
