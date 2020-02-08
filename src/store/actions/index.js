@@ -18,3 +18,8 @@ export const addAssetCategory = (name) => ({
   type: actions.ADD_ASSET_CATEGORY,
   name
 });
+
+export const saveAsset = (data) => ({
+  type: actions.SAVE_ASSET,
+  data
+});

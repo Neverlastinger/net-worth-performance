@@ -10,14 +10,19 @@ import Row from './Row';
  * Represents a SelectField for asset categories.
  * Provides functionality to delete a category by swiping.
  *
- * @param {Function} goToManageCategories: called to navigate to the manage categories screen
+ * @param {Function} goToAddCategory: called to navigate to the add category screen
+ * @param {Function} onValueSelected: called when a value is selected
  */
-const CategorySelectField = ({ goToManageCategories }) => {
+const CategorySelectField = ({ goToAddCategory, onValueSelected }) => {
   const dispatch = useDispatch();
   const categories = useSelector((state) => state.assetCategories);
   const [selectedValue, setSelectedValue] = useState();
   const [forceCloseActionSheet, setForceCloseActionSheet] = useState();
   const [options, setOptions] = useState([]);
+
+  useEffect(() => {
+    onValueSelected(selectedValue);
+  }, [selectedValue]);
 
   useEffect(() => {
     const initialOptions = categories.map((category, i) => ({
@@ -74,7 +79,7 @@ const CategorySelectField = ({ goToManageCategories }) => {
 
   const onManageCategoriesClick = () => {
     setForceCloseActionSheet(new Date());
-    goToManageCategories();
+    goToAddCategory();
   };
 
   return (

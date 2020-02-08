@@ -1,8 +1,10 @@
 import { all, spawn, call } from 'redux-saga/effects';
 import assetCategorySagas from './assetCategories';
+import assetsSagas from './assets';
 
 const sagas = [
-  ...assetCategorySagas
+  ...assetCategorySagas,
+  ...assetsSagas
 ];
 
 /**

@@ -21,6 +21,8 @@ export default {
     },
     addCategory: 'Add a category',
     save: 'Save',
-    addCategoryRowText: 'Add a new category'
+    addCategoryRowText: 'Add a new category',
+    confirmAddAssetMainText: 'Your asset is saved',
+    confirmAddAssetDescriptionText: 'You can review it on the Dashboard'
   }
 };

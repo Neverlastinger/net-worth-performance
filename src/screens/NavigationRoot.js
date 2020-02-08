@@ -6,6 +6,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import DashboardScreen from './DashboardScreen';
 import AddAssetScreen from './AddAssetScreen';
 import AddCategoryScreen from './AddCategoryScreen';
+import ConfirmAddAssetScreen from './ConfirmAddAssetScreen';
 import { BRAND_COLOR_BLUE } from '~/styles';
 
 export default createAppContainer(
@@ -29,23 +30,35 @@ export default createAppContainer(
                 title: 'Add Asset Title',
               }),
             },
-            ManageCategories: {
+            AddCategory: {
               screen: AddCategoryScreen,
               navigationOptions: () => ({
                 title: 'Add Category',
               }),
+            },
+            Confirm: {
+              screen: ConfirmAddAssetScreen,
+              navigationOptions: () => ({
+                header: () => (
+                  null
+                )
+              }),
+              headerMode: 'none'
             }
           },
           {
             defaultNavigationOptions: {}
-          }
+          },
         ),
-        navigationOptions: {
+        navigationOptions: ({ navigation }) => ({
           title: t('addAssetTab'),
           tabBarIcon: ({ tintColor }) => (
             <Icon name="plus-circle" size={18} color={tintColor} />
-          )
-        },
+          ),
+          tabBarVisible: !navigation.state.routes.some((route) => (
+            route.routeName === 'Confirm'
+          ))
+        })
       }
     },
     {

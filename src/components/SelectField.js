@@ -16,7 +16,7 @@ import ActionSheet from '~/components/ActionSheet';
  *                                 when not provided, the ActionSheet itself is responsible for providing the selected value
  * @param {hack} forceClose: a random value used to close the ActionSheet
  */
-const SelectField = ({ label, actionSheetTitle, actionSheetOptions, onClose, selectedValue, forceClose }) => {
+const SelectField = ({ label, actionSheetTitle, actionSheetOptions, onClose, selectedValue, forceClose, onValueSelected }) => {
   const [value, setValue] = useState();
   const [isActionSheetOpen, setIsActionSheetOpen] = useState(false);
 
@@ -37,8 +37,9 @@ const SelectField = ({ label, actionSheetTitle, actionSheetOptions, onClose, sel
     onClose && onClose();
   };
 
-  const onValueSelected = (newValue) => {
+  const onSelected = (newValue) => {
     setValue(newValue);
+    onValueSelected(newValue);
   };
 
   return (
@@ -50,7 +51,7 @@ const SelectField = ({ label, actionSheetTitle, actionSheetOptions, onClose, sel
       <ActionSheet
         isOpen={isActionSheetOpen}
         onClose={closeActionSheet}
-        onValueSelected={onValueSelected}
+        onValueSelected={onSelected}
         title={actionSheetTitle}
         options={actionSheetOptions}
       />

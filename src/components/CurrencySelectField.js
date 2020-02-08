@@ -52,11 +52,12 @@ const OPTIONS = [
   }
 ];
 
-const CurrencySelectField = () => (
+const CurrencySelectField = ({ onValueSelected }) => (
   <SelectField
     label={t('currency')}
     actionSheetTitle={t('currencyListTitle')}
     actionSheetOptions={OPTIONS}
+    onValueSelected={onValueSelected}
   />
 );
 

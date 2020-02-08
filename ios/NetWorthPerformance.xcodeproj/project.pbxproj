@@ -26,6 +26,7 @@
 		50A8CF11DD4B45B98B74B38D /* FontAwesome5_Solid.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4391BF9421264E2BA98CDBA1 /* FontAwesome5_Solid.ttf */; };
 		50AD7527F53A40108E4C0B1F /* EvilIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5CA6949ADC2F421EB86D51EC /* EvilIcons.ttf */; };
 		658B5E1FEBCBCE4A181D3FE4 /* libPods-NetWorthPerformance.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A25E96CDA62F7FE9F52D8ED3 /* libPods-NetWorthPerformance.a */; };
+		85F12F4D23EF4F3D001070C7 /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F12F4C23EF4F3D001070C7 /* File.swift */; };
 		85FB6F4323E5E76500E4E5EC /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 85FB6F4223E5E76400E4E5EC /* GoogleService-Info.plist */; };
 		953BCC74435D4346A65A2732 /* FontAwesome5_Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C28D209E418646B3B9599019 /* FontAwesome5_Regular.ttf */; };
 		960649778687FD99894141A1 /* libPods-NetWorthPerformanceTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 330D07A7612BAF936A356E09 /* libPods-NetWorthPerformanceTests.a */; };
@@ -84,6 +85,8 @@
 		5CA6949ADC2F421EB86D51EC /* EvilIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = EvilIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/EvilIcons.ttf"; sourceTree = "<group>"; };
 		796EBA4D11FBD0BD59BFE912 /* Pods-NetWorthPerformance-tvOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NetWorthPerformance-tvOSTests.debug.xcconfig"; path = "Target Support Files/Pods-NetWorthPerformance-tvOSTests/Pods-NetWorthPerformance-tvOSTests.debug.xcconfig"; sourceTree = "<group>"; };
 		7C00B18BF68C45F38464B521 /* Ionicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Ionicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Ionicons.ttf"; sourceTree = "<group>"; };
+		85F12F4B23EF4F3D001070C7 /* NetWorthPerformance-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NetWorthPerformance-Bridging-Header.h"; sourceTree = "<group>"; };
+		85F12F4C23EF4F3D001070C7 /* File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
 		85FB6F4223E5E76400E4E5EC /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		8D55D50611C94CD5C9248A7C /* Pods-NetWorthPerformance.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NetWorthPerformance.debug.xcconfig"; path = "Target Support Files/Pods-NetWorthPerformance/Pods-NetWorthPerformance.debug.xcconfig"; sourceTree = "<group>"; };
 		A25E96CDA62F7FE9F52D8ED3 /* libPods-NetWorthPerformance.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-NetWorthPerformance.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -167,6 +170,8 @@
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				13B07FB11A68108700A75B9A /* LaunchScreen.xib */,
 				13B07FB71A68108700A75B9A /* main.m */,
+				85F12F4C23EF4F3D001070C7 /* File.swift */,
+				85F12F4B23EF4F3D001070C7 /* NetWorthPerformance-Bridging-Header.h */,
 			);
 			name = NetWorthPerformance;
 			sourceTree = "<group>";
@@ -351,6 +356,9 @@
 					00E356ED1AD99517003FC87E = {
 						CreatedOnToolsVersion = 6.2;
 						TestTargetID = 13B07F861A680F5B00A75B9A;
+					};
+					13B07F861A680F5B00A75B9A = {
+						LastSwiftMigration = 1030;
 					};
 					2D02E47A1E0B4A5D006451C7 = {
 						CreatedOnToolsVersion = 8.2.1;
@@ -667,6 +675,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
+				85F12F4D23EF4F3D001070C7 /* File.swift in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -720,6 +729,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 53D955B919DAFED965206E7F /* Pods-NetWorthPerformanceTests.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -743,6 +753,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 029F8D97656F450767BBCFC9 /* Pods-NetWorthPerformanceTests.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
 				INFOPLIST_FILE = NetWorthPerformanceTests/Info.plist;
@@ -764,6 +775,7 @@
 			baseConfigurationReference = 8D55D50611C94CD5C9248A7C /* Pods-NetWorthPerformance.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
 				INFOPLIST_FILE = NetWorthPerformance/Info.plist;
@@ -775,6 +787,9 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.radoslavpopov.NetWorthPerformance;
 				PRODUCT_NAME = NetWorthPerformance;
+				SWIFT_OBJC_BRIDGING_HEADER = "NetWorthPerformance-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
@@ -784,6 +799,7 @@
 			baseConfigurationReference = B06E021DB595F598BF8DA312 /* Pods-NetWorthPerformance.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				INFOPLIST_FILE = NetWorthPerformance/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -794,6 +810,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.radoslavpopov.NetWorthPerformance;
 				PRODUCT_NAME = NetWorthPerformance;
+				SWIFT_OBJC_BRIDGING_HEADER = "NetWorthPerformance-Bridging-Header.h";
+				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;
