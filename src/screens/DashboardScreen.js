@@ -1,50 +1,58 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components/native';
-import ActionButton from '~/components/ActionButton';
+import NoAsset from '~/components/NoAsset';
+import PieChart from '~/components/PieChart';
 
-const DashboardScreen = () => (
-  <SafeArea>
-    <QuoteView>
-      <QuoteText>{t('initialQuote')}</QuoteText>
-      <AuthorText>{t('initialQuoteAuthor')}</AuthorText>
-    </QuoteView>
-    <ButtonView>
-      <ActionButton label={t('addAssetButton')} />
-    </ButtonView>
-  </SafeArea>
-);
+const hasAsset = true;
+
+const DATA = [
+  {
+    name: 'Mintos',
+    value: 4004
+  },
+  {
+    name: 'Revolut Stocks',
+    value: 19500
+  },
+  {
+    name: 'FiBank',
+    value: 9999
+  },
+  {
+    name: 'ETFMatic',
+    value: 500
+  }
+];
+
+const DashboardScreen = () => {
+  const [viewTouched, setViewTouched] = useState();
+
+  const onViewTouch = () => {
+    setViewTouched(new Date().getTime());
+  };
+
+  return (
+    <SafeArea>
+      {hasAsset ? (
+        <ChartView onTouchStart={onViewTouch}>
+          <PieChart data={DATA} blurDetected={viewTouched} />
+          <PieChart data={DATA} blurDetected={viewTouched} />
+          <PieChart data={DATA} blurDetected={viewTouched} />
+        </ChartView>
+      ) : (
+        <NoAsset />
+      )}
+
+    </SafeArea>
+  );
+};
 
 const SafeArea = styled.SafeAreaView`
   flex: 1
 `;
 
-const QuoteView = styled.View`
+const ChartView = styled.ScrollView`
   flex: 1;
-  align-items: center;
-  justify-content: flex-end;
-`;
-
-const QuoteText = styled.Text`
-  align-self: center;
-  font-size: 12px;
-  font-style: italic;
-  text-align: center;
-  color: #4d4d4d;
-`;
-
-const AuthorText = styled.Text`
-  align-self: center;
-  margin-top: 6px;
-  font-size: 12px;
-  text-align: center;
-  color: #4d4d4d;
-`;
-
-const ButtonView = styled.View`
-  flex: 1;
-  align-items: center;
-  justify-content: flex-end;
-  margin-bottom: 30px;
 `;
 
 export default DashboardScreen;

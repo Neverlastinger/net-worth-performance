@@ -23,6 +23,7 @@ export default {
     save: 'Save',
     addCategoryRowText: 'Add a new category',
     confirmAddAssetMainText: 'Your asset is saved',
-    confirmAddAssetDescriptionText: 'You can review it on the Dashboard'
+    confirmAddAssetDescriptionText: 'You can review it on the Dashboard',
+    done: 'Done'
   }
 };
