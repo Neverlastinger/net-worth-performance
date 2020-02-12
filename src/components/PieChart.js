@@ -2,13 +2,14 @@ import React, { useState, useEffect, useMemo } from 'react';
 import styled from 'styled-components/native';
 import { PieChart as RNPieChart } from 'react-native-svg-charts';
 import { View } from 'react-native';
+import useRecentPoint from '~/hooks/useRecentPoint';
 
 const COLORS = ['#600080', '#9900cc', '#d966ff', '#d966ff', '#ecb3ff'];
-let coords = {};
 
 const PieChart = ({ data, blurDetected }) => {
   const [pieChartData, setPieChartData] = useState([]);
   const [tooltip, setTooltip] = useState();
+  const [recentPoint, restartRecentPoint] = useRecentPoint(100);
 
   useEffect(() => {
     setPieChartData(data.map((asset, i) => ({
@@ -16,16 +17,16 @@ const PieChart = ({ data, blurDetected }) => {
       key: asset.name,
       svg: {
         fill: COLORS[i % COLORS.length],
-        onPress: () => {
-          onItemPress(i);
-        }
+        onPressIn: (e) => {
+          onItemPress(i, e);
+        },
       },
       arc: { outerRadius: '100%' }
     })));
   }, [data]);
 
   useEffect(() => {
-    setTooltip(null);
+    !recentPoint && setTooltip(null);
   }, [blurDetected]);
 
   const totalAmount = useMemo(() => (
@@ -34,10 +35,12 @@ const PieChart = ({ data, blurDetected }) => {
     ), 0)
   ), [data]);
 
-  const onItemPress = (index) => {
+  const onItemPress = (index, e) => {
+    restartRecentPoint();
+
     setTooltip({
-      left: coords.x,
-      top: coords.y,
+      left: e.nativeEvent.locationX,
+      top: e.nativeEvent.locationY,
       firstLine: data[index].name,
       secondLine: `${((data[index].value / totalAmount) * 100).toFixed(2)}%`
     });
@@ -64,15 +67,8 @@ const PieChart = ({ data, blurDetected }) => {
       ))));
   };
 
-  const onPress = (e) => {
-    coords = {
-      x: e.nativeEvent.locationX,
-      y: e.nativeEvent.locationY
-    };
-  };
-
   return (
-    <View onTouchStart={onPress}>
+    <View>
       <RNPieChart
         style={{ height: 300 }}
         outerRadius="90%"
