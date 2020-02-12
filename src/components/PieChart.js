@@ -7,11 +7,14 @@ import useAnimatedValue from '~/hooks/useAnimatedValue';
 
 const COLORS = ['#0070EA', '#4DA3FF', '#007BFF', '#265180', '#0063CC'];
 const ACTIVE_COLOR = '#003E80';
+const ANIMATION_DURATION = 200;
 
 const PieChart = ({ data, blurDetected }) => {
   const [pieChartData, setPieChartData] = useState([]);
   const [tooltip, setTooltip] = useState({});
-  const [tooltipOpacity, setTooltipOpacity] = useAnimatedValue(0);
+  const [tooltipOpacity, setTooltipOpacity] = useAnimatedValue(0, ANIMATION_DURATION);
+  const [tooltipTop] = useAnimatedValue(0);
+  const [tooltipLeft] = useAnimatedValue(0);
   const [recentPoint, restartRecentPoint] = useRecentPoint(100);
   const wrapperWidth = useRef();
 
@@ -52,23 +55,27 @@ const PieChart = ({ data, blurDetected }) => {
   const onItemPress = (index, e) => {
     restartRecentPoint();
 
-    const horizontalStyle = e.nativeEvent.locationX < wrapperWidth.current / 2
-      ? {
-        left: e.nativeEvent.locationX,
-        right: 'auto'
-      } : {
-        left: 'auto',
-        right: wrapperWidth.current - e.nativeEvent.locationX
-      };
-
     setTooltip({
-      ...horizontalStyle,
-      top: e.nativeEvent.locationY,
       firstLine: data[index].name,
       secondLine: `${((data[index].value / totalAmount) * 100).toFixed(2)}%`
     });
 
-    setTooltipOpacity(1);
+    const duration = tooltipTop._value !== 0 ? ANIMATION_DURATION : 0;
+
+    Animated.parallel([
+      Animated.timing(tooltipOpacity, {
+        toValue: 1,
+        duration: ANIMATION_DURATION
+      }),
+      Animated.timing(tooltipTop, {
+        toValue: e.nativeEvent.locationY - 20,
+        duration
+      }),
+      Animated.timing(tooltipLeft, {
+        toValue: e.nativeEvent.locationX < wrapperWidth.current / 2 ? e.nativeEvent.locationX : e.nativeEvent.locationX - 132,
+        duration
+      })
+    ]).start();
 
     setPieChartData((state) => (
       state.map((item, i) => (
@@ -105,9 +112,8 @@ const PieChart = ({ data, blurDetected }) => {
         data={pieChartData}
       />
       <Tooltip style={{
-        top: tooltip.top,
-        left: tooltip.left,
-        right: tooltip.right,
+        top: tooltipTop,
+        left: tooltipLeft,
         opacity: tooltipOpacity
       }}
       >
@@ -122,6 +128,7 @@ const Tooltip = styled(Animated.View)`
   position: absolute;
   padding: 4px 12px;
   min-width: 120px;
+  max-width: 220px;
   background-color: hsla(0, 0%, 0%, 0.8);
   border: 1px solid white;
   border-radius: 4px;
