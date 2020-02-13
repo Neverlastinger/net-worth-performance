@@ -1,31 +1,13 @@
 import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
 import styled from 'styled-components/native';
+import { sortedAssetList } from '~/store/reducers';
 import NoAsset from '~/components/NoAsset';
 import PieChart from '~/components/PieChart';
 
-const hasAsset = true;
-
-const DATA = [
-  {
-    name: 'Mintos',
-    value: 4004
-  },
-  {
-    name: 'Revolut Stocks',
-    value: 19500
-  },
-  {
-    name: 'FiBank',
-    value: 9999
-  },
-  {
-    name: 'ETFMatic',
-    value: 500
-  }
-];
-
-const DashboardScreen = () => {
+const DashboardScreen = ({ navigation }) => {
   const [viewTouched, setViewTouched] = useState();
+  const assetList = useSelector((state) => sortedAssetList(state));
 
   const onViewTouch = () => {
     setViewTouched(new Date().getTime());
@@ -33,14 +15,12 @@ const DashboardScreen = () => {
 
   return (
     <SafeArea>
-      {hasAsset ? (
+      {assetList.length > 0 ? (
         <ChartView onTouchStart={onViewTouch}>
-          <PieChart data={DATA} blurDetected={viewTouched} />
-          <PieChart data={DATA} blurDetected={viewTouched} />
-          <PieChart data={DATA} blurDetected={viewTouched} />
+          <PieChart data={assetList} blurDetected={viewTouched} />
         </ChartView>
       ) : (
-        <NoAsset />
+        <NoAsset goToAddAsset={() => { navigation.navigate('AddAsset'); }} />
       )}
 
     </SafeArea>

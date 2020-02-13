@@ -23,3 +23,12 @@ export const saveAsset = (data) => ({
   type: actions.SAVE_ASSET,
   data
 });
+
+export const fetchAssetList = () => ({
+  type: actions.FETCH_ASSET_LIST
+});
+
+export const setAssetList = (data) => ({
+  type: actions.SET_ASSET_LIST,
+  data
+});

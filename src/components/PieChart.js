@@ -5,10 +5,18 @@ import { Animated, View } from 'react-native';
 import useRecentPoint from '~/hooks/useRecentPoint';
 import useAnimatedValue from '~/hooks/useAnimatedValue';
 
-const COLORS = ['#0070EA', '#4DA3FF', '#007BFF', '#265180', '#0063CC'];
+const COLORS = ['#0063CC', '#0070EA', '#007BFF', '#3D82CC', '#4DA3FF', '#75b8ff', '#85c0ff', '#99CAFF'];
 const ACTIVE_COLOR = '#003E80';
 const ANIMATION_DURATION = 200;
 
+/**
+ * Represents a Pie Chart.
+ *
+ * @param {Array} data: asset data displayed proportionally in the chart depending on the "amount" field of every array item;
+ *                        it also contains a "name" field that is displayed when the user touches any of the slices
+ * @param {any} blurDetected: when this prop changes,
+ *                             it means the user blurs this chart and the chart state (tooltip & active slice) should be reset to default
+ */
 const PieChart = ({ data, blurDetected }) => {
   const [pieChartData, setPieChartData] = useState([]);
   const [tooltip, setTooltip] = useState({});
@@ -31,7 +39,7 @@ const PieChart = ({ data, blurDetected }) => {
 
   const totalAmount = useMemo(() => (
     data.reduce((accumulated, current) => (
-      accumulated + current.value
+      accumulated + current.amount
     ), 0)
   ), [data]);
 
@@ -41,6 +49,7 @@ const PieChart = ({ data, blurDetected }) => {
   const initPieChartData = () => {
     setPieChartData(data.map((asset, i) => ({
       ...asset,
+      value: asset.amount,
       key: asset.name,
       svg: {
         fill: COLORS[i % COLORS.length],
@@ -57,7 +66,7 @@ const PieChart = ({ data, blurDetected }) => {
 
     setTooltip({
       firstLine: data[index].name,
-      secondLine: `${((data[index].value / totalAmount) * 100).toFixed(2)}%`
+      secondLine: `${((data[index].amount / totalAmount) * 100).toFixed(2)}%`
     });
 
     const duration = tooltipTop._value !== 0 ? ANIMATION_DURATION : 0;

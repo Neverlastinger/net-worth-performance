@@ -4,15 +4,17 @@ import ActionButton from '~/components/ActionButton';
 
 /**
  * Initial Dashboard view displayed when the user doesn't have any asset yet.
+ *
+ * @param {Function} goToAddAsset: navigates to the AddAsset screen
  */
-const NoAsset = () => (
+const NoAsset = ({ goToAddAsset }) => (
   <>
     <QuoteView>
       <QuoteText>{t('initialQuote')}</QuoteText>
       <AuthorText>{t('initialQuoteAuthor')}</AuthorText>
     </QuoteView>
     <ButtonView>
-      <ActionButton label={t('addAssetButton')} />
+      <ActionButton label={t('addAssetButton')} onPress={goToAddAsset} />
     </ButtonView>
   </>
 );

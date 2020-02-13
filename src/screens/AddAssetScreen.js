@@ -13,7 +13,8 @@ const AddAssetScreen = ({ navigation }) => {
   const dispatch = useDispatch();
   const isKeyboardShown = useKeyboardShown();
   const [asset, setAsset] = useState({});
-  const [isButtonDisabled, setIsButtonDisabled] = useState();
+  const [isButtonDisabled, setIsButtonDisabled] = useState(true);
+  const [reactKey, setReactKey] = useState(new Date());
 
   useEffect(() => {
     setIsButtonDisabled(!asset.name || !asset.amount || !asset.category || !asset.currency);
@@ -29,7 +30,7 @@ const AddAssetScreen = ({ navigation }) => {
   const saveAmount = (amount) => {
     setAsset((current) => ({
       ...current,
-      amount
+      amount: Number(amount)
     }));
   };
 
@@ -47,14 +48,26 @@ const AddAssetScreen = ({ navigation }) => {
     }));
   };
 
+  /**
+   * Saves the asset to the server and navigates to the Confirmation screen.
+   */
   const onSavePressed = () => {
     dispatch(saveAsset(asset));
+    cleanUp();
     navigation.navigate('Confirm', { hideTabBar: true });
+  };
+
+  /**
+   * Cleans up this component for next usage.
+   */
+  const cleanUp = () => {
+    setAsset({});
+    setReactKey(new Date());
   };
 
   return (
     <SafeArea>
-      <View>
+      <View key={reactKey}>
         <TextField label={t('assetName')} onChangeText={saveName} />
         <TextField label={t('amount')} onChangeText={saveAmount} keyboardType="numeric" />
         <CategorySelectField goToAddCategory={() => { navigation.navigate('AddCategory'); }} onValueSelected={saveCategory} />
