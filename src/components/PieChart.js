@@ -12,7 +12,7 @@ const ANIMATION_DURATION = 200;
 /**
  * Represents a Pie Chart.
  *
- * @param {Array} data: asset data displayed proportionally in the chart depending on the "amount" field of every array item;
+ * @param {Array} data: asset data displayed proportionally in the chart depending on the "amountInBaseCurrency" field of every array item;
  *                        it also contains a "name" field that is displayed when the user touches any of the slices
  * @param {any} blurDetected: when this prop changes,
  *                             it means the user blurs this chart and the chart state (tooltip & active slice) should be reset to default
@@ -28,18 +28,33 @@ const PieChart = ({ data, blurDetected }) => {
 
   useEffect(() => {
     initPieChartData();
-  }, [data]);
+  }, [data.length]);
 
   useEffect(() => {
     if (!recentPoint) {
       setTooltipOpacity(0);
       initPieChartData();
+
+      setTimeout(() => {
+        setTooltip({});
+
+        Animated.parallel([
+          Animated.timing(tooltipTop, {
+            toValue: 0,
+            duration: 0
+          }),
+          Animated.timing(tooltipLeft, {
+            toValue: 0,
+            duration: 0
+          })
+        ]).start();
+      }, ANIMATION_DURATION);
     }
   }, [blurDetected]);
 
   const totalAmount = useMemo(() => (
     data.reduce((accumulated, current) => (
-      accumulated + current.amount
+      accumulated + current.amountInBaseCurrency
     ), 0)
   ), [data]);
 
@@ -49,7 +64,7 @@ const PieChart = ({ data, blurDetected }) => {
   const initPieChartData = () => {
     setPieChartData(data.map((asset, i) => ({
       ...asset,
-      value: asset.amount,
+      value: asset.amountInBaseCurrency,
       key: asset.name,
       svg: {
         fill: COLORS[i % COLORS.length],
@@ -64,9 +79,12 @@ const PieChart = ({ data, blurDetected }) => {
   const onItemPress = (index, e) => {
     restartRecentPoint();
 
+    const asset = data[index];
+
     setTooltip({
-      firstLine: data[index].name,
-      secondLine: `${((data[index].amount / totalAmount) * 100).toFixed(2)}%`
+      firstLine: `${asset.name}, ${((asset.amountInBaseCurrency / totalAmount) * 100).toFixed(2)}%`,
+      thirdLine: `${asset.amount} ${asset.currency}`,
+      fourthLine: !asset.isInBaseCurrency && `${asset.amountInBaseCurrency} ${asset.baseCurrency}`
     });
 
     const duration = tooltipTop._value !== 0 ? ANIMATION_DURATION : 0;
@@ -127,7 +145,10 @@ const PieChart = ({ data, blurDetected }) => {
       }}
       >
         <TooltipTextFirstLine>{tooltip.firstLine}</TooltipTextFirstLine>
-        <TooltipTextSecondLine>{tooltip.secondLine}</TooltipTextSecondLine>
+        <TooltipTextThirdLine>{tooltip.thirdLine}</TooltipTextThirdLine>
+        {tooltip.fourthLine && (
+          <TooltipTextFourthLine>{tooltip.fourthLine}</TooltipTextFourthLine>
+        )}
       </Tooltip>
     </View>
   );
@@ -150,10 +171,19 @@ const TooltipTextFirstLine = styled.Text`
   font-weight: bold;
 `;
 
-const TooltipTextSecondLine = styled.Text`
+const TooltipTextThirdLine = styled.Text`
+  margin-top: 2px;
   text-align: center;
   color: white;
-  font-size: 12px;
+  font-size: 10px;
+  font-style: italic;
+`;
+
+const TooltipTextFourthLine = styled.Text`
+  text-align: center;
+  color: white;
+  font-size: 10px;
+  font-style: italic;
 `;
 
 export default PieChart;

@@ -9,10 +9,4 @@ const assetList = (state = [], action) => {
   }
 };
 
-export const sortedAssetList = (state) => (
-  state.sort((first, second) => (
-    first.amount < second.amount ? 1 : -1
-  ))
-);
-
 export default assetList;

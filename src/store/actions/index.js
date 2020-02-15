@@ -32,3 +32,12 @@ export const setAssetList = (data) => ({
   type: actions.SET_ASSET_LIST,
   data
 });
+
+export const fetchCurrencyData = () => ({
+  type: actions.FETCH_CURRENCY_DATA
+});
+
+export const setCurrencyData = (data) => ({
+  type: actions.SET_CURRENCY_DATA,
+  data
+});

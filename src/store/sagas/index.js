@@ -1,10 +1,12 @@
 import { all, spawn, call } from 'redux-saga/effects';
 import assetCategorySagas from './assetCategories';
 import assetsSagas from './assets';
+import currencySagas from './currencies';
 
 const sagas = [
   ...assetCategorySagas,
-  ...assetsSagas
+  ...assetsSagas,
+  ...currencySagas
 ];
 
 /**
