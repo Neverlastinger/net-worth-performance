@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
+import { formatCurrency } from '~/lib/currency';
 import PieChart from '~/components/PieChart';
 
 const AssetPieChart = ({ data, blurDetected }) => {
@@ -15,15 +16,15 @@ const AssetPieChart = ({ data, blurDetected }) => {
     data.reduce((accumulated, current) => (
       accumulated + current.amountInBaseCurrency
     ), 0)
-  ), [data]);
+  ), [data.id]);
 
   const getTooltipData = (index) => {
     const asset = data[index];
 
     return {
       firstLine: `${asset.name}, ${((asset.amountInBaseCurrency / totalAmount) * 100).toFixed(2)}%`,
-      secondLine: `${asset.amount} ${asset.currency}`,
-      thirdLine: !asset.isInBaseCurrency && `${asset.amountInBaseCurrency} ${asset.baseCurrency}`
+      secondLine: formatCurrency({ amount: asset.amount, currency: asset.currency }),
+      thirdLine: !asset.isInBaseCurrency && formatCurrency({ amount: asset.amountInBaseCurrency, currency: asset.baseCurrency })
     };
   };
 

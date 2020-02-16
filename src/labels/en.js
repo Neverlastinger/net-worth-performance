@@ -24,6 +24,9 @@ export default {
     addCategoryRowText: 'Add a new category',
     confirmAddAssetMainText: 'Your asset is saved',
     confirmAddAssetDescriptionText: 'You can review it on the Dashboard',
-    done: 'Done'
+    done: 'Done',
+    assetChartTitle: 'Distribution by Assets',
+    categoryChartTitle: 'Distribution by Category',
+    netWorth: 'Total Net Worth'
   }
 };

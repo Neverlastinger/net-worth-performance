@@ -4,6 +4,7 @@ import { PieChart as RNPieChart } from 'react-native-svg-charts';
 import { Animated, View } from 'react-native';
 import useRecentPoint from '~/hooks/useRecentPoint';
 import useAnimatedValue from '~/hooks/useAnimatedValue';
+import PieChartLegend from '~/components/PieChartLegend';
 
 const COLORS = ['#0063CC', '#0070EA', '#007BFF', '#3D82CC', '#4DA3FF', '#75b8ff', '#85c0ff', '#99CAFF'];
 const ACTIVE_COLOR = '#003E80';
@@ -124,24 +125,27 @@ const PieChart = ({ slices, blurDetected, getTooltipData }) => {
 
   return (
     <View onLayout={onWrapperLayout}>
-      <RNPieChart
-        style={{ height: 300 }}
-        outerRadius="90%"
-        innerRadius={1}
-        data={pieChartData}
-      />
-      <Tooltip style={{
-        top: tooltipTop,
-        left: tooltipLeft,
-        opacity: tooltipOpacity
-      }}
-      >
-        <TooltipTextFirstLine>{tooltip.firstLine}</TooltipTextFirstLine>
-        <TooltipTextSecondLine>{tooltip.secondLine}</TooltipTextSecondLine>
-        {tooltip.thirdLine && (
-          <TooltipTextThirdLine>{tooltip.thirdLine}</TooltipTextThirdLine>
-        )}
-      </Tooltip>
+      <PieChartLegend data={pieChartData} />
+      <View>
+        <RNPieChart
+          style={{ height: 300 }}
+          outerRadius="90%"
+          innerRadius={1}
+          data={pieChartData}
+        />
+        <Tooltip style={{
+          top: tooltipTop,
+          left: tooltipLeft,
+          opacity: tooltipOpacity
+        }}
+        >
+          <TooltipTextFirstLine>{tooltip.firstLine}</TooltipTextFirstLine>
+          <TooltipTextSecondLine>{tooltip.secondLine}</TooltipTextSecondLine>
+          {tooltip.thirdLine && (
+            <TooltipTextThirdLine>{tooltip.thirdLine}</TooltipTextThirdLine>
+          )}
+        </Tooltip>
+      </View>
     </View>
   );
 };

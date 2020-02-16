@@ -12,7 +12,7 @@ export default combineReducers({
 });
 
 export const assetListForChart = (state) => {
-  const list = state.currencyData[0]
+  const list = state.currencyData.length > 0
     ? state.assetList.map((asset) => ({
       ...asset,
       isInBaseCurrency: asset.currency === state.user.baseCurrency,

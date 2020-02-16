@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
+import { formatCurrency } from '~/lib/currency';
 import PieChart from '~/components/PieChart';
 
 const CategoryPieChart = ({ data, blurDetected }) => {
@@ -23,7 +24,7 @@ const CategoryPieChart = ({ data, blurDetected }) => {
     data.reduce((accumulated, current) => (
       accumulated + current.amountInBaseCurrency
     ), 0)
-  ), [data]);
+  ), [data.id]);
 
   const getTooltipData = (index) => {
     const categoryData = slices[index];
@@ -40,13 +41,17 @@ const CategoryPieChart = ({ data, blurDetected }) => {
       accumulated + current.amountInBaseCurrency
     ), 0);
 
+    const amountInBaseCurrencyFormatted = formatCurrency({
+      amount: amountInBaseCurrency,
+      currency: assets[0].baseCurrency
+    });
+
     return {
       firstLine: `${categoryData.key}, ${((categoryData.value / totalAmount) * 100).toFixed(2)}%`,
       secondLine: currencies.length === 1
-        ? `${assets.reduce((accumulated, current) => (accumulated + current.amount), 0)} ${currencies[0]}`
-        : `${amountInBaseCurrency} ${assets[0].baseCurrency}`,
-      thirdLine: currencies.length === 1 && currencies[0] !== assets[0].baseCurrency
-        && `${amountInBaseCurrency} ${assets[0].baseCurrency}`
+        ? formatCurrency({ amount: assets.reduce((accumulated, current) => (accumulated + current.amount), 0), currency: currencies[0] })
+        : amountInBaseCurrencyFormatted,
+      thirdLine: currencies.length === 1 && currencies[0] !== assets[0].baseCurrency && amountInBaseCurrencyFormatted
     };
   };
 

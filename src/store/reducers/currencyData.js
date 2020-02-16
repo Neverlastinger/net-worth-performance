@@ -14,7 +14,7 @@ export const convertCurrency = (state, { amount, fromCurrency, toCurrency }) => 
     return amount;
   }
 
-  const rates = state[0];
+  const rates = state[state.length - 1];
 
   if (fromCurrency === 'EUR') {
     return toFixed(amount * rates[toCurrency]);
