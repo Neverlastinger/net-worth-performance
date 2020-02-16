@@ -1,14 +1,8 @@
 import { takeEvery, call, put } from 'redux-saga/effects';
-import { firebase } from '@react-native-firebase/firestore';
-import { runFirebaseChannel, getDocsByShapshot } from '~/store/sagas/common/saga-common';
-import { FETCH_CURRENCY_DATA } from '~/store/actions/actionTypes';
+import { runFirebaseChannel } from '~/store/sagas/common/saga-common';
 import { setCurrencyData } from '~/store/actions';
 
 const FIREBASE_PATH = 'currency';
-
-function* watchFetch() {
-  yield takeEvery(FETCH_CURRENCY_DATA, fetch);
-}
 
 function* watchFirebaseListener() {
   const channel = yield call(runFirebaseChannel, {
@@ -16,15 +10,6 @@ function* watchFirebaseListener() {
   });
 
   yield takeEvery(channel, onFirebaseEmit);
-}
-
-function* fetch() {
-  const data = yield call(async () => {
-    const snapshot = await firebase.firestore().collection(FIREBASE_PATH).get();
-    return getDocsByShapshot(snapshot);
-  });
-
-  yield put(setCurrencyData(data));
 }
 
 /**
@@ -38,6 +23,5 @@ function* onFirebaseEmit(currencies) {
 }
 
 export default [
-  watchFetch,
   watchFirebaseListener
 ];

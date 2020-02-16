@@ -3,7 +3,8 @@ import { useSelector } from 'react-redux';
 import styled from 'styled-components/native';
 import { assetListForChart } from '~/store/reducers';
 import NoAsset from '~/components/NoAsset';
-import PieChart from '~/components/PieChart';
+import AssetPieChart from '~/components/AssetPieChart';
+import CategoryPieChart from '~/components/CategoryPieChart';
 
 const DashboardScreen = ({ navigation }) => {
   const [viewTouched, setViewTouched] = useState();
@@ -17,7 +18,8 @@ const DashboardScreen = ({ navigation }) => {
     <SafeArea>
       {assetList.length > 0 ? (
         <ChartView onTouchStart={onViewTouch}>
-          <PieChart data={assetList} blurDetected={viewTouched} />
+          <AssetPieChart data={assetList} blurDetected={viewTouched} />
+          <CategoryPieChart data={assetList} blurDetected={viewTouched} />
         </ChartView>
       ) : (
         <NoAsset goToAddAsset={() => { navigation.navigate('AddAsset'); }} />

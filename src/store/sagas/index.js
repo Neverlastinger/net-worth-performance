@@ -5,8 +5,8 @@ import currencySagas from './currencies';
 
 const sagas = [
   ...assetCategorySagas,
-  ...assetsSagas,
-  ...currencySagas
+  ...currencySagas,
+  ...assetsSagas
 ];
 
 /**

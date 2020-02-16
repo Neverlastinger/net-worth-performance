@@ -11,8 +11,8 @@ export default combineReducers({
   user
 });
 
-export const assetListForChart = (state) => (
-  state.currencyData[0]
+export const assetListForChart = (state) => {
+  const list = state.currencyData[0]
     ? state.assetList.map((asset) => ({
       ...asset,
       isInBaseCurrency: asset.currency === state.user.baseCurrency,
@@ -24,8 +24,11 @@ export const assetListForChart = (state) => (
     })).sort((first, second) => (
       first.amountInBaseCurrency < second.amountInBaseCurrency ? 1 : -1
     ))
-    : []
-);
+    : [];
+
+  list.id = state.assetList.id;
+  return list;
+};
 
 export const convertToBaseCurrency = (state, { amount, currency }) => (
   fromCurrencyData.convertCurrency(state.currencyData, {

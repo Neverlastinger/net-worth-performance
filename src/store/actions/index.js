@@ -1,9 +1,5 @@
 import * as actions from './actionTypes';
 
-export const fetchCategories = () => ({
-  type: actions.FETCH_ASSET_CATEGORIES
-});
-
 export const setAssetCategories = (data) => ({
   type: actions.SET_ASSET_CATEGORIES,
   data
@@ -24,17 +20,9 @@ export const saveAsset = (data) => ({
   data
 });
 
-export const fetchAssetList = () => ({
-  type: actions.FETCH_ASSET_LIST
-});
-
 export const setAssetList = (data) => ({
   type: actions.SET_ASSET_LIST,
   data
-});
-
-export const fetchCurrencyData = () => ({
-  type: actions.FETCH_CURRENCY_DATA
 });
 
 export const setCurrencyData = (data) => ({

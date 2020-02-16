@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components/native';
 import { PieChart as RNPieChart } from 'react-native-svg-charts';
 import { Animated, View } from 'react-native';
@@ -12,12 +12,13 @@ const ANIMATION_DURATION = 200;
 /**
  * Represents a Pie Chart.
  *
- * @param {Array} data: asset data displayed proportionally in the chart depending on the "amountInBaseCurrency" field of every array item;
- *                        it also contains a "name" field that is displayed when the user touches any of the slices
+ * @param {Array} slices: slices displayed proportionally in the chart, each item in this list includes
+ *                          - key: the name of the slice
+ *                          - value: relative value for the slice compared to the other slices
  * @param {any} blurDetected: when this prop changes,
  *                             it means the user blurs this chart and the chart state (tooltip & active slice) should be reset to default
  */
-const PieChart = ({ data, blurDetected }) => {
+const PieChart = ({ slices, blurDetected, getTooltipData }) => {
   const [pieChartData, setPieChartData] = useState([]);
   const [tooltip, setTooltip] = useState({});
   const [tooltipOpacity, setTooltipOpacity] = useAnimatedValue(0, ANIMATION_DURATION);
@@ -28,44 +29,22 @@ const PieChart = ({ data, blurDetected }) => {
 
   useEffect(() => {
     initPieChartData();
-  }, [data.length]);
+    resetTooltip();
+  }, [slices]);
 
   useEffect(() => {
     if (!recentPoint) {
-      setTooltipOpacity(0);
       initPieChartData();
-
-      setTimeout(() => {
-        setTooltip({});
-
-        Animated.parallel([
-          Animated.timing(tooltipTop, {
-            toValue: 0,
-            duration: 0
-          }),
-          Animated.timing(tooltipLeft, {
-            toValue: 0,
-            duration: 0
-          })
-        ]).start();
-      }, ANIMATION_DURATION);
+      resetTooltip();
     }
   }, [blurDetected]);
-
-  const totalAmount = useMemo(() => (
-    data.reduce((accumulated, current) => (
-      accumulated + current.amountInBaseCurrency
-    ), 0)
-  ), [data]);
 
   /**
    * Initializes the pie chart data by the given core data prop by setting necessary info in local state.
    */
   const initPieChartData = () => {
-    setPieChartData(data.map((asset, i) => ({
-      ...asset,
-      value: asset.amountInBaseCurrency,
-      key: asset.name,
+    setPieChartData(slices.map((item, i) => ({
+      ...item,
       svg: {
         fill: COLORS[i % COLORS.length],
         onPressIn: (e) => {
@@ -76,16 +55,29 @@ const PieChart = ({ data, blurDetected }) => {
     })));
   };
 
+  const resetTooltip = () => {
+    setTooltipOpacity(0);
+
+    setTimeout(() => {
+      setTooltip({});
+
+      Animated.parallel([
+        Animated.timing(tooltipTop, {
+          toValue: 0,
+          duration: 0
+        }),
+        Animated.timing(tooltipLeft, {
+          toValue: 0,
+          duration: 0
+        })
+      ]).start();
+    }, ANIMATION_DURATION);
+  };
+
   const onItemPress = (index, e) => {
     restartRecentPoint();
 
-    const asset = data[index];
-
-    setTooltip({
-      firstLine: `${asset.name}, ${((asset.amountInBaseCurrency / totalAmount) * 100).toFixed(2)}%`,
-      thirdLine: `${asset.amount} ${asset.currency}`,
-      fourthLine: !asset.isInBaseCurrency && `${asset.amountInBaseCurrency} ${asset.baseCurrency}`
-    });
+    setTooltip(getTooltipData(index));
 
     const duration = tooltipTop._value !== 0 ? ANIMATION_DURATION : 0;
 
@@ -145,9 +137,9 @@ const PieChart = ({ data, blurDetected }) => {
       }}
       >
         <TooltipTextFirstLine>{tooltip.firstLine}</TooltipTextFirstLine>
-        <TooltipTextThirdLine>{tooltip.thirdLine}</TooltipTextThirdLine>
-        {tooltip.fourthLine && (
-          <TooltipTextFourthLine>{tooltip.fourthLine}</TooltipTextFourthLine>
+        <TooltipTextSecondLine>{tooltip.secondLine}</TooltipTextSecondLine>
+        {tooltip.thirdLine && (
+          <TooltipTextThirdLine>{tooltip.thirdLine}</TooltipTextThirdLine>
         )}
       </Tooltip>
     </View>
@@ -171,19 +163,17 @@ const TooltipTextFirstLine = styled.Text`
   font-weight: bold;
 `;
 
-const TooltipTextThirdLine = styled.Text`
+const TooltipTextSecondLine = styled.Text`
   margin-top: 2px;
   text-align: center;
   color: white;
-  font-size: 10px;
-  font-style: italic;
+  font-size: 11px;
 `;
 
-const TooltipTextFourthLine = styled.Text`
+const TooltipTextThirdLine = styled.Text`
   text-align: center;
   color: white;
-  font-size: 10px;
-  font-style: italic;
+  font-size: 11px;
 `;
 
 export default PieChart;

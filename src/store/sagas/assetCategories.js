@@ -1,14 +1,10 @@
 import { takeEvery, call, put } from 'redux-saga/effects';
 import { firebase } from '@react-native-firebase/firestore';
-import { runFirebaseChannel, getDocsByShapshot } from '~/store/sagas/common/saga-common';
-import { FETCH_ASSET_CATEGORIES, DELETE_ASSET_CATEGORY, ADD_ASSET_CATEGORY } from '~/store/actions/actionTypes';
+import { runFirebaseChannel } from '~/store/sagas/common/saga-common';
+import { DELETE_ASSET_CATEGORY, ADD_ASSET_CATEGORY } from '~/store/actions/actionTypes';
 import { setAssetCategories } from '~/store/actions';
 
 const FIREBASE_PATH = 'users/neverlastinger@gmail.com/categories';
-
-function* watchFetch() {
-  yield takeEvery(FETCH_ASSET_CATEGORIES, fetch);
-}
 
 function* watchDelete() {
   yield takeEvery(DELETE_ASSET_CATEGORY, doDelete);
@@ -24,20 +20,6 @@ function* watchFirebaseListener() {
   });
 
   yield takeEvery(channel, onFirebaseEmit);
-}
-
-/**
- * Fetches the category list and stores it in redux.
- *
- * @return {Generator}
- */
-function* fetch() {
-  const data = yield call(async () => {
-    const snapshot = await firebase.firestore().collection(FIREBASE_PATH).get();
-    return getDocsByShapshot(snapshot);
-  });
-
-  yield put(setAssetCategories(data));
 }
 
 /**
@@ -78,7 +60,6 @@ function* onFirebaseEmit(categories) {
 }
 
 export default [
-  watchFetch,
   watchDelete,
   watchAdd,
   watchFirebaseListener

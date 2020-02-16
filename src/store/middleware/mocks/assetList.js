@@ -1,51 +1,51 @@
 export const assetList = [
   {
-    amount: 66666,
+    amount: 10000,
     currency: 'BGN',
-    name: 'UniCredit',
+    name: 'Bank 1',
     category: 'Bank account ',
     id: '7bVPobUay5jHbhZBBxij'
   },
   {
-    amount: 33333,
-    currency: 'BGN',
-    name: 'Revolut',
+    amount: 20000,
+    currency: 'EUR',
+    name: 'Bank 2',
     category: 'Bank account ',
     id: 'M2sAxOQ5imI7LuAZHYQR'
   },
   {
-    amount: 22222,
-    currency: 'BGN',
-    name: 'Fib',
-    category: 'Bank account ',
-    id: 'Y40UBU9GrVkXdr5ZHhZo'
-  },
-  {
-    amount: 6666,
-    currency: 'EUR',
-    name: 'Bondora',
-    category: 'P2P Lending',
-    id: 'iQVaQWbqAw1OUlIYD0kq'
-  },
-  {
-    amount: 19000,
+    amount: 10000,
     currency: 'USD',
-    name: 'Revolut Stocks',
+    name: 'Stock Portfolio',
     category: 'Stocks',
-    id: 'iWhuYsbCkGbkNHJ7mTmg'
+    id: 'M2sAxOQ5imI7LuAZHYQR'
   },
   {
-    amount: 100,
-    currency: 'EUR',
-    name: 'Crowdestor',
-    category: 'P2P Lending',
-    id: 'naopEfSkjJ8UHRSGY7IH'
+    amount: 5000,
+    currency: 'USD',
+    name: 'Stock Portfolio 2',
+    category: 'Stocks',
+    id: 'M2sAxOQ5imI7LuAZHYQR'
   },
   {
-    amount: 4444,
+    amount: 5000,
     currency: 'EUR',
-    name: 'Mintos',
+    name: 'Stock Portfolio 3',
+    category: 'Stocks',
+    id: 'M2sAxOQ5imI7LuAZHYQR'
+  },
+  {
+    amount: 2000,
+    currency: 'EUR',
+    name: 'P2P 1',
     category: 'P2P Lending',
-    id: 'yIGamIcoDlHdniyY29zW'
-  }
+    id: 'M2sAxOQ5imI7LuAZHYQR'
+  },
+  {
+    amount: 4000,
+    currency: 'EUR',
+    name: 'P2P 2',
+    category: 'P2P Lending',
+    id: 'M2sAxOQ5imI7LuAZHYQR'
+  },
 ];

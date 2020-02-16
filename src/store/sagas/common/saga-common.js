@@ -23,7 +23,7 @@ export const runFirebaseChannel = ({ path }) => (
  * @param  {Object} snapshot
  * @return {Array}
  */
-export const getDocsByShapshot = (snapshot) => (
+const getDocsByShapshot = (snapshot) => (
   snapshot.docs.map((doc) => (
     {
       ...doc.data(),

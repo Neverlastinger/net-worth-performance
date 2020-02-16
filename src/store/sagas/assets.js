@@ -1,14 +1,10 @@
 import { takeEvery, call, put } from 'redux-saga/effects';
 import { firebase } from '@react-native-firebase/firestore';
-import { runFirebaseChannel, getDocsByShapshot } from '~/store/sagas/common/saga-common';
-import { FETCH_ASSET_LIST, SAVE_ASSET } from '~/store/actions/actionTypes';
+import { runFirebaseChannel } from '~/store/sagas/common/saga-common';
+import { SAVE_ASSET } from '~/store/actions/actionTypes';
 import { setAssetList } from '~/store/actions';
 
 const FIREBASE_PATH = 'users/neverlastinger@gmail.com/assets';
-
-function* watchFetch() {
-  yield takeEvery(FETCH_ASSET_LIST, fetch);
-}
 
 function* watchSave() {
   yield takeEvery(SAVE_ASSET, save);
@@ -28,15 +24,6 @@ function* save({ data }) {
   });
 }
 
-function* fetch() {
-  const data = yield call(async () => {
-    const snapshot = await firebase.firestore().collection(FIREBASE_PATH).get();
-    return getDocsByShapshot(snapshot);
-  });
-
-  yield put(setAssetList(data));
-}
-
 /**
  * Called when the firebase store changes to update data in redux store.
  *
@@ -48,7 +35,6 @@ function* onFirebaseEmit(data) {
 }
 
 export default [
-  watchFetch,
   watchSave,
   watchFirebaseListener
 ];
