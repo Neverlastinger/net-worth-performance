@@ -58,7 +58,7 @@ const AddAssetScreen = ({ navigation }) => {
   const onSavePressed = () => {
     dispatch(saveAsset(asset));
     cleanUp();
-    navigation.navigate('Confirm', { hideTabBar: true });
+    navigation.navigate('Confirm');
   };
 
   /**
