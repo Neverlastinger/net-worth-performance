@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { formatCurrency } from '~/lib/currency';
-import PieChart from '~/components/PieChart';
+import { getLatestAmount, getLatestAmountInBaseCurrency } from './amount';
+import PieChart from './PieChart';
 
-const CategoryPieChart = ({ data, blurDetected }) => {
+const CategoryPieChart = ({ data, month, blurDetected }) => {
   const [slices, setSlices] = useState([]);
 
   useEffect(() => {
@@ -15,16 +16,16 @@ const CategoryPieChart = ({ data, blurDetected }) => {
       value: data.filter((asset) => (
         asset.category === category
       )).reduce((accumulated, current) => (
-        accumulated + current.amountInBaseCurrency
+        accumulated + getLatestAmountInBaseCurrency(current, month)
       ), 0)
     })));
-  }, [data.id]);
+  }, [data.id, month]);
 
   const totalAmount = useMemo(() => (
     data.reduce((accumulated, current) => (
-      accumulated + current.amountInBaseCurrency
+      accumulated + getLatestAmountInBaseCurrency(current, month)
     ), 0)
-  ), [data.id]);
+  ), [data.id, month]);
 
   const getTooltipData = (index) => {
     const categoryData = slices[index];
@@ -38,7 +39,7 @@ const CategoryPieChart = ({ data, blurDetected }) => {
     ))));
 
     const amountInBaseCurrency = assets.reduce((accumulated, current) => (
-      accumulated + current.amountInBaseCurrency
+      accumulated + getLatestAmountInBaseCurrency(current, month)
     ), 0);
 
     const amountInBaseCurrencyFormatted = formatCurrency({
@@ -49,7 +50,7 @@ const CategoryPieChart = ({ data, blurDetected }) => {
     return {
       firstLine: `${categoryData.key}, ${((categoryData.value / totalAmount) * 100).toFixed(2)}%`,
       secondLine: currencies.length === 1
-        ? formatCurrency({ amount: assets.reduce((accumulated, current) => (accumulated + current.amount), 0), currency: currencies[0] })
+        ? formatCurrency({ amount: assets.reduce((accumulated, current) => (accumulated + getLatestAmount(current, month)), 0), currency: currencies[0] })
         : amountInBaseCurrencyFormatted,
       thirdLine: currencies.length === 1 && currencies[0] !== assets[0].baseCurrency && amountInBaseCurrencyFormatted
     };

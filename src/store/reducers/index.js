@@ -16,10 +16,13 @@ export const assetListForChart = (state) => {
     ? state.assetList.map((asset) => ({
       ...asset,
       isInBaseCurrency: asset.currency === state.user.baseCurrency,
-      amountInBaseCurrency: convertToBaseCurrency(state, {
-        amount: asset.amount,
-        currency: asset.currency
-      }),
+      amountInBaseCurrency: Object.keys(asset.amount).reduce((result, month) => ({
+        ...result,
+        [month]: convertToBaseCurrency(state, {
+          amount: asset.amount[month],
+          currency: asset.currency
+        })
+      }), {}),
       baseCurrency: state.user.baseCurrency
     })).sort((first, second) => (
       first.amountInBaseCurrency < second.amountInBaseCurrency ? 1 : -1

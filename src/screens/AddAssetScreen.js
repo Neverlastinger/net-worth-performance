@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { View } from 'react-native';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components/native';
+import { getDateKey } from '~/lib/dates';
 import useKeyboardShown from '~/hooks/useKeyboardShown';
 import { saveAsset } from '~/store/actions';
 import TextField from '~/components/TextField';
@@ -14,7 +15,8 @@ const AddAssetScreen = ({ navigation }) => {
   const isKeyboardShown = useKeyboardShown();
   const [asset, setAsset] = useState({});
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
-  const [reactKey, setReactKey] = useState(new Date());
+  const [reactKey, setReactKey] = useState(Date.now());
+  const month = getDateKey(new Date());
 
   useEffect(() => {
     setIsButtonDisabled(!asset.name || !asset.amount || !asset.category || !asset.currency);
@@ -30,7 +32,9 @@ const AddAssetScreen = ({ navigation }) => {
   const saveAmount = (amount) => {
     setAsset((current) => ({
       ...current,
-      amount: Number(amount)
+      amount: {
+        [month]: Number(amount)
+      }
     }));
   };
 
@@ -62,7 +66,7 @@ const AddAssetScreen = ({ navigation }) => {
    */
   const cleanUp = () => {
     setAsset({});
-    setReactKey(new Date());
+    setReactKey(Date.now());
   };
 
   return (

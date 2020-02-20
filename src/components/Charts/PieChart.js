@@ -171,13 +171,13 @@ const TooltipTextSecondLine = styled.Text`
   margin-top: 2px;
   text-align: center;
   color: white;
-  font-size: 11px;
+  font-size: 12px;
 `;
 
 const TooltipTextThirdLine = styled.Text`
   text-align: center;
   color: white;
-  font-size: 11px;
+  font-size: 12px;
 `;
 
 export default PieChart;

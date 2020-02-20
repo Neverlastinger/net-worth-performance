@@ -1,14 +1,15 @@
 import React, { useMemo } from 'react';
 import styled from 'styled-components/native';
 import { formatCurrency } from '~/lib/currency';
+import { getLatestAmountInBaseCurrency } from './amount';
 import { BRAND_COLOR_BLUE } from '~/styles';
 
-const Summary = ({ data }) => {
+const Summary = ({ data, month }) => {
   const amount = useMemo(() => (
     data.reduce((accumulated, current) => (
-      accumulated + current.amountInBaseCurrency
+      accumulated + getLatestAmountInBaseCurrency(current, month)
     ), 0)
-  ), [data.id]);
+  ), [data.id, month]);
 
   const currency = data[0] && data[0].baseCurrency;
 
