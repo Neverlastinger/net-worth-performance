@@ -27,6 +27,7 @@ export default {
     done: 'Done',
     assetChartTitle: 'Distribution by Assets',
     categoryChartTitle: 'Distribution by Category',
-    netWorth: 'Total Net Worth'
+    netWorth: 'Total Net Worth',
+    dashboardMonthSelectorTitle: 'Select month'
   }
 };

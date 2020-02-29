@@ -1,14 +1,16 @@
 import { combineReducers } from 'redux';
 import assetCategories from './assetCategories';
-import assetList from './assetList';
+import assetList, * as fromAssetList from './assetList';
 import currencyData, * as fromCurrencyData from './currencyData';
 import user from './user';
+import selectedMonth from './selectedMonth';
 
 export default combineReducers({
   assetCategories,
   assetList,
   currencyData,
-  user
+  user,
+  selectedMonth
 });
 
 export const assetListForChart = (state) => {
@@ -39,4 +41,8 @@ export const convertToBaseCurrency = (state, { amount, currency }) => (
     fromCurrency: currency,
     toCurrency: state.user.baseCurrency
   })
+);
+
+export const getActiveMonths = (state) => (
+  fromAssetList.getActiveMonths(state.assetList)
 );

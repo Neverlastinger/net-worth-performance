@@ -1,10 +1,7 @@
 import React, { useState } from 'react';
-import { TouchableOpacity, Text } from 'react-native';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components/native';
 import { Card } from 'react-native-paper';
-import { format, subMonths, addMonths } from 'date-fns';
-import { getDateKey } from '~/lib/dates';
 import { assetListForChart } from '~/store/reducers';
 import NoAsset from '~/components/NoAsset';
 import Summary from '~/components/Charts/Summary';
@@ -13,48 +10,27 @@ import CategoryPieChart from '~/components/Charts/CategoryPieChart';
 
 const DashboardScreen = ({ navigation }) => {
   const [viewTouched, setViewTouched] = useState();
-  const [date, setDate] = useState(new Date());
-  const month = getDateKey(date);
-  const monthHumanReadable = format(date, 'MMM yyyy');
-  const assetList = useSelector((state) => assetListForChart(state));
+  const selectedMonth = useSelector((state) => state.selectedMonth);
+  const assetList = useSelector(assetListForChart);
 
   const onViewTouch = () => {
     setViewTouched(Date.now());
-  };
-
-  const prevMonth = () => {
-    setDate((state) => (
-      subMonths(state, 1)
-    ));
-  };
-
-  const nextMonth = () => {
-    setDate((state) => (
-      addMonths(state, 1)
-    ));
   };
 
   return (
     <SafeArea>
       {assetList.length > 0 ? (
         <ChartView onTouchStart={onViewTouch}>
-          <Text>Month: {monthHumanReadable}</Text>
-          <TouchableOpacity onPress={() => { prevMonth(); }}>
-            <Text>Prev Month</Text>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => { nextMonth(); }}>
-            <Text>Next Month</Text>
-          </TouchableOpacity>
           <ChartCard>
-            <Summary data={assetList} month={month} />
+            <Summary data={assetList} month={selectedMonth} />
           </ChartCard>
           <ChartCard>
             <ChartTitle>{t('assetChartTitle')}</ChartTitle>
-            <AssetPieChart data={assetList} month={month} blurDetected={viewTouched} />
+            <AssetPieChart data={assetList} month={selectedMonth} blurDetected={viewTouched} />
           </ChartCard>
           <ChartCard>
             <ChartTitle>{t('categoryChartTitle')}</ChartTitle>
-            <CategoryPieChart data={assetList} month={month} blurDetected={viewTouched} />
+            <CategoryPieChart data={assetList} month={selectedMonth} blurDetected={viewTouched} />
           </ChartCard>
         </ChartView>
       ) : (

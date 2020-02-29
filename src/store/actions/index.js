@@ -29,3 +29,8 @@ export const setCurrencyData = (data) => ({
   type: actions.SET_CURRENCY_DATA,
   data
 });
+
+export const setSelectedMonth = (data) => ({
+  type: actions.SET_SELECTED_MONTH,
+  data
+});

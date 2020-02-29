@@ -23,4 +23,12 @@ const assetList = (state = [], action) => {
   }
 };
 
+export const getActiveMonths = (state) => (
+  Array.from(new Set(state.reduce((result, current) => (
+    result.concat(Object.keys(current.amount))
+  ), []))).sort((first, second) => (
+    first > second ? -1 : 1
+  ))
+);
+
 export default assetList;

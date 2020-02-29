@@ -1,5 +1,4 @@
 import React from 'react';
-import { View, Text } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -8,18 +7,13 @@ import DashboardScreen from './DashboardScreen';
 import AddAssetScreen from './AddAssetScreen';
 import AddCategoryScreen from './AddCategoryScreen';
 import ConfirmAddAssetScreen from './ConfirmAddAssetScreen';
+import MonthSelectorHeader from '~/components/MonthSelectorHeader';
 import { BRAND_COLOR_BLUE } from '~/styles';
 
 const Tab = createMaterialBottomTabNavigator();
 const Stack = createStackNavigator();
 
-const CustomHeader = () => (
-  <View>
-    <Text>Custom header</Text>
-  </View>
-);
-
-const NavigationRoot = () => (
+const NavigationRoot = ({ hasAssets }) => (
   <NavigationContainer>
     <Tab.Navigator
       barStyle={{
@@ -43,7 +37,8 @@ const NavigationRoot = () => (
               name="Dashboard"
               component={DashboardScreen}
               options={{
-                headerTitle: (props) => <CustomHeader {...props} />
+                headerShown: hasAssets,
+                headerTitle: (props) => <MonthSelectorHeader {...props} />
               }}
             />
           </Stack.Navigator>
