@@ -4,6 +4,7 @@ export default {
     initialQuoteAuthor: 'Peter Lynch',
     dashboardTab: 'Dashboard',
     addAssetTab: 'Add Asset',
+    updateExistingAssetTab: 'Existing',
     addAssetButton: 'Add asset',
     assetName: 'Asset name',
     amount: 'Amount',
@@ -28,6 +29,7 @@ export default {
     assetChartTitle: 'Distribution by Assets',
     categoryChartTitle: 'Distribution by Category',
     netWorth: 'Total Net Worth',
-    dashboardMonthSelectorTitle: 'Select month'
+    dashboardMonthSelectorTitle: 'Select month',
+    outdatedAssetText: '(tap to update)'
   }
 };

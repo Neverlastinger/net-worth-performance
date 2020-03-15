@@ -29,7 +29,7 @@ export const assetList = [
     currency: 'EUR',
     name: 'Mintos',
     category: 'P2P',
-    id: 'M2sAxOQ5imI7LuAZHYQR'
+    id: 'M2sAxOQ5imI7LuAZHYQR2'
   },
   // {
   //   amount: 8000,

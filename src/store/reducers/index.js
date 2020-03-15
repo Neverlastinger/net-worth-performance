@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux';
+import { sortAssetsByAmountInBaseCurrency } from '~/lib/dates';
 import assetCategories from './assetCategories';
 import assetList, * as fromAssetList from './assetList';
 import currencyData, * as fromCurrencyData from './currencyData';
@@ -26,9 +27,7 @@ export const assetListForChart = (state) => {
         })
       }), {}),
       baseCurrency: state.user.baseCurrency
-    })).sort((first, second) => (
-      first.amountInBaseCurrency < second.amountInBaseCurrency ? 1 : -1
-    ))
+    })).sort(sortAssetsByAmountInBaseCurrency)
     : [];
 
   list.id = state.assetList.id;

@@ -1,5 +1,6 @@
-import { SET_ASSET_LIST } from '~/store/actions/actionTypes';
+import { SET_ASSET_LIST, SET_CURRENCY_DATA } from '~/store/actions/actionTypes';
 import { assetList } from './mocks/assetList';
+import { currencyData } from './mocks/currencyData';
 
 /**
  * A custom Redux middleware that modifies data in order to make manual testing easier.
@@ -15,6 +16,15 @@ const mockDataMiddleware = (store) => (next) => (action) => {
       store.dispatch({
         type: SET_ASSET_LIST,
         data: assetList,
+        middlewared: true
+      });
+
+      break;
+
+    case SET_CURRENCY_DATA:
+      store.dispatch({
+        type: SET_CURRENCY_DATA,
+        data: currencyData,
         middlewared: true
       });
 
