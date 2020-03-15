@@ -34,3 +34,8 @@ export const setSelectedMonth = (data) => ({
   type: actions.SET_SELECTED_MONTH,
   data
 });
+
+export const updateAsset = (data) => ({
+  type: actions.UPDATE_ASSET,
+  data
+});

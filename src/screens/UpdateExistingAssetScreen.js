@@ -1,18 +1,38 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View } from 'react-native';
-import { useSelector } from 'react-redux';
+import { Dialog, Portal, Button } from 'react-native-paper';
+import { useSelector, useDispatch } from 'react-redux';
 import styled from 'styled-components/native';
+import { updateAsset } from '~/store/actions';
 import { formatCurrency } from '~/lib/currency';
 import { dateKeyToHumanReadable, getSortedMonthKeys, getDateKey } from '~/lib/dates';
 import useKeyboardShown from '~/hooks/useKeyboardShown';
 import { assetListForChart } from '~/store/reducers';
+import TextField from '~/components/TextField';
 import ActionButton from '~/components/ActionButton';
 import { BRAND_COLOR_RED } from '~/styles';
 
-const AddAssetScreen = () => {
+const UpdateExistingAssetScreen = () => {
+  const dispatch = useDispatch();
   const assetList = useSelector(assetListForChart);
+  const [editableAsset, setEditableAsset] = useState();
   const isKeyboardShown = useKeyboardShown();
   const currentMonthKey = getDateKey(new Date());
+
+  const saveAmount = (amount) => {
+    setEditableAsset((current) => ({
+      ...current,
+      amount: {
+        ...current.amount,
+        [currentMonthKey]: Number(amount)
+      }
+    }));
+  };
+
+  const onSavePressed = () => {
+    dispatch(updateAsset(editableAsset));
+    setEditableAsset(null);
+  };
 
   return (
     <SafeArea>
@@ -22,8 +42,14 @@ const AddAssetScreen = () => {
             const months = getSortedMonthKeys(asset.amount);
             const isAssetOutdated = months[0] !== currentMonthKey;
 
+            const onAssetPress = () => {
+              if (isAssetOutdated) {
+                setEditableAsset(asset);
+              }
+            };
+
             return (
-              <AssetWrapper key={asset.id}>
+              <AssetWrapper key={asset.id} onPress={onAssetPress}>
                 <Title>{asset.name}</Title>
 
                 {isAssetOutdated && (
@@ -53,6 +79,22 @@ const AddAssetScreen = () => {
           )}
         </ButtonView>
       </ScrollWrapper>
+      {editableAsset && (
+        <Portal>
+          <Dialog visible onDismiss={() => { setEditableAsset(null); }}>
+            <Dialog.Title>{t('quickUpdateAssetTitle', { month: (dateKeyToHumanReadable(currentMonthKey)) })}</Dialog.Title>
+            <Dialog.Content>
+              <TextField label={`${t('amount')} (${editableAsset.currency})`} onChangeText={saveAmount} keyboardType="numeric" />
+            </Dialog.Content>
+            <Dialog.Actions>
+              <ModalActionWrapper>
+                <Button color="black">{t('moreOptions')}</Button>
+                <Button color={BRAND_COLOR_RED} onPress={onSavePressed}>{t('save')}</Button>
+              </ModalActionWrapper>
+            </Dialog.Actions>
+          </Dialog>
+        </Portal>
+      )}
     </SafeArea>
   );
 };
@@ -65,7 +107,7 @@ const ScrollWrapper = styled.ScrollView`
   flex: 1;
 `;
 
-const AssetWrapper = styled.View`
+const AssetWrapper = styled.TouchableOpacity`
   padding: 30px 18px;
   backgroundColor: white;
   border-bottom-width: 1px;
@@ -105,4 +147,9 @@ const ButtonView = styled.View`
   margin: 30px 0;
 `;
 
-export default AddAssetScreen;
+const ModalActionWrapper = styled.View`
+  flex-direction: column;
+  align-items: flex-end;
+`;
+
+export default UpdateExistingAssetScreen;

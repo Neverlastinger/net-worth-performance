@@ -5,3 +5,4 @@ export const SAVE_ASSET = 'SAVE_ASSET';
 export const SET_ASSET_LIST = 'SET_ASSET_LIST';
 export const SET_CURRENCY_DATA = 'SET_CURRENCY_DATA';
 export const SET_SELECTED_MONTH = 'SET_SELECTED_MONTH';
+export const UPDATE_ASSET = 'UPDATE_ASSET';

@@ -30,6 +30,8 @@ export default {
     categoryChartTitle: 'Distribution by Category',
     netWorth: 'Total Net Worth',
     dashboardMonthSelectorTitle: 'Select month',
-    outdatedAssetText: '(tap to update)'
+    outdatedAssetText: '(tap to update)',
+    quickUpdateAssetTitle: 'Amount for {{month}}',
+    moreOptions: 'More Options'
   }
 };
