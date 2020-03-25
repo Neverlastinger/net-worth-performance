@@ -7,7 +7,8 @@ import DashboardScreen from './DashboardScreen';
 import AddAssetScreen from './AddAssetScreen';
 import AddCategoryScreen from './AddCategoryScreen';
 import ConfirmAddAssetScreen from './ConfirmAddAssetScreen';
-import UpdateExistingAssetScreen from './UpdateExistingAssetScreen';
+import UpdateExistingAssetsScreen from './UpdateExistingAssetsScreen';
+import SingleAssetScreen from './SingleAssetScreen';
 import MonthSelectorHeader from '~/components/MonthSelectorHeader';
 import { BRAND_COLOR_BLUE } from '~/styles';
 
@@ -69,9 +70,9 @@ const NavigationRoot = ({ hasAssets }) => (
         )}
       </Tab.Screen>
       <Tab.Screen
-        name="UpdateExistingAsset"
+        name="UpdateExistingAssets"
         options={{
-          title: t('updateExistingAssetTab'),
+          title: t('updateExistingAssetsTab'),
           tabBarIcon: ({ color }) => (
             <Icon name="history" size={18} color={color} />
           )
@@ -79,7 +80,8 @@ const NavigationRoot = ({ hasAssets }) => (
       >
         {() => (
           <Stack.Navigator>
-            <Stack.Screen name="UpdateExistingAsset" component={UpdateExistingAssetScreen} options={{ headerShown: false }} />
+            <Stack.Screen name="UpdateExistingAssets" component={UpdateExistingAssetsScreen} options={{ headerShown: false }} />
+            <Stack.Screen name="SingleAsset" component={SingleAssetScreen} />
           </Stack.Navigator>
         )}
       </Tab.Screen>

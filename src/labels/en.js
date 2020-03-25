@@ -4,7 +4,7 @@ export default {
     initialQuoteAuthor: 'Peter Lynch',
     dashboardTab: 'Dashboard',
     addAssetTab: 'Add Asset',
-    updateExistingAssetTab: 'Existing',
+    updateExistingAssetsTab: 'Existing',
     addAssetButton: 'Add asset',
     assetName: 'Asset name',
     amount: 'Amount',
