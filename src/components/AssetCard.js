@@ -1,16 +1,15 @@
 import React from 'react';
 import styled from 'styled-components/native';
-import { TouchableOpacity, View } from 'react-native';
 import { Surface } from 'react-native-paper';
 import { formatCurrency } from '~/lib/currency';
-import { dateKeyToHumanReadable, getSortedMonthKeys, getDateKey } from '~/lib/dates';
+import { dateKeyToHumanReadable, getSortedMonthKeys, getDateKey, fillEmptyMonths } from '~/lib/dates';
 import { getGrowthPercentage } from '~/lib/number';
+import TappableWrapper from '~/components/TappableWrapper';
 import { BRAND_COLOR_RED, LIGHT_TEXT_COLOR } from '~/styles';
 
-const AssetCard = ({ asset, onPress, maxMonthsShown }) => {
+const AssetCard = ({ asset, onPress, onMonthPress, maxMonthsShown, showEmptyMonths }) => {
   const currentMonthKey = getDateKey(new Date());
-  const months = getSortedMonthKeys(asset.amount);
-  const isAssetOutdated = months[0] !== currentMonthKey;
+  let months = getSortedMonthKeys(asset.amount);
 
   const renderMonth = (monthKey) => (
     dateKeyToHumanReadable(monthKey).split(' ').map((word) => (
@@ -20,11 +19,15 @@ const AssetCard = ({ asset, onPress, maxMonthsShown }) => {
 
   const growth = calculateGrowth(asset, months);
 
-  const monthsToDisplay = maxMonthsShown
-    ? months.slice(0, maxMonthsShown - (isAssetOutdated ? 1 : 0))
+  months = maxMonthsShown
+    ? months.slice(0, maxMonthsShown)
     : months;
 
-  const TappableWrapper = styled(onPress ? TouchableOpacity : View)``;
+  months = showEmptyMonths
+    ? fillEmptyMonths(months)
+    : months;
+
+  const isAssetOutdated = months[0] !== currentMonthKey;
 
   return (
     <AssetWrapper>
@@ -40,43 +43,48 @@ const AssetCard = ({ asset, onPress, maxMonthsShown }) => {
           </MonthData>
         )}
 
-        {monthsToDisplay.map((monthKey) => (
-          <MonthData key={monthKey}>
-            <Month>
-              {renderMonth(monthKey)}
-            </Month>
-            <Amount>
-              <AmountText>
-                {formatCurrency({
-                  amount: asset.amount[monthKey],
-                  currency: asset.currency
-                })}
-              </AmountText>
-              {growth[monthKey].absolute !== null && growth[monthKey].absolute !== 0 && (
-                <>
-                  <AmountDetailsText style={{ color: growth[monthKey].isPositive ? 'green' : 'red' }}>
-                    {
-                      `${growth[monthKey].isPositive ? '+' : ''}${formatCurrency({
-                        amount: growth[monthKey].absolute,
-                        currency: asset.currency
-                      })}`
-                    }
+        {months.map((monthKey) => (
+          <TappableWrapper key={monthKey} onPress={onMonthPress && (() => { onMonthPress(monthKey); })}>
+            <MonthData>
+              <Month>
+                {renderMonth(monthKey)}
+              </Month>
+              <Amount>
+                <AmountText>
+                  {asset.amount[monthKey]
+                    ? formatCurrency({
+                      amount: asset.amount[monthKey],
+                      currency: asset.currency
+                    })
+                    : <OutdatedText>{t('outdatedAssetText')}</OutdatedText>
+                  }
+                </AmountText>
+                {growth[monthKey] && growth[monthKey].absolute !== null && growth[monthKey].absolute !== 0 && (
+                  <>
+                    <AmountDetailsText style={{ color: growth[monthKey].isPositive ? 'green' : 'red' }}>
+                      {
+                        `${growth[monthKey].isPositive ? '+' : ''}${formatCurrency({
+                          amount: growth[monthKey].absolute,
+                          currency: asset.currency
+                        })}`
+                      }
+                    </AmountDetailsText>
+                    <AmountDetailsText style={{ color: growth[monthKey].isPositive ? 'green' : 'red' }}>
+                      {growth[monthKey].percentage}
+                    </AmountDetailsText>
+                  </>
+                )}
+                {asset.amount[monthKey] && !asset.isInBaseCurrency && (
+                  <AmountDetailsText>
+                    {formatCurrency({
+                      amount: asset.amountInBaseCurrency[monthKey],
+                      currency: asset.baseCurrency
+                    })}
                   </AmountDetailsText>
-                  <AmountDetailsText style={{ color: growth[monthKey].isPositive ? 'green' : 'red' }}>
-                    {growth[monthKey].percentage}
-                  </AmountDetailsText>
-                </>
-              )}
-              {!asset.isInBaseCurrency && (
-                <AmountDetailsText>
-                  {formatCurrency({
-                    amount: asset.amountInBaseCurrency[monthKey],
-                    currency: asset.baseCurrency
-                  })}
-                </AmountDetailsText>
-              )}
-            </Amount>
-          </MonthData>
+                )}
+              </Amount>
+            </MonthData>
+          </TappableWrapper>
         ))}
 
         {maxMonthsShown && months.length > maxMonthsShown && (

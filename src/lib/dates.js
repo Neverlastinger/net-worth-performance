@@ -1,4 +1,4 @@
-import { format } from 'date-fns';
+import { format, subMonths } from 'date-fns';
 
 /**
  * Returns the date key used in firebase.
@@ -41,4 +41,19 @@ export const sortAssetsByAmountInBaseCurrency = (first, second) => {
   const firstAmountKey = getSortedMonthKeys(first.amountInBaseCurrency)[0];
   const secondAmountKey = getSortedMonthKeys(second.amountInBaseCurrency)[0];
   return first.amountInBaseCurrency[firstAmountKey] < second.amountInBaseCurrency[secondAmountKey] ? 1 : -1;
+};
+
+export const fillEmptyMonths = (months) => {
+  let currentDate = new Date();
+  let currentDateKey = getDateKey(currentDate);
+
+  const result = [currentDateKey];
+
+  while (currentDateKey !== months[months.length - 1]) {
+    currentDate = subMonths(currentDate, 1);
+    currentDateKey = getDateKey(currentDate);
+    result.push(currentDateKey);
+  }
+
+  return result;
 };

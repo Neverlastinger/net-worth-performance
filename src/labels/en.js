@@ -32,6 +32,7 @@ export default {
     dashboardMonthSelectorTitle: 'Select month',
     outdatedAssetText: '(tap to update)',
     quickUpdateAssetTitle: 'Amount for {{month}}',
-    moreOptions: 'More Options'
+    moreOptions: 'More Options',
+    currentAmount: 'Currently {{amount}}'
   }
 };
