@@ -1,10 +1,11 @@
 import { takeEvery, call, put } from 'redux-saga/effects';
 import { firebase } from '@react-native-firebase/firestore';
+import { USERNAME } from 'config';
 import { runFirebaseChannel } from '~/store/sagas/common/saga-common';
 import { SAVE_ASSET, UPDATE_ASSET } from '~/store/actions/actionTypes';
 import { setAssetList } from '~/store/actions';
 
-const FIREBASE_PATH = 'users/neverlastinger@gmail.com/assets';
+const FIREBASE_PATH = `users/${USERNAME}/assets`;
 
 function* watchSave() {
   yield takeEvery(SAVE_ASSET, save);

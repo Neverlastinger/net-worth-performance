@@ -57,3 +57,23 @@ export const fillEmptyMonths = (months) => {
 
   return result;
 };
+
+export const addTrailingMonths = (months, count) => {
+  let currentDate = new Date();
+  let currentDateKey = getDateKey(currentDate);
+
+  while (currentDateKey !== months[months.length - 1]) {
+    currentDate = subMonths(currentDate, 1);
+    currentDateKey = getDateKey(currentDate);
+  }
+
+  const result = [...months];
+
+  for (let i = 0; i < count; i += 1) {
+    currentDate = subMonths(currentDate, 1);
+    currentDateKey = getDateKey(currentDate);
+    result.push(currentDateKey);
+  }
+
+  return result;
+};

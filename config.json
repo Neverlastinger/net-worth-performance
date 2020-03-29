@@ -1,3 +1,4 @@
 {
-  "USE_MOCK_MIDDLEWARE": false
+  "USE_MOCK_MIDDLEWARE": false,
+  "USERNAME": "neverlastinger@gmail.com"
 }

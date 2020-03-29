@@ -1,10 +1,11 @@
 import { takeEvery, call, put } from 'redux-saga/effects';
 import { firebase } from '@react-native-firebase/firestore';
+import { USERNAME } from 'config';
 import { runFirebaseChannel } from '~/store/sagas/common/saga-common';
 import { DELETE_ASSET_CATEGORY, ADD_ASSET_CATEGORY } from '~/store/actions/actionTypes';
 import { setAssetCategories } from '~/store/actions';
 
-const FIREBASE_PATH = 'users/neverlastinger@gmail.com/categories';
+const FIREBASE_PATH = `users/${USERNAME}/categories`;
 
 function* watchDelete() {
   yield takeEvery(DELETE_ASSET_CATEGORY, doDelete);

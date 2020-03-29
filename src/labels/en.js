@@ -33,6 +33,7 @@ export default {
     outdatedAssetText: '(tap to update)',
     quickUpdateAssetTitle: 'Amount for {{month}}',
     moreOptions: 'More Options',
-    currentAmount: 'Currently {{amount}}'
+    currentAmount: 'Currently {{amount}}',
+    addHistoricDataButton: 'Add historic data'
   }
 };
