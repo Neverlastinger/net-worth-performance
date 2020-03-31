@@ -5,13 +5,16 @@ import { getLatestAmount, getLatestAmountInBaseCurrency } from './amount';
 import PieChart from './PieChart';
 
 const AssetPieChart = ({ data, month, blurDetected }) => {
+  const filteredData = data.filter((asset) => getLatestAmountInBaseCurrency(asset, month) > 0);
   const [slices, setSlices] = useState([]);
 
   useEffect(() => {
-    setSlices(data.map((asset) => ({
-      key: asset.name,
-      value: getLatestAmountInBaseCurrency(asset, month)
-    })));
+    setSlices(
+      filteredData.map((asset) => ({
+        key: asset.name,
+        value: getLatestAmountInBaseCurrency(asset, month)
+      }))
+    );
   }, [data.id, month]);
 
   const totalAmount = useMemo(() => (
@@ -21,7 +24,7 @@ const AssetPieChart = ({ data, month, blurDetected }) => {
   ), [data.id, month]);
 
   const getTooltipData = (index) => {
-    const asset = data[index];
+    const asset = filteredData[index];
 
     return {
       firstLine: `${asset.name}, ${((getLatestAmountInBaseCurrency(asset, month) / totalAmount) * 100).toFixed(2)}%`,

@@ -71,7 +71,7 @@ const AssetCard = ({ asset, onPress, onMonthPress, maxMonthsShown, showEmptyMont
               </Month>
               <Amount>
                 <AmountText>
-                  {asset.amount[monthKey]
+                  {asset.amount[monthKey] !== undefined
                     ? formatCurrency({
                       amount: asset.amount[monthKey],
                       currency: asset.currency
@@ -94,7 +94,7 @@ const AssetCard = ({ asset, onPress, onMonthPress, maxMonthsShown, showEmptyMont
                     </AmountDetailsText>
                   </>
                 )}
-                {asset.amount[monthKey] && !asset.isInBaseCurrency && (
+                {asset.amount[monthKey] !== undefined && !asset.isInBaseCurrency && (
                   <AmountDetailsText>
                     {formatCurrency({
                       amount: asset.amountInBaseCurrency[monthKey],
@@ -184,7 +184,7 @@ const Amount = styled.View`
 const AmountText = styled.Text`
   margin-bottom: 2px;
   font-size: 12px;
-  font-weight: 500;
+  font-weight: 700;
 `;
 
 const AmountDetailsText = styled.Text`

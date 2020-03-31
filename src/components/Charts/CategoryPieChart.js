@@ -11,14 +11,18 @@ const CategoryPieChart = ({ data, month, blurDetected }) => {
       asset.category
     ))));
 
-    setSlices(categories.map((category) => ({
-      key: category,
-      value: data.filter((asset) => (
-        asset.category === category
-      )).reduce((accumulated, current) => (
-        accumulated + getLatestAmountInBaseCurrency(current, month)
-      ), 0)
-    })));
+    setSlices(
+      categories.map((category) => ({
+        key: category,
+        value: data.filter((asset) => (
+          asset.category === category
+        )).reduce((accumulated, current) => (
+          accumulated + getLatestAmountInBaseCurrency(current, month)
+        ), 0)
+      })).filter((slice) => (
+        slice.value > 0
+      ))
+    );
   }, [data.id, month]);
 
   const totalAmount = useMemo(() => (
