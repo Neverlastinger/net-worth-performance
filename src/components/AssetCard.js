@@ -55,12 +55,14 @@ const AssetCard = ({ asset, onPress, onMonthPress, maxMonthsShown, showEmptyMont
         <Title>{asset.name}</Title>
 
         {isAssetOutdated && (
-          <MonthData key={currentMonthKey}>
-            <Month>
-              {renderMonth(currentMonthKey)}
-            </Month>
-            <OutdatedText>{t('outdatedAssetText')}</OutdatedText>
-          </MonthData>
+          <TappableWrapper onPress={onMonthPress && (() => { onMonthPress(currentMonthKey); })}>
+            <MonthData key={currentMonthKey}>
+              <Month>
+                {renderMonth(currentMonthKey)}
+              </Month>
+              <OutdatedText>{t('outdatedAssetText')}</OutdatedText>
+            </MonthData>
+          </TappableWrapper>
         )}
 
         {months.map((monthKey) => (
@@ -117,7 +119,7 @@ const AssetCard = ({ asset, onPress, onMonthPress, maxMonthsShown, showEmptyMont
           </MonthData>
         )}
 
-        {showAddHistoricData && (
+        {showAddHistoricData && months.length > 0 && (
           <ButtonView>
             <ActionButton label={t('addHistoricDataButton')} onPress={onAddHistoricDataPress} />
           </ButtonView>

@@ -34,6 +34,7 @@ export default {
     quickUpdateAssetTitle: 'Amount for {{month}}',
     moreOptions: 'More Options',
     currentAmount: 'Currently {{amount}}',
-    addHistoricDataButton: 'Add historic data'
+    addHistoricDataButton: 'Add historic data',
+    deleteAmount: 'Delete month data'
   }
 };

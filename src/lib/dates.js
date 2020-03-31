@@ -44,6 +44,10 @@ export const sortAssetsByAmountInBaseCurrency = (first, second) => {
 };
 
 export const fillEmptyMonths = (months) => {
+  if (months.length === 0) {
+    return [];
+  }
+
   let currentDate = new Date();
   let currentDateKey = getDateKey(currentDate);
 
@@ -59,6 +63,10 @@ export const fillEmptyMonths = (months) => {
 };
 
 export const addTrailingMonths = (months, count) => {
+  if (months.length === 0) {
+    return [];
+  }
+
   let currentDate = new Date();
   let currentDateKey = getDateKey(currentDate);
 

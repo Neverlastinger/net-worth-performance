@@ -24,6 +24,7 @@ const Modal = ({ onDismiss, title, content, buttons }) => (
               key={button.label}
               color={button.color}
               onPress={button.onPress}
+              disabled={button.disabled}
             >
               {button.label}
             </Button>

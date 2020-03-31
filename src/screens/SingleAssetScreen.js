@@ -45,6 +45,19 @@ const SingleAssetScreen = ({ route }) => {
     setEditableMonth(null);
   };
 
+  const onDeletePressed = () => {
+    const newAsset = {
+      ...asset,
+      amount: filterObject(asset.amount, editableMonth),
+      amountInBaseCurrency: filterObject(asset.amountInBaseCurrency, editableMonth)
+    };
+
+    setAsset(newAsset);
+
+    dispatch(updateAsset(newAsset));
+    setEditableMonth(null);
+  };
+
   const onModalDismiss = () => {
     setEditableMonth(null);
     setInputValue(null);
@@ -63,11 +76,22 @@ const SingleAssetScreen = ({ route }) => {
             currency={asset.currency}
             onChangeText={saveAmount}
             onSavePressed={onSavePressed}
+            additionalButtons={[{
+              label: t('deleteAmount'),
+              color: 'black',
+              onPress: onDeletePressed
+            }]}
           />
         )}
       </ScrollWrapper>
     </SafeArea>
   );
+};
+
+const filterObject = (obj, prop) => {
+  const result = { ...obj };
+  delete result[prop];
+  return result;
 };
 
 const SafeArea = styled.SafeAreaView`
