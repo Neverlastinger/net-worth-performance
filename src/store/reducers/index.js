@@ -5,13 +5,15 @@ import assetList, * as fromAssetList from './assetList';
 import currencyData, * as fromCurrencyData from './currencyData';
 import user from './user';
 import selectedMonth from './selectedMonth';
+import mostRecentCategory from './mostRecentCategory';
 
 export default combineReducers({
   assetCategories,
   assetList,
   currencyData,
   user,
-  selectedMonth
+  selectedMonth,
+  mostRecentCategory
 });
 
 export const assetListForChart = (state) => {

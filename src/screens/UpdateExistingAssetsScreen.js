@@ -5,9 +5,11 @@ import styled from 'styled-components/native';
 import { updateAsset } from '~/store/actions';
 import { dateKeyToHumanReadable, getSortedMonthKeys, getDateKey } from '~/lib/dates';
 import { assetListForChart } from '~/store/reducers';
+import NoAsset from '~/components/NoAsset';
 import ActionButton from '~/components/ActionButton';
 import AssetCard from '~/components/AssetCard';
 import UpdateMonthModal from '~/components/UpdateMonthModal';
+import ScrollWrapper from '~/components/ScrollWrapper';
 
 const MAX_MONTHS_SHOWN = 3;
 
@@ -39,45 +41,49 @@ const UpdateExistingAssetsScreen = ({ navigation }) => {
 
   return (
     <SafeArea>
-      <ScrollWrapper>
-        <View>
-          {assetList.map((asset) => {
-            const months = getSortedMonthKeys(asset.amount);
-            const isAssetOutdated = months[0] !== currentMonthKey;
+      {assetList.length > 0 ? (
+        <ScrollWrapper>
+          <View>
+            {assetList.map((asset) => {
+              const months = getSortedMonthKeys(asset.amount);
+              const isAssetOutdated = months[0] !== currentMonthKey;
 
-            const onAssetPress = () => {
-              isAssetOutdated
-                ? setEditableAsset(asset)
-                : navigation.navigate('SingleAsset', { asset });
-            };
+              const onAssetPress = () => {
+                isAssetOutdated
+                  ? setEditableAsset(asset)
+                  : navigation.navigate('SingleAsset', { asset });
+              };
 
-            return (
-              <AssetCard
-                asset={asset}
-                onPress={onAssetPress}
-                maxMonthsShown={MAX_MONTHS_SHOWN}
-                key={asset.id}
-              />
-            );
-          })}
-        </View>
-        <ButtonView>
-          <ActionButton label={t('addAssetButton')} onPress={() => { navigation.navigate('AddAsset'); }} />
-        </ButtonView>
-      </ScrollWrapper>
-      {editableAsset && (
-        <UpdateMonthModal
-          onDismiss={() => { setEditableAsset(null); }}
-          title={t('quickUpdateAssetTitle', { month: (dateKeyToHumanReadable(currentMonthKey)) })}
-          currency={editableAsset.currency}
-          onChangeText={saveAmount}
-          onSavePressed={onSavePressed}
-          additionalButtons={[{
-            label: t('moreOptions'),
-            color: 'black',
-            onPress: onMoreDetailsPressed
-          }]}
-        />
+              return (
+                <AssetCard
+                  asset={asset}
+                  onPress={onAssetPress}
+                  maxMonthsShown={MAX_MONTHS_SHOWN}
+                  key={asset.id}
+                />
+              );
+            })}
+          </View>
+          <ButtonView>
+            <ActionButton label={t('addAssetButton')} onPress={() => { navigation.navigate('AddAsset'); }} />
+          </ButtonView>
+          {editableAsset && (
+            <UpdateMonthModal
+              onDismiss={() => { setEditableAsset(null); }}
+              title={t('quickUpdateAssetTitle', { month: (dateKeyToHumanReadable(currentMonthKey)) })}
+              currency={editableAsset.currency}
+              onChangeText={saveAmount}
+              onSavePressed={onSavePressed}
+              additionalButtons={[{
+                label: t('moreOptions'),
+                color: 'black',
+                onPress: onMoreDetailsPressed
+              }]}
+            />
+          )}
+        </ScrollWrapper>
+      ) : (
+        <NoAsset goToAddAsset={() => { navigation.navigate('AddAsset'); }} />
       )}
     </SafeArea>
   );
@@ -85,10 +91,6 @@ const UpdateExistingAssetsScreen = ({ navigation }) => {
 
 const SafeArea = styled.SafeAreaView`
   flex: 1
-`;
-
-const ScrollWrapper = styled.ScrollView`
-  flex: 1;
 `;
 
 const ButtonView = styled.View`

@@ -9,3 +9,7 @@ export const formatCurrency = ({ amount, currency }) => (
     maximumFractionDigits: 0
   }).format(amount)
 );
+
+export const formatCurrencyGrowth = ({ amount, currency }) => (
+  `${amount >= 0 ? '+' : ''}${formatCurrency({ amount, currency })}`
+);

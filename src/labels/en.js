@@ -7,7 +7,7 @@ export default {
     updateExistingAssetsTab: 'Existing',
     addAssetButton: 'Add asset',
     assetName: 'Asset name',
-    amount: 'Amount',
+    amount: 'Amount for {{month}}',
     category: 'Category',
     categoryListTitle: 'Asset Category',
     currency: 'Currency',
@@ -35,6 +35,8 @@ export default {
     moreOptions: 'More Options',
     currentAmount: 'Currently {{amount}}',
     addHistoricDataButton: 'Add historic data',
-    deleteAmount: 'Delete month data'
+    deleteAmount: 'Delete month data',
+    growth1m: '1m Growth',
+    growth1y: '1y Growth'
   }
 };

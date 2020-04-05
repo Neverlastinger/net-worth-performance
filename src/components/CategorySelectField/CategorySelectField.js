@@ -12,17 +12,13 @@ import Row from './Row';
  *
  * @param {Function} goToAddCategory: called to navigate to the add category screen
  * @param {Function} onValueSelected: called when a value is selected
+ * @param {Function} selectedValue: input field value
  */
-const CategorySelectField = ({ goToAddCategory, onValueSelected }) => {
+const CategorySelectField = ({ goToAddCategory, onValueSelected, selectedValue }) => {
   const dispatch = useDispatch();
   const categories = useSelector((state) => state.assetCategories);
-  const [selectedValue, setSelectedValue] = useState();
   const [forceCloseActionSheet, setForceCloseActionSheet] = useState();
   const [options, setOptions] = useState([]);
-
-  useEffect(() => {
-    onValueSelected(selectedValue);
-  }, [selectedValue]);
 
   useEffect(() => {
     const initialOptions = categories.map((category, i) => ({
@@ -48,7 +44,7 @@ const CategorySelectField = ({ goToAddCategory, onValueSelected }) => {
   }, [categories]);
 
   const onSelected = (value) => {
-    setSelectedValue(value);
+    onValueSelected(value);
   };
 
   const deleteOption = (id) => {

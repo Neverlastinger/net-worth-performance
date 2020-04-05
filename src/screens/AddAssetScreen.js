@@ -1,26 +1,33 @@
 import React, { useState, useEffect } from 'react';
 import { View } from 'react-native';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components/native';
-import { getDateKey } from '~/lib/dates';
+import { getDateKey, dateKeyToHumanReadable } from '~/lib/dates';
 import useKeyboardShown from '~/hooks/useKeyboardShown';
 import { saveAsset } from '~/store/actions';
 import TextField from '~/components/TextField';
 import CategorySelectField from '~/components/CategorySelectField/CategorySelectField';
 import CurrencySelectField from '~/components/CurrencySelectField';
 import ActionButton from '~/components/ActionButton';
+import ScrollWrapper from '~/components/ScrollWrapper';
 
 const AddAssetScreen = ({ navigation }) => {
   const dispatch = useDispatch();
+  const mostRecentCategory = useSelector((state) => state.mostRecentCategory);
   const isKeyboardShown = useKeyboardShown();
   const [asset, setAsset] = useState({});
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
   const [reactKey, setReactKey] = useState(Date.now());
   const month = getDateKey(new Date());
+  const monthName = dateKeyToHumanReadable(month);
 
   useEffect(() => {
     setIsButtonDisabled(!asset.name || !asset.amount || !asset.category || !asset.currency);
   }, [asset]);
+
+  useEffect(() => {
+    saveCategory(mostRecentCategory);
+  }, [mostRecentCategory]);
 
   const saveName = (name) => {
     setAsset((current) => ({
@@ -71,17 +78,23 @@ const AddAssetScreen = ({ navigation }) => {
 
   return (
     <SafeArea>
-      <View key={reactKey}>
-        <TextField label={t('assetName')} onChangeText={saveName} />
-        <TextField label={t('amount')} onChangeText={saveAmount} keyboardType="numeric" />
-        <CategorySelectField goToAddCategory={() => { navigation.navigate('AddCategory'); }} onValueSelected={saveCategory} />
-        <CurrencySelectField onValueSelected={saveCurrency} />
-      </View>
-      <ButtonView>
-        {!isKeyboardShown && (
-          <ActionButton label={t('saveAsset')} disabled={isButtonDisabled} onPress={onSavePressed} />
-        )}
-      </ButtonView>
+      <ScrollWrapper>
+        <View key={reactKey}>
+          <TextField label={t('assetName')} onChangeText={saveName} />
+          <TextField label={t('amount', { month: monthName })} onChangeText={saveAmount} keyboardType="numeric" />
+          <CategorySelectField
+            goToAddCategory={() => { navigation.navigate('AddCategory'); }}
+            onValueSelected={saveCategory}
+            selectedValue={asset.category}
+          />
+          <CurrencySelectField onValueSelected={saveCurrency} />
+        </View>
+        <ButtonView>
+          {!isKeyboardShown && (
+            <ActionButton label={t('saveAsset')} disabled={isButtonDisabled} onPress={onSavePressed} />
+          )}
+        </ButtonView>
+      </ScrollWrapper>
     </SafeArea>
   );
 };
@@ -94,7 +107,7 @@ const ButtonView = styled.View`
   flex: 1;
   align-items: center;
   justify-content: flex-end;
-  margin-bottom: 30px;
+  margin: 30px 0;
 `;
 
 export default AddAssetScreen;

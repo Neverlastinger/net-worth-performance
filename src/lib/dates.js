@@ -1,4 +1,6 @@
-import { format, subMonths } from 'date-fns';
+import { format, subMonths, subYears, parse } from 'date-fns';
+
+const KEY_FORMAT = 'yyyy-MM';
 
 /**
  * Returns the date key used in firebase.
@@ -7,7 +9,19 @@ import { format, subMonths } from 'date-fns';
  * @return {String}
  */
 export const getDateKey = (date) => (
-  format(date, 'yyyy-MM')
+  format(date, KEY_FORMAT)
+);
+
+export const getDateByKey = (dateKey) => (
+  parse(dateKey, KEY_FORMAT, new Date())
+);
+
+export const getPrevMonth = (dateKey) => (
+  getDateKey(subMonths(getDateByKey(dateKey), 1))
+);
+
+export const getPrevYear = (dateKey) => (
+  getDateKey(subYears(getDateByKey(dateKey), 1))
 );
 
 export const dateKeyToHumanReadable = (dateKey) => {
