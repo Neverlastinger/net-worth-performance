@@ -1,12 +1,12 @@
 import { takeLatest, call } from 'redux-saga/effects';
 import { firebase } from '@react-native-firebase/firestore';
 import { getPrevMonth, getDateKey } from '~/lib/dates';
+import { fetchCurrencyData } from '~/api';
 
 const FIREBASE_PATH = 'currency';
 const TO_MONTH = '2010-01';
-const CURRENCIES = 'BGN,USD,CHF,GBP';
 
-function* watchInitApp() {
+function* watchInitCurrenciesInDatabase() {
   yield takeLatest('INIT_CURRENCIES_IN_DATABASE', storeCurrencyData);
 }
 
@@ -25,12 +25,6 @@ function* storeCurrencyData() {
   }
 }
 
-const fetchCurrencyData = async (dateKey) => {
-  const response = await fetch(`https://api.exchangeratesapi.io/${dateKey}-01?base=EUR&symbols=${CURRENCIES}`);
-  const result = await response.json();
-  return result;
-};
-
 export default [
-  watchInitApp
+  watchInitCurrenciesInDatabase
 ];

@@ -1,4 +1,5 @@
 {
   "USE_MOCK_MIDDLEWARE": false,
-  "USERNAME": "test@test.com"
+  "USERNAME": "test@test.com",
+  "CURRENCIES": "BGN,USD,CHF,GBP"
 }

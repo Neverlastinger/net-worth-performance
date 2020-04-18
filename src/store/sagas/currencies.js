@@ -1,6 +1,10 @@
-import { takeEvery, call, put } from 'redux-saga/effects';
+import { takeEvery, takeLatest, call, put, delay, select } from 'redux-saga/effects';
+import { firebase } from '@react-native-firebase/firestore';
 import { runFirebaseChannel } from '~/store/sagas/common/saga-common';
 import { setCurrencyData } from '~/store/actions';
+import { INIT_APPLICATION } from '~/store/actions/actionTypes';
+import { getDateKey } from '~/lib/dates';
+import { fetchCurrencyData } from '~/api';
 
 const FIREBASE_PATH = 'currency';
 
@@ -22,6 +26,27 @@ function* onFirebaseEmit(currencies) {
   yield put(setCurrencyData(currencies));
 }
 
+function* watchInitCurrencyData() {
+  yield takeLatest(INIT_APPLICATION, storeCurrencyData);
+}
+
+function* storeCurrencyData() {
+  yield delay(2000);
+  const currentMonthKey = yield select((state) => state.currencyData[getDateKey()]);
+
+  if (currentMonthKey) {
+    return;
+  }
+
+  const dateKey = getDateKey();
+  const result = yield call(fetchCurrencyData, dateKey);
+
+  yield call(async () => {
+    await firebase.firestore().collection(FIREBASE_PATH).doc(dateKey).set(result.rates);
+  });
+}
+
 export default [
-  watchFirebaseListener
+  watchFirebaseListener,
+  watchInitCurrencyData
 ];
