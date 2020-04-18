@@ -80,7 +80,13 @@ const NavigationRoot = ({ hasAssets }) => (
       >
         {() => (
           <Stack.Navigator>
-            <Stack.Screen name="UpdateExistingAssets" component={UpdateExistingAssetsScreen} />
+            <Stack.Screen
+              name="UpdateExistingAssets"
+              component={UpdateExistingAssetsScreen}
+              options={{
+                headerShown: hasAssets
+              }}
+            />
             <Stack.Screen name="SingleAsset" component={SingleAssetScreen} />
           </Stack.Navigator>
         )}

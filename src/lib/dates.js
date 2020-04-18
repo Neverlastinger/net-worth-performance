@@ -8,7 +8,7 @@ const KEY_FORMAT = 'yyyy-MM';
  * @param  {Date} date
  * @return {String}
  */
-export const getDateKey = (date) => (
+export const getDateKey = (date = new Date()) => (
   format(date, KEY_FORMAT)
 );
 

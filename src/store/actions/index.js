@@ -1,5 +1,9 @@
 import * as actions from './actionTypes';
 
+export const initApplication = () => ({
+  type: actions.INIT_APPLICATION
+});
+
 export const setAssetCategories = (data) => ({
   type: actions.SET_ASSET_CATEGORIES,
   data

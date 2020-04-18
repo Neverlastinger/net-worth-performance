@@ -1,20 +1,27 @@
 import { SET_CURRENCY_DATA } from '~/store/actions/actionTypes';
+import { getPrevMonth, getDateKey } from '~/lib/dates';
 
-const currencyData = (state = [], action) => {
+const currencyData = (state = {}, action) => {
   switch (action.type) {
     case SET_CURRENCY_DATA:
-      return action.data;
+      return {
+        ...action.data.reduce((result, item) => ({
+          ...result,
+          [item.id]: item
+        }), {}),
+        isInitialized: true
+      };
     default:
       return state;
   }
 };
 
-export const convertCurrency = (state, { amount, fromCurrency, toCurrency }) => {
+export const convertCurrency = (state, { amount, fromCurrency, toCurrency, month }) => {
   if (fromCurrency === toCurrency) {
     return amount;
   }
 
-  const rates = state[state.length - 1];
+  const rates = state[month] || state[getPrevMonth(month)] || state[getDateKey()] || state[getPrevMonth(getDateKey())];
 
   if (fromCurrency === 'EUR') {
     return toFixed(amount * rates[toCurrency]);
