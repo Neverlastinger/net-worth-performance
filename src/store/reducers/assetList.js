@@ -1,4 +1,4 @@
-import { SET_ASSET_LIST, SET_CURRENCY_DATA } from '~/store/actions/actionTypes';
+import { SET_ASSET_LIST, SET_CURRENCY_DATA, UPDATE_ASSET } from '~/store/actions/actionTypes';
 
 /**
  * Keeps the asset list.
@@ -13,11 +13,21 @@ const assetList = (state = [], action) => {
       data.id = Date.now();
       return data;
     }
+
     case SET_CURRENCY_DATA: {
       const nextState = [...state];
       nextState.id = Date.now();
       return nextState;
     }
+
+    case UPDATE_ASSET: {
+      const { id, amount, category, currency, name } = action.data;
+
+      return state.map((asset) => (
+        asset.id === id ? { id, amount, category, currency, name } : asset
+      ));
+    }
+
     default:
       return state;
   }
