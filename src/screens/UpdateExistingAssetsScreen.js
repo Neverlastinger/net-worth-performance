@@ -30,8 +30,8 @@ const UpdateExistingAssetsScreen = ({ navigation }) => {
   };
 
   const onSavePressed = () => {
-    dispatch(updateAsset(editableAsset));
     setEditableAsset(null);
+    dispatch(updateAsset(editableAsset));
   };
 
   const onMoreDetailsPressed = () => {

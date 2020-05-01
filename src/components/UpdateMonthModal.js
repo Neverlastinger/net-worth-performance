@@ -23,6 +23,7 @@ const UpdateMonthModal = ({ onDismiss, title, currency, currentAmount, onChangeT
             : `${t('amount')} (${currency})`}
           onChangeText={onValueChanged}
           keyboardType="numeric"
+          onSubmitEditing={onSavePressed}
         />
       )}
       buttons={[
