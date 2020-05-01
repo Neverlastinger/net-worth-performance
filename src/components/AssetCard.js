@@ -49,6 +49,10 @@ const AssetCard = ({ asset, onPress, onMonthPress, maxMonthsShown, showEmptyMont
 
   const isAssetOutdated = months[0] !== currentMonthKey;
 
+  useEffect(() => {
+    maxMonthsShown && isAssetOutdated && setMonths((m) => m.slice(0, -1));
+  }, [isAssetOutdated, maxMonthsShown]);
+
   return (
     <AssetWrapper>
       <TappableWrapper onPress={onPress}>

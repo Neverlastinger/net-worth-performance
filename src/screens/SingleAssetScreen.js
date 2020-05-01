@@ -34,7 +34,8 @@ const SingleAssetScreen = ({ route }) => {
         ...asset.amountInBaseCurrency,
         [editableMonth]: convertToBaseCurrency(reduxState, {
           amount: Number(inputValue),
-          currency: asset.currency
+          currency: asset.currency,
+          month: editableMonth
         })
       }
     };
