@@ -3,12 +3,12 @@ import styled from 'styled-components/native';
 import { formatCurrency, formatCurrencyGrowth } from '~/lib/currency';
 import { getPrevMonth, getPrevYear } from '~/lib/dates';
 import { getGrowthPercentage } from '~/lib/number';
-import { getLatestAmountInBaseCurrency } from './amount';
+import AssetGrowth from '~/lib/AssetGrowth';
 
 const Summary = ({ data, month }) => {
-  const calculateAmount = (dateKey) => (
+  const calculateAmount = (monthKey) => (
     data.reduce((accumulated, current) => (
-      accumulated + getLatestAmountInBaseCurrency(current, dateKey)
+      accumulated + AssetGrowth({ asset: current, month: monthKey }).getLatestAmountInBaseCurrency()
     ), 0)
   );
 

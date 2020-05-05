@@ -31,7 +31,8 @@ module.exports = {
     'arrow-parens': ["error", "always"],
     'no-unused-expressions': ['error', { 'allowShortCircuit': true, 'allowTernary': true }],
     "react-hooks/rules-of-hooks": "error",
-    "react-hooks/exhaustive-deps": "warn"
+    "react-hooks/exhaustive-deps": "warn",
+    "no-nested-ternary": "off"
   },
   'globals': {
     'fetch': false,

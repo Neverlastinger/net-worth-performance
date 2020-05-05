@@ -1,40 +1,54 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import styled from 'styled-components/native';
 import { formatCurrency } from '~/lib/currency';
-import { getLatestAmount, getLatestAmountInBaseCurrency } from './amount';
+import AssetGrowth from '~/lib/AssetGrowth';
+import GrowthText from './GrowthText';
 import PieChart from './PieChart';
 
+/**
+ * Represents a PieChart displaying assets proportionally.
+ *
+ * @param {Object} data: asset list
+ * @param {String} month: data displayed is related to this given month key
+ * @param {any} blurDetected: when this prop changes,
+ *                             it means the user blurs this chart and the chart state (tooltip & active slice) should be reset to default
+ */
 const AssetPieChart = ({ data, month, blurDetected }) => {
-  const filteredData = data.filter((asset) => getLatestAmountInBaseCurrency(asset, month) > 0);
+  const filteredData = data.filter((asset) => getBaseCurrencyAmount({ asset, month }) > 0);
   const [slices, setSlices] = useState([]);
 
   useEffect(() => {
     setSlices(
       filteredData.map((asset) => ({
         key: asset.name,
-        value: getLatestAmountInBaseCurrency(asset, month)
+        value: getBaseCurrencyAmount({ asset, month })
       }))
     );
   }, [data.id, month]);
 
   const totalAmount = useMemo(() => (
     data.reduce((accumulated, current) => (
-      accumulated + getLatestAmountInBaseCurrency(current, month)
+      accumulated + getBaseCurrencyAmount({ asset: current, month })
     ), 0)
   ), [data.id, month]);
 
   const getTooltipData = (index) => {
     const asset = filteredData[index];
+    const growth = AssetGrowth({ asset, month });
+    const growthText = `(${growth.calculateMonthlyGrowthAbsolute()} | ${growth.calculateMonthlyGrowthPercentage()})`;
 
     return {
-      firstLine: `${asset.name}, ${((getLatestAmountInBaseCurrency(asset, month) / totalAmount) * 100).toFixed(2)}%`,
+      firstLine: `${asset.name}, ${((growth.getLatestAmountInBaseCurrency() / totalAmount) * 100).toFixed(2)}%`,
       secondLine: (
         <>
-          {formatCurrency({ amount: getLatestAmount(asset, month), currency: asset.currency })}
-          <GreenText> (+0.91%)</GreenText>
+          {formatCurrency({ amount: growth.getLatestAmount(), currency: asset.currency })}
+          <GrowthText
+            isVisible={growth.hasMonthyGrowth()}
+            isPositive={growth.isMonthlyGrowthPositive()}
+            text={growthText}
+          />
         </>
       ),
-      thirdLine: !asset.isInBaseCurrency && formatCurrency({ amount: getLatestAmountInBaseCurrency(asset, month), currency: asset.baseCurrency })
+      thirdLine: !asset.isInBaseCurrency && formatCurrency({ amount: growth.getLatestAmountInBaseCurrency(), currency: asset.baseCurrency })
     };
   };
 
@@ -47,8 +61,8 @@ const AssetPieChart = ({ data, month, blurDetected }) => {
   );
 };
 
-const GreenText = styled.Text`
-  color: #c4ff80;
-`;
+const getBaseCurrencyAmount = ({ asset, month }) => (
+  AssetGrowth({ asset, month }).getLatestAmountInBaseCurrency()
+);
 
 export default AssetPieChart;
