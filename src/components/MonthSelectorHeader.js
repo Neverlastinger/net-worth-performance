@@ -15,8 +15,8 @@ const MonthSelectorHeader = () => {
   const [isActionSheetOpen, setIsActionSheetOpen] = useState(false);
 
   useEffect(() => {
-    dispatch(setSelectedMonth(months[0]));
-  }, []);
+    months[0] && dispatch(setSelectedMonth(months[0]));
+  }, [months[0]]);
 
   const openActionSheet = () => {
     setIsActionSheetOpen(true);
