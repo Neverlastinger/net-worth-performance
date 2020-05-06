@@ -37,6 +37,8 @@ export default {
     addHistoricDataButton: 'Add historic data',
     deleteAmount: 'Delete month data',
     growth1m: '1m Growth',
-    growth1y: '1y Growth'
+    growth1y: '1y Growth',
+    welcomeToNewMonthTitle: 'Welcome to {{month}}',
+    welcomeToNewMonthMessage: 'Tap here to update your assets and see the new outlook of your net worth'
   }
 };
