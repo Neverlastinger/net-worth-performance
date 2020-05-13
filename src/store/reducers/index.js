@@ -1,5 +1,6 @@
 import { combineReducers } from 'redux';
 import { sortAssetsByAmountInBaseCurrency } from '~/lib/dates';
+import AssetGrowth from '~/lib/AssetGrowth';
 import assetCategories from './assetCategories';
 import assetList, * as fromAssetList from './assetList';
 import currencyData, * as fromCurrencyData from './currencyData';
@@ -16,7 +17,7 @@ export default combineReducers({
   mostRecentCategory
 });
 
-export const assetListForChart = (state) => {
+export const assetListWithBaseCurrency = (state) => {
   const list = state.currencyData.isInitialized
     ? state.assetList.map((asset) => ({
       ...asset,
@@ -32,6 +33,21 @@ export const assetListForChart = (state) => {
       baseCurrency: state.user.baseCurrency
     })).sort(sortAssetsByAmountInBaseCurrency)
     : [];
+
+  list.id = state.assetList.id;
+  return list;
+};
+
+export const assetListForChart = (state, month) => {
+  const list = assetListWithBaseCurrency(state).filter((asset) => (
+    AssetGrowth({ asset, month }).getLatestAmountInBaseCurrency() > 0
+  )).map((asset) => ({
+    ...asset,
+    latestAmount: AssetGrowth({ asset, month }).getLatestAmount(),
+    latestAmountInBaseCurrency: AssetGrowth({ asset, month }).getLatestAmountInBaseCurrency()
+  })).sort((first, second) => (
+    first.latestAmountInBaseCurrency < second.latestAmountInBaseCurrency ? 1 : -1
+  ));
 
   list.id = state.assetList.id;
   return list;

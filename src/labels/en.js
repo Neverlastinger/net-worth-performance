@@ -28,6 +28,7 @@ export default {
     done: 'Done',
     assetChartTitle: 'Distribution by Assets',
     categoryChartTitle: 'Distribution by Category',
+    assetByAbsoluteValueChartTitle: 'Asset Values',
     netWorth: 'Total Net Worth',
     dashboardMonthSelectorTitle: 'Select month',
     outdatedAssetText: '(tap to update)',

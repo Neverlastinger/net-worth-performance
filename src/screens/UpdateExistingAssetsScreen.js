@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import styled from 'styled-components/native';
 import { updateAsset } from '~/store/actions';
 import { dateKeyToHumanReadable, getSortedMonthKeys, getDateKey } from '~/lib/dates';
-import { assetListForChart } from '~/store/reducers';
+import { assetListWithBaseCurrency } from '~/store/reducers';
 import NoAsset from '~/components/NoAsset';
 import ActionButton from '~/components/ActionButton';
 import AssetCard from '~/components/AssetCard';
@@ -15,7 +15,7 @@ const MAX_MONTHS_SHOWN = 3;
 
 const UpdateExistingAssetsScreen = ({ navigation }) => {
   const dispatch = useDispatch();
-  const assetList = useSelector(assetListForChart);
+  const assetList = useSelector(assetListWithBaseCurrency);
   const [editableAsset, setEditableAsset] = useState();
   const currentMonthKey = getDateKey(new Date());
 

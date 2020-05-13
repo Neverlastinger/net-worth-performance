@@ -1,11 +1,14 @@
 import React, { useMemo } from 'react';
 import styled from 'styled-components/native';
+import { useSelector } from 'react-redux';
 import { formatCurrency, formatCurrencyGrowth } from '~/lib/currency';
 import { getPrevMonth, getPrevYear } from '~/lib/dates';
 import { getGrowthPercentage } from '~/lib/number';
 import AssetGrowth from '~/lib/AssetGrowth';
+import { assetListWithBaseCurrency } from '~/store/reducers';
 
-const Summary = ({ data, month }) => {
+const Summary = ({ month }) => {
+  const data = useSelector(assetListWithBaseCurrency);
   const calculateAmount = (monthKey) => (
     data.reduce((accumulated, current) => (
       accumulated + AssetGrowth({ asset: current, month: monthKey }).getLatestAmountInBaseCurrency()

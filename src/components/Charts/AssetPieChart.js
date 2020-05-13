@@ -13,14 +13,13 @@ import PieChart from './PieChart';
  *                             it means the user blurs this chart and the chart state (tooltip & active slice) should be reset to default
  */
 const AssetPieChart = ({ data, month, blurDetected }) => {
-  const filteredData = data.filter((asset) => getBaseCurrencyAmount({ asset, month }) > 0);
   const [slices, setSlices] = useState([]);
 
   useEffect(() => {
     setSlices(
-      filteredData.map((asset) => ({
+      data.map((asset) => ({
         key: asset.name,
-        value: getBaseCurrencyAmount({ asset, month })
+        value: asset.latestAmountInBaseCurrency
       }))
     );
   }, [data.id, month]);
@@ -32,7 +31,7 @@ const AssetPieChart = ({ data, month, blurDetected }) => {
   ), [data.id, month]);
 
   const getTooltipData = (index) => {
-    const asset = filteredData[index];
+    const asset = data[index];
     const growth = AssetGrowth({ asset, month });
     const growthText = `(${growth.calculateMonthlyGrowthAbsolute()} | ${growth.calculateMonthlyGrowthPercentage()})`;
 

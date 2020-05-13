@@ -9,13 +9,14 @@ import NoAsset from '~/components/NoAsset';
 import Summary from '~/components/Charts/Summary';
 import AssetPieChart from '~/components/Charts/AssetPieChart';
 import CategoryPieChart from '~/components/Charts/CategoryPieChart';
+import AssetBarChart from '~/components/Charts/AssetBarChart';
 import { BRAND_COLOR_BLUE } from '~/styles';
 
 const DashboardScreen = ({ navigation }) => {
   const [viewTouched, setViewTouched] = useState();
   const dropDownAlertRef = useRef();
   const selectedMonth = useSelector((state) => state.selectedMonth);
-  const assetList = useSelector(assetListForChart);
+  const assetList = useSelector((state) => assetListForChart(state, selectedMonth));
   const activeMonths = useSelector(getActiveMonths);
   const currentMonthKey = getDateKey();
 
@@ -41,7 +42,7 @@ const DashboardScreen = ({ navigation }) => {
       {assetList.length > 0 ? (
         <ChartView onTouchStart={onViewTouch}>
           <ChartCard>
-            <Summary data={assetList} month={selectedMonth} />
+            <Summary month={selectedMonth} />
           </ChartCard>
           <ChartCard>
             <ChartTitle>{t('assetChartTitle')}</ChartTitle>
@@ -50,6 +51,10 @@ const DashboardScreen = ({ navigation }) => {
           <ChartCard>
             <ChartTitle>{t('categoryChartTitle')}</ChartTitle>
             <CategoryPieChart data={assetList} month={selectedMonth} blurDetected={viewTouched} />
+          </ChartCard>
+          <ChartCard>
+            <ChartTitle>{t('assetByAbsoluteValueChartTitle')}</ChartTitle>
+            <AssetBarChart data={assetList} />
           </ChartCard>
         </ChartView>
       ) : (

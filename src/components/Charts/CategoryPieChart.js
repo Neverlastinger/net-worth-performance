@@ -28,17 +28,15 @@ const CategoryPieChart = ({ data, month, blurDetected }) => {
         value: data.filter((asset) => (
           asset.category === category
         )).reduce((accumulated, current) => (
-          accumulated + AssetGrowth({ asset: current, month }).getLatestAmountInBaseCurrency()
+          accumulated + current.latestAmountInBaseCurrency
         ), 0)
-      })).filter((slice) => (
-        slice.value > 0
-      ))
+      }))
     );
   }, [data.id, month]);
 
   const totalAmount = useMemo(() => (
     data.reduce((accumulated, current) => (
-      accumulated + AssetGrowth({ asset: current, month }).getLatestAmountInBaseCurrency()
+      accumulated + current.latestAmountInBaseCurrency
     ), 0)
   ), [data.id, month]);
 
