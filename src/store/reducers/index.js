@@ -53,6 +53,30 @@ export const assetListForChart = (state, month) => {
   return list;
 };
 
+export const assetCategoryList = (state, month) => {
+  const assets = assetListForChart(state, month);
+
+  const categoryNames = Array.from(new Set(assets.map((asset) => (
+    asset.category
+  ))));
+
+  const categories = categoryNames.map((categoryName) => ({
+    name: categoryName,
+    amountInBaseCurrency: assets.filter((asset) => (
+      asset.category === categoryName
+    )).reduce((accumulated, current) => (
+      accumulated + current.latestAmountInBaseCurrency
+    ), 0),
+    assets: assets.filter((asset) => (
+      asset.category === categoryName
+    ))
+  }));
+
+  categories.id = assets.id;
+
+  return categories;
+};
+
 export const convertToBaseCurrency = (state, { amount, currency, month }) => (
   fromCurrencyData.convertCurrency(state.currencyData, {
     amount,

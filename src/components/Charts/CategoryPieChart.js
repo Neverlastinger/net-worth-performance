@@ -1,51 +1,40 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useMemo } from 'react';
+import { useSelector } from 'react-redux';
 import { formatCurrency, formatCurrencyGrowth } from '~/lib/currency';
 import { getPrevMonth } from '~/lib/dates';
 import { getGrowthPercentage } from '~/lib/number';
 import AssetGrowth from '~/lib/AssetGrowth';
+import { assetCategoryList } from '~/store/reducers/';
 import PieChart from './PieChart';
 import GrowthText from './GrowthText';
 
 /**
  * Represents a PieChart displaying asset categories.
  *
- * @param {Object} data: asset list (each asset contains a category field)
  * @param {String} month: data displayed is related to this given month key
  * @param {any} blurDetected: when this prop changes,
  *                             it means the user blurs this chart and the chart state (tooltip & active slice) should be reset to default
  */
-const CategoryPieChart = ({ data, month, blurDetected }) => {
-  const [slices, setSlices] = useState([]);
+const CategoryPieChart = ({ month, blurDetected }) => {
+  const categoryList = useSelector((state) => assetCategoryList(state, month));
 
-  useEffect(() => {
-    const categories = Array.from(new Set(data.map((asset) => (
-      asset.category
-    ))));
-
-    setSlices(
-      categories.map((category) => ({
-        key: category,
-        value: data.filter((asset) => (
-          asset.category === category
-        )).reduce((accumulated, current) => (
-          accumulated + current.latestAmountInBaseCurrency
-        ), 0)
-      }))
-    );
-  }, [data.id, month]);
+  const slices = useMemo(() => (
+    categoryList.map((category) => ({
+      key: category.name,
+      value: category.amountInBaseCurrency
+    }))
+  ), [categoryList.id, month]);
 
   const totalAmount = useMemo(() => (
-    data.reduce((accumulated, current) => (
-      accumulated + current.latestAmountInBaseCurrency
+    categoryList.reduce((accumulated, current) => (
+      accumulated + current.amountInBaseCurrency
     ), 0)
-  ), [data.id, month]);
+  ), [categoryList.id, month]);
 
   const getTooltipData = (index) => {
-    const categoryData = slices[index];
+    const category = categoryList[index];
 
-    const assets = data.filter((asset) => (
-      asset.category === categoryData.key
-    ));
+    const { assets } = category;
 
     const currencies = Array.from(new Set(assets.map((asset) => (
       asset.currency
@@ -89,7 +78,7 @@ const CategoryPieChart = ({ data, month, blurDetected }) => {
     const growthText = hasGrowth ? `(${absoluteGrowth} | ${relativeGrowth})` : '';
 
     return {
-      firstLine: `${categoryData.key}, ${((categoryData.value / totalAmount) * 100).toFixed(2)}%`,
+      firstLine: `${category.name}, ${((category.amountInBaseCurrency / totalAmount) * 100).toFixed(2)}%`,
       secondLine: (
         <>
           {amountText}

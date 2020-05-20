@@ -25,7 +25,7 @@ const PieChart = ({ slices, blurDetected, getTooltipData }) => {
   const [tooltipOpacity, setTooltipOpacity] = useAnimatedValue(0, ANIMATION_DURATION);
   const [tooltipTop] = useAnimatedValue(0);
   const [tooltipLeft] = useAnimatedValue(0);
-  const [recentPoint, restartRecentPoint] = useRecentPoint(100);
+  const [recentPoint, restartRecentPoint] = useRecentPoint(500);
   const wrapperWidth = useRef();
 
   useEffect(() => {
@@ -78,45 +78,47 @@ const PieChart = ({ slices, blurDetected, getTooltipData }) => {
   const onItemPress = (index, e) => {
     restartRecentPoint();
 
-    setTooltip(getTooltipData(index));
+    setTimeout(() => {
+      setTooltip(getTooltipData(index));
 
-    const duration = tooltipTop._value !== 0 ? ANIMATION_DURATION : 0;
+      const duration = tooltipTop._value !== 0 ? ANIMATION_DURATION : 0;
 
-    Animated.parallel([
-      Animated.timing(tooltipOpacity, {
-        toValue: 1,
-        duration: ANIMATION_DURATION
-      }),
-      Animated.timing(tooltipTop, {
-        toValue: e.nativeEvent.locationY - 20,
-        duration
-      }),
-      Animated.timing(tooltipLeft, {
-        toValue: e.nativeEvent.locationX < wrapperWidth.current / 2 ? e.nativeEvent.locationX : e.nativeEvent.locationX - 132,
-        duration
-      })
-    ]).start();
+      Animated.parallel([
+        Animated.timing(tooltipOpacity, {
+          toValue: 1,
+          duration: ANIMATION_DURATION
+        }),
+        Animated.timing(tooltipTop, {
+          toValue: e.nativeEvent.locationY - 20,
+          duration
+        }),
+        Animated.timing(tooltipLeft, {
+          toValue: e.nativeEvent.locationX < wrapperWidth.current / 2 ? e.nativeEvent.locationX : e.nativeEvent.locationX - 132,
+          duration
+        })
+      ]).start();
 
-    setPieChartData((state) => (
-      state.map((item, i) => (
-        i === index
-          ? {
-            ...item,
-            svg: {
-              ...item.svg,
-              fill: ACTIVE_COLOR
-            },
-            arc: { outerRadius: '102%' }
-          }
-          : {
-            ...item,
-            svg: {
-              ...item.svg,
-              fill: COLORS[i % COLORS.length]
-            },
-            arc: { outerRadius: '100%' }
-          }
-      ))));
+      setPieChartData((state) => (
+        state.map((item, i) => (
+          i === index
+            ? {
+              ...item,
+              svg: {
+                ...item.svg,
+                fill: ACTIVE_COLOR
+              },
+              arc: { outerRadius: '102%' }
+            }
+            : {
+              ...item,
+              svg: {
+                ...item.svg,
+                fill: COLORS[i % COLORS.length]
+              },
+              arc: { outerRadius: '100%' }
+            }
+        ))));
+    }, 1);
   };
 
   const onWrapperLayout = (e) => {

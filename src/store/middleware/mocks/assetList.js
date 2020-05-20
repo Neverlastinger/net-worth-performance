@@ -1,7 +1,7 @@
 export const assetList = [
   {
     amount: {
-      '2020-03': 21000,
+      '2020-04': 21000,
       '2020-05': 22000
     },
     currency: 'BGN',

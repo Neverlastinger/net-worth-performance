@@ -10,6 +10,7 @@ import Summary from '~/components/Charts/Summary';
 import AssetPieChart from '~/components/Charts/AssetPieChart';
 import CategoryPieChart from '~/components/Charts/CategoryPieChart';
 import AssetBarChart from '~/components/Charts/AssetBarChart';
+import CategoryBarChart from '~/components/Charts/CategoryBarChart';
 import { BRAND_COLOR_BLUE } from '~/styles';
 
 const DashboardScreen = ({ navigation }) => {
@@ -50,11 +51,15 @@ const DashboardScreen = ({ navigation }) => {
           </ChartCard>
           <ChartCard>
             <ChartTitle>{t('categoryChartTitle')}</ChartTitle>
-            <CategoryPieChart data={assetList} month={selectedMonth} blurDetected={viewTouched} />
+            <CategoryPieChart month={selectedMonth} blurDetected={viewTouched} />
           </ChartCard>
           <ChartCard>
             <ChartTitle>{t('assetByAbsoluteValueChartTitle')}</ChartTitle>
             <AssetBarChart data={assetList} />
+          </ChartCard>
+          <ChartCard>
+            <ChartTitle>{t('categoryByAbsoluteValueChartTitle')}</ChartTitle>
+            <CategoryBarChart month={selectedMonth} />
           </ChartCard>
         </ChartView>
       ) : (
