@@ -8,9 +8,15 @@ import { firebase } from '@react-native-firebase/firestore';
  */
 export const runFirebaseChannel = ({ path }) => (
   eventChannel((emitter) => {
-    const unsubscribe = firebase.firestore().collection(path).onSnapshot(async (snapshot) => {
-      emitter(getDocsByShapshot(snapshot));
-    });
+    const unsubscribe = firebase.firestore().collection(path).onSnapshot(
+      async (snapshot) => {
+        emitter(getDocsByShapshot(snapshot));
+      },
+      async () => {
+        // eslint-disable-next-line no-alert, no-undef
+        alert(t('errorFetchingData'));
+      }
+    );
 
     return unsubscribe;
   })

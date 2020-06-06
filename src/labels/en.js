@@ -41,6 +41,8 @@ export default {
     growth1m: '1m Growth',
     growth1y: '1y Growth',
     welcomeToNewMonthTitle: 'Welcome to {{month}}',
-    welcomeToNewMonthMessage: 'Tap here to update your assets and see the new outlook of your net worth'
+    welcomeToNewMonthMessage: 'Tap here to update your assets and see the new outlook of your net worth',
+    errorFetchingData: 'Cannot connect to server due to lack of connectivity. Your data may be outdated.',
+    errorSavingData: 'There is a problem saving your data. Please try again later. '
   }
 };

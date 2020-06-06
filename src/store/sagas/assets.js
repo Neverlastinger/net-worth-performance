@@ -25,7 +25,12 @@ function* watchFirebaseListener() {
 
 function* save({ data }) {
   yield call(async () => {
-    await firebase.firestore().collection(FIREBASE_PATH).add(data);
+    try {
+      await firebase.firestore().collection(FIREBASE_PATH).add(data);
+    } catch (error) {
+      // eslint-disable-next-line no-alert, no-undef
+      alert(t('errorSavingData'));
+    }
   });
 }
 

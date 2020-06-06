@@ -44,9 +44,14 @@ function* doDelete({ id }) {
  */
 function* add({ name }) {
   yield call(async () => {
-    await firebase.firestore().collection(FIREBASE_PATH).add({
-      name
-    });
+    try {
+      await firebase.firestore().collection(FIREBASE_PATH).add({
+        name
+      });
+    } catch (error) {
+      // eslint-disable-next-line no-alert, no-undef
+      alert(t('errorSavingData'));
+    }
   });
 }
 
