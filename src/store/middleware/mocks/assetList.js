@@ -1,8 +1,11 @@
 export const assetList = [
   {
     amount: {
-      '2020-04': 21000,
-      '2020-05': 22000
+      '2020-07': 21000,
+      '2020-06': 20500,
+      '2020-05': 24500,
+      '2020-02': 17500,
+      '2019-12': 12500,
     },
     currency: 'BGN',
     name: 'UniCredit',
@@ -11,7 +14,7 @@ export const assetList = [
   },
   {
     amount: {
-      '2020-05': 660
+      '2020-07': 660
     },
     currency: 'BGN',
     name: 'FiBank',
@@ -20,7 +23,7 @@ export const assetList = [
   },
   {
     amount: {
-      '2020-05': 8800
+      '2020-07': 8800
     },
     currency: 'USD',
     name: 'Interactive Brokers',
@@ -29,7 +32,7 @@ export const assetList = [
   },
   {
     amount: {
-      '2020-03': 6600
+      '2020-07': 6600
     },
     currency: 'EUR',
     name: 'Mintos',
@@ -38,7 +41,7 @@ export const assetList = [
   },
   {
     amount: {
-      '2020-03': 2200
+      '2020-07': 2200
     },
     currency: 'USD',
     name: 'Gold',

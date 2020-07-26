@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import styled from 'styled-components/native';
 import { Card } from 'react-native-paper';
 import DropdownAlert from 'react-native-dropdownalert';
-import { getDateKey, dateKeyToHumanReadable } from '~/lib/dates';
+import { getDateKey, dateKeyToHumanReadable, fillEmptyMonths } from '~/lib/dates';
 import { assetListForChart, getActiveMonths } from '~/store/reducers';
 import NoAsset from '~/components/NoAsset';
 import Summary from '~/components/Charts/Summary';
@@ -11,6 +11,7 @@ import AssetPieChart from '~/components/Charts/AssetPieChart';
 import CategoryPieChart from '~/components/Charts/CategoryPieChart';
 import AssetBarChart from '~/components/Charts/AssetBarChart';
 import CategoryBarChart from '~/components/Charts/CategoryBarChart';
+import RangeChart from '~/components/Charts/RangeChart';
 import { BRAND_COLOR_BLUE } from '~/styles';
 
 const DashboardScreen = ({ navigation }) => {
@@ -45,6 +46,11 @@ const DashboardScreen = ({ navigation }) => {
           <ChartCard>
             <Summary month={selectedMonth} />
           </ChartCard>
+          {activeMonths.length > 1 && (
+            <ChartCard>
+              <RangeChart month={selectedMonth} monthCount={fillEmptyMonths(activeMonths).length} />
+            </ChartCard>
+          )}
           <ChartCard>
             <ChartTitle>{t('assetChartTitle')}</ChartTitle>
             <AssetPieChart data={assetList} month={selectedMonth} blurDetected={viewTouched} />

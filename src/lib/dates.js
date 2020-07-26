@@ -16,8 +16,12 @@ export const getDateByKey = (dateKey) => (
   parse(dateKey, KEY_FORMAT, new Date())
 );
 
+export const subMonthKey = (dateKey, number) => (
+  getDateKey(subMonths(getDateByKey(dateKey), number))
+);
+
 export const getPrevMonth = (dateKey) => (
-  getDateKey(subMonths(getDateByKey(dateKey), 1))
+  subMonthKey(dateKey, 1)
 );
 
 export const getPrevYear = (dateKey) => (

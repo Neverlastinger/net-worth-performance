@@ -1,31 +1,18 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import styled from 'styled-components/native';
 import { useSelector } from 'react-redux';
 import { formatCurrency, formatCurrencyGrowth } from '~/lib/currency';
 import { getPrevMonth, getPrevYear } from '~/lib/dates';
 import { getGrowthPercentage } from '~/lib/number';
-import AssetGrowth from '~/lib/AssetGrowth';
+import useTotalAmount from '~/hooks/useTotalAmount';
 import { assetListWithBaseCurrency } from '~/store/reducers';
 
 const Summary = ({ month }) => {
   const data = useSelector(assetListWithBaseCurrency);
-  const calculateAmount = (monthKey) => (
-    data.reduce((accumulated, current) => (
-      accumulated + AssetGrowth({ asset: current, month: monthKey }).getLatestAmountInBaseCurrency()
-    ), 0)
-  );
 
-  const amount = useMemo(() => (
-    calculateAmount(month)
-  ), [data.id, month]);
-
-  const prevMonthAmount = useMemo(() => (
-    month && calculateAmount(getPrevMonth(month))
-  ), [data.id, month]);
-
-  const prevYearAmount = useMemo(() => (
-    month && calculateAmount(getPrevYear(month))
-  ), [data.id, month]);
+  const amount = useTotalAmount(month);
+  const prevMonthAmount = useTotalAmount(getPrevMonth(month));
+  const prevYearAmount = useTotalAmount(getPrevYear(month));
 
   const monthlyGrowth = amount - prevMonthAmount;
   const yearlyGrowth = amount - prevYearAmount;
