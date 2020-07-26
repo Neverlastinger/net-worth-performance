@@ -33,6 +33,11 @@ export const dateKeyToHumanReadable = (dateKey) => {
   return format(new Date(parts[0], parts[1] - 1, 1), 'MMM yyyy');
 };
 
+export const getMonthNumber = (dateKey) => {
+  const parts = dateKey.split('-');
+  return parseInt(parts[1], 10);
+};
+
 /**
  * Returns a sorted list of month keys by the given amount object as it is stored in redux.
  *

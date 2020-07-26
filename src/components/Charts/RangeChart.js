@@ -1,50 +1,35 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { View } from 'react-native';
 import { Grid, LineChart, XAxis, YAxis } from 'react-native-svg-charts';
 import styled from 'styled-components/native';
-import { subMonthKey, dateKeyToHumanReadable } from '~/lib/dates';
+import { subMonthKey, dateKeyToHumanReadable, getMonthNumber } from '~/lib/dates';
 import useTotalAmountArray from '~/hooks/useTotalAmountArray';
 import { BRAND_COLOR_BLUE } from '~/styles';
 
-const rangeToXAxisLabels = ({ range, month }) => {
-  switch (range) {
-    case 12:
-      return [
-        dateKeyToHumanReadable(subMonthKey(month, 12)),
-        '', '', '',
-        dateKeyToHumanReadable(subMonthKey(month, 8)),
-        '', '', '',
-        dateKeyToHumanReadable(subMonthKey(month, 4)),
-        '', '', '',
-        dateKeyToHumanReadable(month)
-      ];
+const rangeToXAxisLabels = ({ rangeNumber, month }) => {
+  const result = Array(rangeNumber + 1).fill('');
 
-    case 6:
-      return [
-        dateKeyToHumanReadable(subMonthKey(month, 6)),
-        '',
-        dateKeyToHumanReadable(subMonthKey(month, 4)),
-        '',
-        dateKeyToHumanReadable(subMonthKey(month, 2)),
-        '',
-        dateKeyToHumanReadable(month)
-      ];
-    case 2:
-      return [
-        dateKeyToHumanReadable(subMonthKey(month, 2)),
-        dateKeyToHumanReadable(subMonthKey(month, 1)),
-        dateKeyToHumanReadable(month)
-      ];
+  if (rangeNumber % 3 === 0) {
+    const step = rangeNumber / 3;
 
-    case 1:
-      return [
-        dateKeyToHumanReadable(subMonthKey(month, 1)),
-        dateKeyToHumanReadable(month)
-      ];
+    for (let i = 0; i < 4; i += 1) {
+      result[i * step] = dateKeyToHumanReadable(subMonthKey(month, rangeNumber - i * step));
+    }
 
-    default:
-      throw new Error('Invalid range');
+    return result;
   }
+
+  if (rangeNumber % 2 === 0) {
+    result[0] = dateKeyToHumanReadable(subMonthKey(month, rangeNumber));
+    result[rangeNumber / 2] = dateKeyToHumanReadable(subMonthKey(month, rangeNumber / 2));
+    result[rangeNumber] = dateKeyToHumanReadable(month);
+
+    return result;
+  }
+
+  result[0] = dateKeyToHumanReadable(subMonthKey(month, rangeNumber));
+  result[rangeNumber] = dateKeyToHumanReadable(month);
+  return result;
 };
 
 const getDefaultRange = (monthCount) => (
@@ -65,10 +50,17 @@ const getDefaultRange = (monthCount) => (
  */
 const RangeChart = ({ month, monthCount }) => {
   const [range, setRange] = useState(getDefaultRange(monthCount));
-  const amounts = useTotalAmountArray(month, range);
+
+  const rangeNumber = useMemo(() => (
+    range === 'YTD'
+      ? getMonthNumber(month) > 1 ? getMonthNumber(month) - 1 : 12
+      : range
+  ), [range, month]);
+
+  const amounts = useTotalAmountArray(month, rangeNumber);
 
   const data = [...amounts];
-  const xAxisLabels = rangeToXAxisLabels({ range, month });
+  const xAxisLabels = rangeToXAxisLabels({ rangeNumber, month });
 
   const axesSvg = { fontSize: 10, fill: 'grey' };
   const verticalContentInset = { top: 10, bottom: 10 };
@@ -92,7 +84,7 @@ const RangeChart = ({ month, monthCount }) => {
         <PeriodButton isActive={range === 6} onPress={() => { setRange(6); }}>
           <PeriodText>6 months</PeriodText>
         </PeriodButton>
-        <PeriodButton>
+        <PeriodButton isActive={range === 'YTD'} onPress={() => { setRange('YTD'); }}>
           <PeriodText>YTD</PeriodText>
         </PeriodButton>
         <PeriodButton isActive={range === 12} onPress={() => { setRange(12); }}>
