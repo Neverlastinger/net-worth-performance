@@ -48,7 +48,11 @@ const DashboardScreen = ({ navigation }) => {
           </ChartCard>
           {activeMonths.length > 1 && (
             <ChartCard>
-              <RangeChart month={selectedMonth} monthCount={fillEmptyMonths(activeMonths).length} />
+              <RangeChart
+                month={selectedMonth}
+                monthCount={fillEmptyMonths(activeMonths).length}
+                earliestRecordedMonth={activeMonths[activeMonths.length - 1]}
+              />
             </ChartCard>
           )}
           <ChartCard>

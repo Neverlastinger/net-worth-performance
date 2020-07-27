@@ -2,10 +2,19 @@ import React, { useState, useMemo } from 'react';
 import { View } from 'react-native';
 import { Grid, LineChart, XAxis, YAxis } from 'react-native-svg-charts';
 import styled from 'styled-components/native';
-import { subMonthKey, dateKeyToHumanReadable, getMonthNumber } from '~/lib/dates';
+import { subMonthKey, dateKeyToHumanReadable, getMonthNumber, getMonthDifference } from '~/lib/dates';
 import useTotalAmountArray from '~/hooks/useTotalAmountArray';
 import { BRAND_COLOR_BLUE } from '~/styles';
 
+/**
+ * Returns an array of texts used for the X Axis of the RangeChart.
+ * The texts represents time periods (months and years).
+ * Empty strings in the array leaves gaps in the X Axis, making space for the text to be more readable.
+ *
+ * @param  {Number}  rangeNumber: the number representing the range of the chart (e.g. 6 for 6 month range)
+ * @param  {String}  month: date key of the month the charts ends with
+ * @return {Array}   e.g. ['Jan 2020', '', 'Mar 2020', '', 'May 2020', '', 'Jul 2020']
+ */
 const rangeToXAxisLabels = ({ rangeNumber, month }) => {
   const result = Array(rangeNumber + 1).fill('');
 
@@ -48,18 +57,23 @@ const getDefaultRange = (monthCount) => (
  * @param {String} month: selected month, the chart ends with this month
  * @param {Number} monthCount: the number of months with available data
  */
-const RangeChart = ({ month, monthCount }) => {
+const RangeChart = ({ month, monthCount, earliestRecordedMonth }) => {
   const [range, setRange] = useState(getDefaultRange(monthCount));
+
+  const getMaxRange = () => (
+    getMonthDifference(month, earliestRecordedMonth) - 1
+  );
 
   const rangeNumber = useMemo(() => (
     range === 'YTD'
       ? getMonthNumber(month) > 1 ? getMonthNumber(month) - 1 : 12
-      : range
+      : range === 'MAX'
+        ? getMaxRange()
+        : range
   ), [range, month]);
 
   const amounts = useTotalAmountArray(month, rangeNumber);
 
-  const data = [...amounts];
   const xAxisLabels = rangeToXAxisLabels({ rangeNumber, month });
 
   const axesSvg = { fontSize: 10, fill: 'grey' };
@@ -75,28 +89,40 @@ const RangeChart = ({ month, monthCount }) => {
   return (
     <View>
       <PeriodView>
-        <PeriodButton isActive={range === 1} onPress={() => { setRange(1); }}>
-          <PeriodText>1 month</PeriodText>
-        </PeriodButton>
-        <PeriodButton isActive={range === 2} onPress={() => { setRange(2); }}>
-          <PeriodText>2 months</PeriodText>
-        </PeriodButton>
-        <PeriodButton isActive={range === 6} onPress={() => { setRange(6); }}>
-          <PeriodText>6 months</PeriodText>
-        </PeriodButton>
-        <PeriodButton isActive={range === 'YTD'} onPress={() => { setRange('YTD'); }}>
-          <PeriodText>YTD</PeriodText>
-        </PeriodButton>
-        <PeriodButton isActive={range === 12} onPress={() => { setRange(12); }}>
-          <PeriodText>1 year</PeriodText>
-        </PeriodButton>
-        <PeriodButton>
-          <PeriodText>Max</PeriodText>
-        </PeriodButton>
+        <PeriodButton
+          text={t('months', { count: 1 })}
+          isActive={range === 1}
+          onPress={() => { setRange(1); }}
+        />
+        <PeriodButton
+          text={t('months', { count: 2 })}
+          isActive={range === 2}
+          onPress={() => { setRange(2); }}
+        />
+        <PeriodButton
+          text={t('months', { count: 6 })}
+          isActive={range === 6}
+          onPress={() => { setRange(6); }}
+        />
+        <PeriodButton
+          text={t('YTD')}
+          isActive={range === 'YTD'}
+          onPress={() => { setRange('YTD'); }}
+        />
+        <PeriodButton
+          text={t('years', { count: 1 })}
+          isActive={range === 12}
+          onPress={() => { setRange(12); }}
+        />
+        <PeriodButton
+          text={t('max')}
+          isActive={range === 'MAX'}
+          onPress={() => { setRange('MAX'); }}
+        />
       </PeriodView>
       <ChartView>
         <YAxis
-          data={data}
+          data={amounts}
           style={{ marginBottom: xAxisHeight }}
           contentInset={verticalContentInset}
           svg={axesSvg}
@@ -104,7 +130,7 @@ const RangeChart = ({ month, monthCount }) => {
         <LineView>
           <LineChart
             style={{ flex: 1 }}
-            data={data}
+            data={amounts}
             contentInset={verticalContentInset}
             svg={{ stroke: BRAND_COLOR_BLUE, strokeWidth: 2 }}
           >
@@ -112,7 +138,7 @@ const RangeChart = ({ month, monthCount }) => {
           </LineChart>
           <XAxis
             style={{ marginHorizontal: -10, height: xAxisHeight }}
-            data={data}
+            data={amounts}
             formatLabel={(value, index) => xAxisLabels[index]}
             contentInset={{ left: 30, right: 30 }}
             svg={axesSvg}
@@ -123,10 +149,10 @@ const RangeChart = ({ month, monthCount }) => {
   );
 };
 
-const PeriodButton = ({ isActive, children, ...props }) => (
+const PeriodButton = ({ isActive, text, ...props }) => (
   isActive
-    ? <PeriodActiveButtonWrapper {...props}>{children}</PeriodActiveButtonWrapper>
-    : <PeriodButtonWrapper {...props}>{children}</PeriodButtonWrapper>
+    ? <PeriodActiveButtonWrapper {...props}><PeriodTextActive>{text}</PeriodTextActive></PeriodActiveButtonWrapper>
+    : <PeriodButtonWrapper {...props}><PeriodText>{text}</PeriodText></PeriodButtonWrapper>
 );
 
 const PeriodView = styled.View`
@@ -152,6 +178,12 @@ const PeriodText = styled.Text`
   text-align: center;
   font-size: 10px;
   color: hsla(0, 0%, 0%, 0.62);
+`;
+
+const PeriodTextActive = styled.Text`
+  text-align: center;
+  font-size: 10px;
+  color: hsla(0, 0%, 0%, 1);
 `;
 
 const ChartView = styled.View`

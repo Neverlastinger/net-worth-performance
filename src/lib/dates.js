@@ -28,6 +28,16 @@ export const getPrevYear = (dateKey) => (
   getDateKey(subYears(getDateByKey(dateKey), 1))
 );
 
+export const getMonthDifference = (firstDateKey, secondDateKey) => {
+  const firstParts = firstDateKey.split('-');
+  const firstAbs = parseInt(firstParts[0], 10) * 12 + parseInt(firstParts[1], 10);
+
+  const secondParts = secondDateKey.split('-');
+  const secondAbs = parseInt(secondParts[0], 10) * 12 + parseInt(secondParts[1], 10);
+
+  return Math.abs(firstAbs - secondAbs);
+};
+
 export const dateKeyToHumanReadable = (dateKey) => {
   const parts = dateKey.split('-');
   return format(new Date(parts[0], parts[1] - 1, 1), 'MMM yyyy');

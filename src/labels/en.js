@@ -43,6 +43,12 @@ export default {
     welcomeToNewMonthTitle: 'Welcome to {{month}}',
     welcomeToNewMonthMessage: 'Tap here to update your assets and see the new outlook of your net worth',
     errorFetchingData: 'Cannot connect to server due to lack of connectivity. Your data may be outdated.',
-    errorSavingData: 'There is a problem saving your data. Please try again later. '
+    errorSavingData: 'There is a problem saving your data. Please try again later. ',
+    months: '{{count}} month',
+    months_plural: '{{count}} months',
+    YTD: 'YTD',
+    years: '{{count}} year',
+    years_plural: '{{count}} years',
+    max: 'Max'
   }
 };
