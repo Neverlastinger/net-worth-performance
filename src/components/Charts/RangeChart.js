@@ -1,15 +1,18 @@
 import React, { useState, useMemo } from 'react';
+import { useSelector } from 'react-redux';
 import { View } from 'react-native';
 import { Grid, LineChart, XAxis, YAxis } from 'react-native-svg-charts';
 import styled from 'styled-components/native';
 import { subMonthKey, dateKeyToHumanReadable, getMonthNumber, getMonthDifference } from '~/lib/dates';
+import { formatCurrency, formatCurrencyGrowth } from '~/lib/currency';
+import { getGrowthPercentage } from '~/lib/number';
 import useTotalAmountArray from '~/hooks/useTotalAmountArray';
 import { BRAND_COLOR_BLUE } from '~/styles';
 
 /**
  * Returns an array of texts used for the X Axis of the RangeChart.
  * The texts represents time periods (months and years).
- * Empty strings in the array leaves gaps in the X Axis, making space for the text to be more readable.
+ * Empty strings in the array leave gaps in the X Axis, making space for the text to be more readable.
  *
  * @param  {Number}  rangeNumber: the number representing the range of the chart (e.g. 6 for 6 month range)
  * @param  {String}  month: date key of the month the charts ends with
@@ -56,9 +59,12 @@ const getDefaultRange = (monthCount) => (
  *
  * @param {String} month: selected month, the chart ends with this month
  * @param {Number} monthCount: the number of months with available data
+ * @param {String} earliestRecordedMonth: date key represented the time of the initial data entry, used for the Max range
+ * @param {Boolean} displayChart: indicates if the chart itself should be display
  */
-const RangeChart = ({ month, monthCount, earliestRecordedMonth }) => {
+const RangeChart = ({ month, monthCount, earliestRecordedMonth, displayChart }) => {
   const [range, setRange] = useState(getDefaultRange(monthCount));
+  const baseCurrency = useSelector((state) => state.user.baseCurrency);
 
   const getMaxRange = () => (
     getMonthDifference(month, earliestRecordedMonth) - 1
@@ -73,6 +79,10 @@ const RangeChart = ({ month, monthCount, earliestRecordedMonth }) => {
   ), [range, month]);
 
   const amounts = useTotalAmountArray(month, rangeNumber);
+  const currentMonthAmount = amounts[amounts.length - 1];
+  const initialMonthAmount = amounts[0];
+  const amountGrowth = currentMonthAmount - initialMonthAmount;
+  const growthInPercentage = getGrowthPercentage({ current: currentMonthAmount, prev: initialMonthAmount });
 
   const xAxisLabels = rangeToXAxisLabels({ rangeNumber, month });
 
@@ -88,66 +98,96 @@ const RangeChart = ({ month, monthCount, earliestRecordedMonth }) => {
 
   return (
     <View>
-      <PeriodView>
-        <PeriodButton
-          text={t('months', { count: 1 })}
-          isActive={range === 1}
-          onPress={() => { setRange(1); }}
-        />
-        <PeriodButton
-          text={t('months', { count: 2 })}
-          isActive={range === 2}
-          onPress={() => { setRange(2); }}
-        />
-        <PeriodButton
-          text={t('months', { count: 6 })}
-          isActive={range === 6}
-          onPress={() => { setRange(6); }}
-        />
-        <PeriodButton
-          text={t('YTD')}
-          isActive={range === 'YTD'}
-          onPress={() => { setRange('YTD'); }}
-        />
-        <PeriodButton
-          text={t('years', { count: 1 })}
-          isActive={range === 12}
-          onPress={() => { setRange(12); }}
-        />
-        <PeriodButton
-          text={t('max')}
-          isActive={range === 'MAX'}
-          onPress={() => { setRange('MAX'); }}
-        />
-      </PeriodView>
-      <ChartView>
-        <YAxis
-          data={amounts}
-          style={{ marginBottom: xAxisHeight }}
-          contentInset={verticalContentInset}
-          svg={axesSvg}
-        />
-        <LineView>
-          <LineChart
-            style={{ flex: 1 }}
-            data={amounts}
-            contentInset={verticalContentInset}
-            svg={{ stroke: BRAND_COLOR_BLUE, strokeWidth: 2 }}
+      <HeaderView>
+        <AmountText>{formatCurrency({ amount: currentMonthAmount, currency: baseCurrency })}</AmountText>
+        {displayChart && (
+          <GrowthText
+            style={{ color: amountGrowth > 0 ? 'green' : 'red' }}
           >
-            <Grid />
-          </LineChart>
-          <XAxis
-            style={{ marginHorizontal: -10, height: xAxisHeight }}
-            data={amounts}
-            formatLabel={(value, index) => xAxisLabels[index]}
-            contentInset={{ left: 30, right: 30 }}
-            svg={axesSvg}
-          />
-        </LineView>
-      </ChartView>
+            {formatCurrencyGrowth({ amount: amountGrowth, currency: baseCurrency })}
+            &nbsp;
+            {growthInPercentage && `(${growthInPercentage})`}
+          </GrowthText>
+        )}
+      </HeaderView>
+      {displayChart && (
+        <>
+          <PeriodView>
+            <PeriodButton
+              text={t('months', { count: 1 })}
+              isActive={range === 1}
+              onPress={() => { setRange(1); }}
+            />
+            <PeriodButton
+              text={t('months', { count: 2 })}
+              isActive={range === 2}
+              onPress={() => { setRange(2); }}
+            />
+            <PeriodButton
+              text={t('months', { count: 6 })}
+              isActive={range === 6}
+              onPress={() => { setRange(6); }}
+            />
+            <PeriodButton
+              text={t('YTD')}
+              isActive={range === 'YTD'}
+              onPress={() => { setRange('YTD'); }}
+            />
+            <PeriodButton
+              text={t('years', { count: 1 })}
+              isActive={range === 12}
+              onPress={() => { setRange(12); }}
+            />
+            <PeriodButton
+              text={t('max')}
+              isActive={range === 'MAX'}
+              onPress={() => { setRange('MAX'); }}
+            />
+          </PeriodView>
+          <ChartView>
+            <YAxis
+              data={amounts}
+              style={{ marginBottom: xAxisHeight }}
+              contentInset={verticalContentInset}
+              svg={axesSvg}
+            />
+            <LineView>
+              <LineChart
+                style={{ flex: 1 }}
+                data={amounts}
+                contentInset={verticalContentInset}
+                svg={{ stroke: BRAND_COLOR_BLUE, strokeWidth: 2 }}
+              >
+                <Grid />
+              </LineChart>
+              <XAxis
+                style={{ marginHorizontal: -10, height: xAxisHeight }}
+                data={amounts}
+                formatLabel={(value, index) => xAxisLabels[index]}
+                contentInset={{ left: 30, right: 30 }}
+                svg={axesSvg}
+              />
+            </LineView>
+          </ChartView>
+        </>
+      )}
     </View>
   );
 };
+
+const HeaderView = styled.View`
+  padding: 16px 0 16px 16px;
+`;
+
+const AmountText = styled.Text`
+  font-size: 16px;
+  font-weight: bold;
+`;
+
+const GrowthText = styled.Text`
+  margin-top: 6px;
+  font-size: 12px;
+`;
 
 const PeriodButton = ({ isActive, text, ...props }) => (
   isActive
@@ -156,7 +196,6 @@ const PeriodButton = ({ isActive, text, ...props }) => (
 );
 
 const PeriodView = styled.View`
-  top: 10px;
   flex-direction: row;
   border-bottom-color: hsla(0, 0%, 0%, 0.25);
   border-bottom-width: 1px;
@@ -188,7 +227,7 @@ const PeriodTextActive = styled.Text`
 
 const ChartView = styled.View`
   height: 300px;
-  padding: 20px;
+  padding: 0 20px 16px 20px;
   flex-direction: row;
 `;
 

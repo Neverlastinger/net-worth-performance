@@ -5,19 +5,15 @@ import { formatCurrency, formatCurrencyGrowth } from '~/lib/currency';
 import { getPrevMonth, getPrevYear } from '~/lib/dates';
 import { getGrowthPercentage } from '~/lib/number';
 import useTotalAmount from '~/hooks/useTotalAmount';
-import { assetListWithBaseCurrency } from '~/store/reducers';
 
 const Summary = ({ month }) => {
-  const data = useSelector(assetListWithBaseCurrency);
-
   const amount = useTotalAmount(month);
+  const currency = useSelector((state) => state.user.baseCurrency);
   const prevMonthAmount = useTotalAmount(getPrevMonth(month));
   const prevYearAmount = useTotalAmount(getPrevYear(month));
 
   const monthlyGrowth = amount - prevMonthAmount;
   const yearlyGrowth = amount - prevYearAmount;
-
-  const currency = data[0] && data[0].baseCurrency;
 
   return (
     <Wrapper>

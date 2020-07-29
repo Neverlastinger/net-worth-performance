@@ -7,6 +7,11 @@
  */
 export const getGrowthPercentage = ({ current, prev }) => {
   const percent = (current / prev - 1) * 100;
+
+  if (percent === Infinity) {
+    return null;
+  }
+
   const sign = percent >= 0 ? '+' : '';
   return `${sign}${Number(percent).toFixed(2)}%`;
 };
