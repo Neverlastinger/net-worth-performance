@@ -33,7 +33,7 @@ const TextField = ({ ...props }) => {
 
 const Input = styled(TextInput)`
   margin: 6px;
-  backgroundColor: white;
+  backgroundColor: hsla(0, 0%, 100%, 1);
 `;
 
 export default TextField;

@@ -1,11 +1,12 @@
-import { takeEvery, call, put } from 'redux-saga/effects';
+import { takeEvery, call, put, select } from 'redux-saga/effects';
 import { firebase } from '@react-native-firebase/firestore';
-import { USERNAME } from 'config';
-import { runFirebaseChannel } from '~/store/sagas/common/saga-common';
+import { watchFirebaseListener } from '~/store/sagas/common/saga-common';
 import { SAVE_ASSET, UPDATE_ASSET } from '~/store/actions/actionTypes';
 import { setAssetList } from '~/store/actions';
 
-const FIREBASE_PATH = `users/${USERNAME}/assets`;
+const getFirebasePath = (email) => (
+  `users/${email}/assets`
+);
 
 function* watchSave() {
   yield takeEvery(SAVE_ASSET, save);
@@ -15,18 +16,16 @@ function* watchUpdate() {
   yield takeEvery(UPDATE_ASSET, update);
 }
 
-function* watchFirebaseListener() {
-  const channel = yield call(runFirebaseChannel, {
-    path: FIREBASE_PATH
-  });
-
-  yield takeEvery(channel, onFirebaseEmit);
+function* watchFirebaseListenerForAssets() {
+  yield watchFirebaseListener('assets', onFirebaseEmit);
 }
 
 function* save({ data }) {
+  const { email } = yield select((state) => state.user);
+
   yield call(async () => {
     try {
-      await firebase.firestore().collection(FIREBASE_PATH).add(data);
+      await firebase.firestore().collection(getFirebasePath(email)).add(data);
     } catch (error) {
       // eslint-disable-next-line no-alert, no-undef
       alert(t('errorSavingData'));
@@ -36,9 +35,10 @@ function* save({ data }) {
 
 function* update({ data }) {
   const { amount, category, currency, name } = data;
+  const { email } = yield select((state) => state.user);
 
   yield call(async () => {
-    await firebase.firestore().collection(FIREBASE_PATH).doc(data.id).update({
+    await firebase.firestore().collection(getFirebasePath(email)).doc(data.id).update({
       amount,
       category,
       currency,
@@ -60,5 +60,5 @@ function* onFirebaseEmit(data) {
 export default [
   watchSave,
   watchUpdate,
-  watchFirebaseListener
+  watchFirebaseListenerForAssets
 ];

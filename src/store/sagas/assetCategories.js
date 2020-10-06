@@ -1,11 +1,12 @@
-import { takeEvery, call, put } from 'redux-saga/effects';
+import { takeEvery, call, put, select } from 'redux-saga/effects';
 import { firebase } from '@react-native-firebase/firestore';
-import { USERNAME } from 'config';
-import { runFirebaseChannel } from '~/store/sagas/common/saga-common';
+import { watchFirebaseListener } from '~/store/sagas/common/saga-common';
 import { DELETE_ASSET_CATEGORY, ADD_ASSET_CATEGORY } from '~/store/actions/actionTypes';
 import { setAssetCategories } from '~/store/actions';
 
-const FIREBASE_PATH = `users/${USERNAME}/categories`;
+const getFirebasePath = (email) => (
+  `users/${email}/categories`
+);
 
 function* watchDelete() {
   yield takeEvery(DELETE_ASSET_CATEGORY, doDelete);
@@ -15,12 +16,8 @@ function* watchAdd() {
   yield takeEvery(ADD_ASSET_CATEGORY, add);
 }
 
-function* watchFirebaseListener() {
-  const channel = yield call(runFirebaseChannel, {
-    path: FIREBASE_PATH
-  });
-
-  yield takeEvery(channel, onFirebaseEmit);
+function* watchFirebaseListenerForCategories() {
+  yield watchFirebaseListener('categories', onFirebaseEmit);
 }
 
 /**
@@ -30,8 +27,10 @@ function* watchFirebaseListener() {
  * @return {Generator}
  */
 function* doDelete({ id }) {
+  const { email } = yield select((state) => state.user);
+
   yield call(async () => {
-    const doc = await firebase.firestore().collection(FIREBASE_PATH).doc(`${id}`);
+    const doc = await firebase.firestore().collection(getFirebasePath(email)).doc(`${id}`);
     doc.delete();
   });
 }
@@ -43,9 +42,11 @@ function* doDelete({ id }) {
  * @return {Generator}
  */
 function* add({ name }) {
+  const { email } = yield select((state) => state.user);
+
   yield call(async () => {
     try {
-      await firebase.firestore().collection(FIREBASE_PATH).add({
+      await firebase.firestore().collection(getFirebasePath(email)).add({
         name
       });
     } catch (error) {
@@ -68,5 +69,5 @@ function* onFirebaseEmit(categories) {
 export default [
   watchDelete,
   watchAdd,
-  watchFirebaseListener
+  watchFirebaseListenerForCategories
 ];

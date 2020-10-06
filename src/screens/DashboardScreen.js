@@ -76,7 +76,6 @@ const DashboardScreen = ({ navigation }) => {
         infoColor={BRAND_COLOR_BLUE}
         onTap={() => { navigation.navigate('UpdateExistingAssets'); }}
       />
-
     </SafeArea>
   );
 };

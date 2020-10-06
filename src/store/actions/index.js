@@ -4,6 +4,15 @@ export const initApplication = () => ({
   type: actions.INIT_APPLICATION
 });
 
+export const setUser = (data) => ({
+  type: actions.SET_USER,
+  data
+});
+
+export const logOut = () => ({
+  type: actions.LOG_OUT
+});
+
 export const setAssetCategories = (data) => ({
   type: actions.SET_ASSET_CATEGORIES,
   data

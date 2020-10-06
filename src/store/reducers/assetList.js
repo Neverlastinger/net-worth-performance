@@ -1,4 +1,4 @@
-import { SET_ASSET_LIST, SET_CURRENCY_DATA, UPDATE_ASSET } from '~/store/actions/actionTypes';
+import { SET_ASSET_LIST, SET_CURRENCY_DATA, UPDATE_ASSET, LOG_OUT } from '~/store/actions/actionTypes';
 
 /**
  * Keeps the asset list.
@@ -26,6 +26,12 @@ const assetList = (state = [], action) => {
       return state.map((asset) => (
         asset.id === id ? { id, amount, category, currency, name } : asset
       ));
+    }
+
+    case LOG_OUT: {
+      const data = [];
+      data.id = Date.now();
+      return data;
     }
 
     default:
