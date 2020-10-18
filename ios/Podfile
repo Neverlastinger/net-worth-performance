@@ -5,6 +5,7 @@ target 'NetWorthPerformance' do
   # add the Firebase pods
   pod 'Firebase/Analytics'
   pod 'Firebase/Auth'
+  pod 'FBSDKLoginKit'
   # Pods for NetWorthPerformance
   pod 'FBLazyVector', :path => "../node_modules/react-native/Libraries/FBLazyVector"
   pod 'FBReactNativeSpec', :path => "../node_modules/react-native/Libraries/FBReactNativeSpec"
@@ -46,6 +47,7 @@ target 'NetWorthPerformance' do
   pod 'RNScreens', :path => '../node_modules/react-native-screens'
 
   pod 'react-native-safe-area-context', :path => '../node_modules/react-native-safe-area-context'
+
 
   target 'NetWorthPerformanceTests' do
     inherit! :search_paths

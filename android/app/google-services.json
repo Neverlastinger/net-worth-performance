@@ -49,6 +49,42 @@
           ]
         }
       }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:280617579893:android:39ac7478151cf4754f0f3c",
+        "android_client_info": {
+          "package_name": "com.radoslavpopov.networthperformance"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "280617579893-cjqogu2ohnoagsraqq23pi3vilvuq0pi.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCjCI4oqnyl36DDph8oAJUpm90t4Byet4g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "280617579893-cjqogu2ohnoagsraqq23pi3vilvuq0pi.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "280617579893-np1dllm7e3e2qbvb25bg0hftgtti6t36.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.radoslavpopov.NetWorthPerformance"
+              }
+            }
+          ]
+        }
+      }
     }
   ],
   "configuration_version": "1"

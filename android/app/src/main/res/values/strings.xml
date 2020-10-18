@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name">NetWorthPerformance</string>
+    <string name="app_name">networthperformance</string>
+    <string name="facebook_app_id">341004087206123</string>
 </resources>

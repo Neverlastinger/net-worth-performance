@@ -128,7 +128,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.radoslavpopov.NetWorthPerformance"
+        applicationId "com.radoslavpopov.networthperformance"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
@@ -189,6 +189,7 @@ dependencies {
     implementation project(':react-native-vector-icons')
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "com.facebook.react:react-native:+"  // From node_modules
+    implementation "com.facebook.android:facebook-android-sdk:[4,5)"
 
     if (enableHermes) {
         def hermesPath = "../../node_modules/hermes-engine/android/";

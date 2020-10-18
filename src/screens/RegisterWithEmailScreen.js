@@ -2,11 +2,11 @@ import React, { useRef, useState } from 'react';
 import styled from 'styled-components/native';
 import useAuthAction from '~/hooks/useAuthAction';
 import TextField from '~/components/TextField';
-import ActionButton from '~/components/ActionButton';
+import Button from '~/components/Button';
 import AuthenticationView from '~/components/AuthenticationView';
 import TextLink from '~/components/TextLink';
 
-const RegisterScreen = ({ navigation }) => {
+const RegisterWithEmailScreen = ({ navigation }) => {
   const emailRef = useRef('');
   const passwordRef = useRef('');
   const passwordConfirmRef = useRef('');
@@ -42,10 +42,7 @@ const RegisterScreen = ({ navigation }) => {
   };
 
   return (
-    <AuthenticationView
-      navigation={navigation}
-      actionName="signInWithEmailAndPassword"
-    >
+    <AuthenticationView>
       <TextField
         label={t('email')}
         keyboardType="email-address"
@@ -71,10 +68,13 @@ const RegisterScreen = ({ navigation }) => {
       {passwordConfirmError && <ErrorText>{passwordConfirmError}</ErrorText>}
 
       <ButtonView>
-        <ActionButton label={t('register')} theme="black" onPress={register} />
+        <Button label={t('register')} icon="login" onPress={register} />
       </ButtonView>
 
-      <TextLink label={t('loginInstead')} theme="black" onPress={() => { navigation.navigate('Login'); }} />
+      <FooterView>
+        <TextLink label={t('loginInstead')} theme="black" onPress={() => { navigation.navigate('Login'); }} />
+        <TextLink label={t('useDifferentLoginMethod')} theme="black" onPress={() => { navigation.navigate('AuthLandingPage'); }} />
+      </FooterView>
     </AuthenticationView>
   );
 };
@@ -90,4 +90,8 @@ const ButtonView = styled.View`
   margin: 10px 0;
 `;
 
-export default RegisterScreen;
+const FooterView = styled.View`
+  margin: 16px 0;
+`;
+
+export default RegisterWithEmailScreen;

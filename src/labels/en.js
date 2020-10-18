@@ -64,6 +64,9 @@ export default {
     confirmPassword: 'confirm password',
     passwordsDoNotMatch: 'Passwords do not match!',
     registerInstead: 'Register Instead',
-    profile: 'Profile'
+    profile: 'Profile',
+    continueWithFacebook: 'Continue with Facebook',
+    loginRegisterWithEmail: 'Login / Register with Email',
+    useDifferentLoginMethod: 'Use different login method'
   }
 };

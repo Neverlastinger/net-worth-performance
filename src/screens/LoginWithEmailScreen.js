@@ -2,11 +2,17 @@ import React, { useRef, useState } from 'react';
 import styled from 'styled-components/native';
 import useAuthAction from '~/hooks/useAuthAction';
 import TextField from '~/components/TextField';
-import ActionButton from '~/components/ActionButton';
+import Button from '~/components/Button';
 import AuthenticationView from '~/components/AuthenticationView';
 import TextLink from '~/components/TextLink';
 
-const LoginScreen = ({ navigation }) => {
+/**
+ * Represents a login with email and password screen.
+ * Authenticates the user in firebase.
+ *
+ * @param {Object} navigation
+ */
+const LoginWithEmailScreen = ({ navigation }) => {
   const emailRef = useRef('');
   const passwordRef = useRef('');
 
@@ -30,10 +36,7 @@ const LoginScreen = ({ navigation }) => {
   };
 
   return (
-    <AuthenticationView
-      navigation={navigation}
-      actionName="signInWithEmailAndPassword"
-    >
+    <AuthenticationView>
       <TextField
         label="email"
         error={emailError}
@@ -50,10 +53,13 @@ const LoginScreen = ({ navigation }) => {
       {passwordError && <ErrorText>{passwordError}</ErrorText>}
 
       <ButtonView>
-        <ActionButton label={t('login')} theme="black" onPress={login} />
+        <Button label={t('login')} icon="login" onPress={login} />
       </ButtonView>
 
-      <TextLink label={t('registerInstead')} theme="black" onPress={() => { navigation.navigate('Register'); }} />
+      <FooterView>
+        <TextLink label={t('registerInstead')} theme="black" onPress={() => { navigation.navigate('Register'); }} />
+        <TextLink label={t('useDifferentLoginMethod')} theme="black" onPress={() => { navigation.navigate('AuthLandingPage'); }} />
+      </FooterView>
     </AuthenticationView>
   );
 };
@@ -69,4 +75,8 @@ const ButtonView = styled.View`
   margin: 10px 0;
 `;
 
-export default LoginScreen;
+const FooterView = styled.View`
+  margin: 16px 0;
+`;
+
+export default LoginWithEmailScreen;

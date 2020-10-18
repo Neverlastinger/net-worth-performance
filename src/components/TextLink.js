@@ -9,11 +9,11 @@ const TextLink = ({ label, onPress, theme = '' }) => (
 );
 
 const Button = styled.TouchableOpacity`
-  padding: 16px;
+  margin-bottom: 12px;
+  padding: 0 16px;
 `;
 
 const Text = styled.Text`
-  margin-bottom: 16px;
   font-size: 12px;
   color: ${BRAND_COLOR_BLUE};
   font-weight: bold;
