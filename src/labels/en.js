@@ -67,6 +67,6 @@ export default {
     profile: 'Profile',
     continueWithFacebook: 'Continue with Facebook',
     loginRegisterWithEmail: 'Login / Register with Email',
-    useDifferentLoginMethod: 'Use different login method'
+    useDifferentLoginMethod: 'Use a different login method'
   }
 };
