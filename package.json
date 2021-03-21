@@ -8,7 +8,6 @@
     "ios": "react-native run-ios",
     "test": "jest",
     "lint": "eslint .",
-    "inst": "npx -p npm@6 npm install",
     "cleanRNSVG": "find ./node_modules -type d -mindepth 2 -name react-native-svg -exec rm -rf {} \\;"
   },
   "dependencies": {
