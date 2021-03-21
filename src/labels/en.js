@@ -68,6 +68,7 @@ export default {
     continueWithFacebook: 'Continue with Facebook',
     continueWithGoogle: 'Continue with Google',
     loginRegisterWithEmail: 'Login / Register with Email',
-    useDifferentLoginMethod: 'Use a different login method'
+    useDifferentLoginMethod: 'Use a different login method',
+    unableToLoginWithGoogle: 'Unable to login with Google right now'
   }
 };

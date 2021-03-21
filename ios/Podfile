@@ -48,6 +48,7 @@ target 'NetWorthPerformance' do
 
   pod 'react-native-safe-area-context', :path => '../node_modules/react-native-safe-area-context'
 
+  pod 'GoogleSignIn', '~> 5.0.2'
 
   target 'NetWorthPerformanceTests' do
     inherit! :search_paths
