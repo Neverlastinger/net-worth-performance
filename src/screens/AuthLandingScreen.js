@@ -4,6 +4,7 @@ import { useAsyncStorage } from '@react-native-community/async-storage';
 import Button from '~/components/Button';
 import AuthenticationView from '~/components/AuthenticationView';
 import LoginWithFacebook from '~/components/LoginWithFacebook';
+import LoginWithGoogle from '../components/LoginWithGoogle';
 
 /**
  * Represents the initial screen the user sees before login.
@@ -28,6 +29,10 @@ const AuthLandingScreen = ({ navigation }) => {
     <AuthenticationView>
       <ButtonView>
         <LoginWithFacebook />
+      </ButtonView>
+
+      <ButtonView>
+        <LoginWithGoogle />
       </ButtonView>
 
       <ButtonView>

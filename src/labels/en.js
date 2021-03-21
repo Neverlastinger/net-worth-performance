@@ -66,6 +66,7 @@ export default {
     registerInstead: 'Register Instead',
     profile: 'Profile',
     continueWithFacebook: 'Continue with Facebook',
+    continueWithGoogle: 'Continue with Google',
     loginRegisterWithEmail: 'Login / Register with Email',
     useDifferentLoginMethod: 'Use a different login method'
   }
