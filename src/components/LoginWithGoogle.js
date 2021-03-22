@@ -1,7 +1,7 @@
-import React, { useEffect } from 'react';
-import { GoogleSignin } from '@react-native-google-signin/google-signin';
+import React, { useEffect, useState } from 'react';
+import { GoogleSignin, statusCodes } from '@react-native-google-signin/google-signin';
 import auth from '@react-native-firebase/auth';
-import { WEB_CLIENT_ID } from '@env'
+import { WEB_CLIENT_ID } from '@env'; // eslint-disable-line import/no-unresolved
 import Button from '~/components/Button';
 
 /**
@@ -9,6 +9,8 @@ import Button from '~/components/Button';
  * When the user clicks on it, it authenticates the user with Google and creates a profile in Firebase.
  */
 const LoginWithGoogle = () => {
+  const [isLoading, setIsLoading] = useState();
+
   useEffect(() => {
     GoogleSignin.configure({
       webClientId: WEB_CLIENT_ID
@@ -16,10 +18,13 @@ const LoginWithGoogle = () => {
   }, []);
 
   const onGoogleButtonPress = async () => {
+    setIsLoading(true);
+
     try {
       await GoogleSignin.hasPlayServices({ autoResolve: true, showPlayServicesUpdateDialog: true });
     } catch (e) {
-      console.log("Play services error", e.code, e.message);
+      console.log('Play services error', e.code, e.message);
+      setIsLoading(false);
       alert(t('unableToLoginWithGoogle'));
       return;
     }
@@ -28,9 +33,15 @@ const LoginWithGoogle = () => {
       const { idToken } = await GoogleSignin.signIn();
 
       const googleCredential = auth.GoogleAuthProvider.credential(idToken);
-      auth().signInWithCredential(googleCredential);
+      await auth().signInWithCredential(googleCredential);
     } catch (e) {
-      console.log("signIn error", e.code, e.message, e);
+      setIsLoading(false);
+
+      if (e.code === statusCodes.SIGN_IN_CANCELLED) {
+        return;
+      }
+
+      console.log('signIn error', e.code, e.message, e);
       alert(t('unableToLoginWithGoogle'));
     }
   };
@@ -42,6 +53,7 @@ const LoginWithGoogle = () => {
       color="#5086ec"
       dark
       onPress={onGoogleButtonPress}
+      loading={isLoading}
     />
   );
 };

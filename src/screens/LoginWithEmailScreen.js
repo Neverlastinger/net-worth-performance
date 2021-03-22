@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components/native';
 import useAuthAction from '~/hooks/useAuthAction';
 import TextField from '~/components/TextField';
@@ -13,15 +13,22 @@ import TextLink from '~/components/TextLink';
  * @param {Object} navigation
  */
 const LoginWithEmailScreen = ({ navigation }) => {
+  const [isLoading, setIsLoading] = useState();
+
   const emailRef = useRef('');
   const passwordRef = useRef('');
 
   const [emailError, setEmailError] = useState(false);
   const [passwordError, setPasswordError] = useState(false);
 
+  useEffect(() => {
+    setIsLoading(false);
+  }, [emailError, passwordError]);
+
   const authAction = useAuthAction('signInWithEmailAndPassword', { setEmailError, setPasswordError });
 
   const login = async () => {
+    setIsLoading(true);
     authAction({ email: emailRef.current, password: passwordRef.current });
   };
 
@@ -53,7 +60,7 @@ const LoginWithEmailScreen = ({ navigation }) => {
       {passwordError && <ErrorText>{passwordError}</ErrorText>}
 
       <ButtonView>
-        <Button label={t('login')} icon="login" onPress={login} />
+        <Button label={t('login')} icon="login" onPress={login} loading={isLoading} />
       </ButtonView>
 
       <FooterView>

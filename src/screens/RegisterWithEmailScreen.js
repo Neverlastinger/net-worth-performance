@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import styled from 'styled-components/native';
 import useAuthAction from '~/hooks/useAuthAction';
 import TextField from '~/components/TextField';
@@ -7,6 +7,7 @@ import AuthenticationView from '~/components/AuthenticationView';
 import TextLink from '~/components/TextLink';
 
 const RegisterWithEmailScreen = ({ navigation }) => {
+  const [isLoading, setIsLoading] = useState();
   const emailRef = useRef('');
   const passwordRef = useRef('');
   const passwordConfirmRef = useRef('');
@@ -14,6 +15,10 @@ const RegisterWithEmailScreen = ({ navigation }) => {
   const [emailError, setEmailError] = useState(false);
   const [passwordError, setPasswordError] = useState(false);
   const [passwordConfirmError, setPasswordConfirmError] = useState(false);
+
+  useEffect(() => {
+    setIsLoading(false);
+  }, [emailError, passwordError, passwordConfirmError]);
 
   const authAction = useAuthAction('createUserWithEmailAndPassword', { setEmailError, setPasswordError });
 
@@ -23,6 +28,7 @@ const RegisterWithEmailScreen = ({ navigation }) => {
       return;
     }
 
+    setIsLoading(true);
     authAction({ email: emailRef.current, password: passwordRef.current });
   };
 
@@ -68,7 +74,7 @@ const RegisterWithEmailScreen = ({ navigation }) => {
       {passwordConfirmError && <ErrorText>{passwordConfirmError}</ErrorText>}
 
       <ButtonView>
-        <Button label={t('register')} icon="login" onPress={register} />
+        <Button label={t('register')} icon="login" onPress={register} loading={isLoading} />
       </ButtonView>
 
       <FooterView>

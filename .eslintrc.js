@@ -32,12 +32,14 @@ module.exports = {
     'no-unused-expressions': ['error', { 'allowShortCircuit': true, 'allowTernary': true }],
     "react-hooks/rules-of-hooks": "error",
     "react-hooks/exhaustive-deps": "warn",
-    "no-nested-ternary": "off"
+    "no-nested-ternary": "off",
+    "no-alert": "off"
   },
   'globals': {
     'fetch': false,
     'window': false,
     'global': false,
-    't': false
+    't': false,
+    'alert': false
   }
 }
