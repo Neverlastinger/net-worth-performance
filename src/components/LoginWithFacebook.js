@@ -13,28 +13,34 @@ const LoginWithFacebook = () => {
   const onFacebookButtonPress = async () => {
     setIsLoading(true);
 
-    // Attempt login with permissions
-    const result = await LoginManager.logInWithPermissions(['public_profile', 'email']);
+    try {
+      // Attempt login with permissions
+      const result = await LoginManager.logInWithPermissions(['public_profile', 'email']);
 
-    if (result.isCancelled) {
-      setIsLoading(false);
-      return;
-    }
+      if (result.isCancelled) {
+        setIsLoading(false);
+        return;
+      }
 
-    // Once signed in, get the users AccesToken
-    const data = await AccessToken.getCurrentAccessToken();
+      // Once signed in, get the users AccesToken
+      const data = await AccessToken.getCurrentAccessToken();
 
-    if (!data) {
+      if (!data) {
+        setIsLoading(false);
+        alert(t('unableToLoginWithFacebook'));
+        return;
+      }
+
+      // Create a Firebase credential with the AccessToken
+      const facebookCredential = auth.FacebookAuthProvider.credential(data.accessToken);
+
+      // Sign-in the user with the credential
+      await auth().signInWithCredential(facebookCredential);
+    } catch (e) {
+      console.log(e);
       setIsLoading(false);
       alert(t('unableToLoginWithFacebook'));
-      return;
     }
-
-    // Create a Firebase credential with the AccessToken
-    const facebookCredential = auth.FacebookAuthProvider.credential(data.accessToken);
-
-    // Sign-in the user with the credential
-    await auth().signInWithCredential(facebookCredential);
   };
 
   return (
