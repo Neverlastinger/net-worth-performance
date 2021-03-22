@@ -16,6 +16,14 @@ module.exports = {
           : './config.json'
         )
       }
+    }],
+    ["module:react-native-dotenv", {
+      "moduleName": "@env",
+      "path": ".env",
+      "blacklist": null,
+      "whitelist": null,
+      "safe": false,
+      "allowUndefined": true
     }]
   ]
 };

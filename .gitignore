@@ -57,3 +57,13 @@ buck-out/
 
 # CocoaPods
 /ios/Pods/
+
+# Google Services
+/android/app/google-services.json
+/ios/GoogleService-Info.plist
+
+# Env
+.env
+
+# Keystore
+android/app/debug.keystore

@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
 import auth from '@react-native-firebase/auth';
+import { WEB_CLIENT_ID } from '@env'
 import Button from '~/components/Button';
 
 /**
@@ -9,20 +10,28 @@ import Button from '~/components/Button';
  */
 const LoginWithGoogle = () => {
   useEffect(() => {
-    GoogleSignin.configure();
+    GoogleSignin.configure({
+      webClientId: WEB_CLIENT_ID
+    });
   }, []);
 
   const onGoogleButtonPress = async () => {
-    console.log('login with google');
+    try {
+      await GoogleSignin.hasPlayServices({ autoResolve: true, showPlayServicesUpdateDialog: true });
+    } catch (e) {
+      console.log("Play services error", e.code, e.message);
+      alert(t('unableToLoginWithGoogle'));
+      return;
+    }
 
     try {
-      await GoogleSignin.hasPlayServices();
       const { idToken } = await GoogleSignin.signIn();
+
       const googleCredential = auth.GoogleAuthProvider.credential(idToken);
       auth().signInWithCredential(googleCredential);
-    } catch (error) {
-      alert(t('unableToLoginWithGoogle'))
-      console.log(error);
+    } catch (e) {
+      console.log("signIn error", e.code, e.message, e);
+      alert(t('unableToLoginWithGoogle'));
     }
   };
 
