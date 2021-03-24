@@ -4,24 +4,28 @@ import { useDispatch } from 'react-redux';
 import styled from 'styled-components/native';
 import { Surface } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { updateAsset } from '~/store/actions';
+import { updateAsset, deleteAsset as deleteAssetAction } from '~/store/actions';
 import { formatCurrency } from '~/lib/currency';
 import { dateKeyToHumanReadable, getSortedMonthKeys, getDateKey, fillEmptyMonths, addTrailingMonths } from '~/lib/dates';
 import { getGrowthPercentage } from '~/lib/number';
 import TappableWrapper from '~/components/TappableWrapper';
 import ActionButton from '~/components/ActionButton';
 import UpdateAssetNameModal from '~/components/UpdateAssetNameModal';
+import TextLink from '~/components/TextLink';
+import ConfirmModal from '~/components/ConfirmModal';
 import { BRAND_COLOR_RED, LIGHT_TEXT_COLOR } from '~/styles';
 
 const TRAILING_MONTHS_BATCH = 3;
 
-const AssetCard = ({ asset, onPress, onMonthPress, maxMonthsShown, showEmptyMonths, showAddHistoricData }) => {
+const AssetCard = ({ asset, onPress, onMonthPress, maxMonthsShown, showEmptyMonths, showAddHistoricData, showDeleteAsset }) => {
   const dispatch = useDispatch();
   const currentMonthKey = getDateKey(new Date());
   const [months, setMonths] = useState(getSortedMonthKeys(asset.amount));
   const [trailingMonths, setTrailingMonths] = useState(0);
   const [isEditTitleOpen, setIsEditTitleOpen] = useState(false);
   const newAssetNameRef = useRef();
+
+  const [isDeleteConfirmShown, setIsDeleteConfirmShown] = useState(false);
 
   useEffect(() => {
     let monthList = getSortedMonthKeys(asset.amount);
@@ -72,6 +76,14 @@ const AssetCard = ({ asset, onPress, onMonthPress, maxMonthsShown, showEmptyMont
       ...asset,
       name: newAssetNameRef.current
     }));
+  };
+
+  const onDeletePress = () => {
+    setIsDeleteConfirmShown(true);
+  };
+
+  const deleteAsset = () => {
+    dispatch(deleteAssetAction(asset.id));
   };
 
   return (
@@ -156,7 +168,21 @@ const AssetCard = ({ asset, onPress, onMonthPress, maxMonthsShown, showEmptyMont
             <ActionButton label={t('addHistoricDataButton')} onPress={onAddHistoricDataPress} />
           </ButtonView>
         )}
+
+        {showDeleteAsset && (
+          <ButtonView>
+            <TextLink label={t('deleteAsset')} onPress={onDeletePress} />
+          </ButtonView>
+        )}
       </TappableWrapper>
+
+      {isDeleteConfirmShown && (
+        <ConfirmModal
+          title={t('deleteAssetForever', { assetName: asset.name })}
+          onCancel={() => { setIsDeleteConfirmShown(false); }}
+          onConfirm={deleteAsset}
+        />
+      )}
 
       {isEditTitleOpen && (
         <UpdateAssetNameModal

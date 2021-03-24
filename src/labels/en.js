@@ -72,6 +72,9 @@ export default {
     unableToLoginWithGoogle: 'Unable to login with Google right now',
     unableToLoginWithFacebook: 'Unable to login with Facebook right now',
     changeAssetName: 'Change asset title',
-    addNewNameHere: 'Add the new name here'
+    addNewNameHere: 'Add the new name here',
+    deleteAsset: 'Delete asset',
+    deleteAssetForever: 'Delete {{assetName}} data forever?',
+    yes: 'yes'
   }
 };

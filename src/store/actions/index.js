@@ -52,3 +52,8 @@ export const updateAsset = (data) => ({
   type: actions.UPDATE_ASSET,
   data
 });
+
+export const deleteAsset = (id) => ({
+  type: actions.DELETE_ASSET,
+  id
+});

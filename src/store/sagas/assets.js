@@ -1,7 +1,7 @@
 import { takeEvery, call, put, select } from 'redux-saga/effects';
 import { firebase } from '@react-native-firebase/firestore';
 import { watchFirebaseListener } from '~/store/sagas/common/saga-common';
-import { SAVE_ASSET, UPDATE_ASSET } from '~/store/actions/actionTypes';
+import { SAVE_ASSET, UPDATE_ASSET, DELETE_ASSET } from '~/store/actions/actionTypes';
 import { setAssetList } from '~/store/actions';
 
 const getFirebasePath = (email) => (
@@ -14,6 +14,10 @@ function* watchSave() {
 
 function* watchUpdate() {
   yield takeEvery(UPDATE_ASSET, update);
+}
+
+function* watchDelete() {
+  yield takeEvery(DELETE_ASSET, doDelete);
 }
 
 function* watchFirebaseListenerForAssets() {
@@ -48,6 +52,21 @@ function* update({ data }) {
 }
 
 /**
+ * Deletes the asset with the given id from firebase.
+ *
+ * @param  {String}    id
+ * @return {Generator}
+ */
+function* doDelete({ id }) {
+  const { email } = yield select((state) => state.user);
+
+  yield call(async () => {
+    const doc = await firebase.firestore().collection(getFirebasePath(email)).doc(`${id}`);
+    doc.delete();
+  });
+}
+
+/**
  * Called when the firebase store changes to update data in redux store.
  *
  * @param  {Array} data: asset data
@@ -60,5 +79,6 @@ function* onFirebaseEmit(data) {
 export default [
   watchSave,
   watchUpdate,
+  watchDelete,
   watchFirebaseListenerForAssets
 ];

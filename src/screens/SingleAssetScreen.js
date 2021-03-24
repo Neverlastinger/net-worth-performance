@@ -7,7 +7,7 @@ import { dateKeyToHumanReadable } from '~/lib/dates';
 import AssetCard from '~/components/AssetCard';
 import UpdateMonthModal from '~/components/UpdateMonthModal';
 
-const SingleAssetScreen = ({ route }) => {
+const SingleAssetScreen = ({ navigation, route }) => {
   const { assetId } = route.params;
   const dispatch = useDispatch();
   const assetList = useSelector(assetListWithBaseCurrency);
@@ -18,6 +18,11 @@ const SingleAssetScreen = ({ route }) => {
   const asset = useMemo(() => (
     assetList.find((ass) => ass.id === assetId)
   ), [assetId, assetList]);
+
+  if (!asset) {
+    navigation.goBack(null);
+    return null;
+  }
 
   const onMonthPress = (monthKey) => {
     setEditableMonth(monthKey);
@@ -67,7 +72,7 @@ const SingleAssetScreen = ({ route }) => {
   return (
     <SafeArea>
       <ScrollWrapper>
-        <AssetCard asset={asset} showEmptyMonths showAddHistoricData onMonthPress={onMonthPress} />
+        <AssetCard asset={asset} showEmptyMonths showAddHistoricData showDeleteAsset onMonthPress={onMonthPress} />
 
         {editableMonth && (
           <UpdateMonthModal
