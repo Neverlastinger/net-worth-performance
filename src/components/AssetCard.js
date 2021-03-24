@@ -10,7 +10,7 @@ import { dateKeyToHumanReadable, getSortedMonthKeys, getDateKey, fillEmptyMonths
 import { getGrowthPercentage } from '~/lib/number';
 import TappableWrapper from '~/components/TappableWrapper';
 import ActionButton from '~/components/ActionButton';
-import UpdateAssetNameModal from '~/components/UpdateAssetNameModal';
+import UpdateNameModal from '~/components/UpdateNameModal';
 import TextLink from '~/components/TextLink';
 import ConfirmModal from '~/components/ConfirmModal';
 import { BRAND_COLOR_RED, LIGHT_TEXT_COLOR } from '~/styles';
@@ -185,7 +185,7 @@ const AssetCard = ({ asset, onPress, onMonthPress, maxMonthsShown, showEmptyMont
       )}
 
       {isEditTitleOpen && (
-        <UpdateAssetNameModal
+        <UpdateNameModal
           title={t('changeAssetName')}
           onChangeText={(value) => { newAssetNameRef.current = value; }}
           onDismiss={() => { setIsEditTitleOpen(false); }}

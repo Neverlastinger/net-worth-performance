@@ -3,7 +3,7 @@ import Modal from '~/components/Modal';
 import TextField from '~/components/TextField';
 import { BRAND_COLOR_RED } from '~/styles';
 
-const UpdateAssetNameModal = ({ onDismiss, title, onChangeText, onSavePressed, defaultValue }) => {
+const UpdateNameModal = ({ onDismiss, title, onChangeText, onSavePressed, defaultValue }) => {
   const [isSaveDisabled, setIsSaveDisabled] = useState(true);
 
   const onValueChanged = (value) => {
@@ -35,4 +35,4 @@ const UpdateAssetNameModal = ({ onDismiss, title, onChangeText, onSavePressed, d
   );
 };
 
-export default UpdateAssetNameModal;
+export default UpdateNameModal;

@@ -28,6 +28,12 @@ export const addAssetCategory = (name) => ({
   name
 });
 
+export const updateAssetCategory = (data, newName) => ({
+  type: actions.UPDATE_ASSET_CATEGORY,
+  data,
+  newName
+});
+
 export const saveAsset = (data) => ({
   type: actions.SAVE_ASSET,
   data

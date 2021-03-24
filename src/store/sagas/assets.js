@@ -3,6 +3,7 @@ import { firebase } from '@react-native-firebase/firestore';
 import { watchFirebaseListener } from '~/store/sagas/common/saga-common';
 import { SAVE_ASSET, UPDATE_ASSET, DELETE_ASSET } from '~/store/actions/actionTypes';
 import { setAssetList } from '~/store/actions';
+import { UPDATE_ASSET_CATEGORY } from '../actions/actionTypes';
 
 const getFirebasePath = (email) => (
   `users/${email}/assets`
@@ -18,6 +19,10 @@ function* watchUpdate() {
 
 function* watchDelete() {
   yield takeEvery(DELETE_ASSET, doDelete);
+}
+
+function* watchUpdateCategoryName() {
+  yield takeEvery(UPDATE_ASSET_CATEGORY, updateCategoryName);
 }
 
 function* watchFirebaseListenerForAssets() {
@@ -51,6 +56,21 @@ function* update({ data }) {
   });
 }
 
+function* updateCategoryName({ data, newName }) {
+  const { name } = data;
+  const { email } = yield select((state) => state.user);
+
+  yield call(async () => {
+    const snapshot = await firebase.firestore().collection(getFirebasePath(email)).where('category', '==', name).get();
+
+    snapshot.forEach((doc) => {
+      doc.ref.update({
+        category: newName
+      });
+    });
+  });
+}
+
 /**
  * Deletes the asset with the given id from firebase.
  *
@@ -80,5 +100,6 @@ export default [
   watchSave,
   watchUpdate,
   watchDelete,
+  watchUpdateCategoryName,
   watchFirebaseListenerForAssets
 ];

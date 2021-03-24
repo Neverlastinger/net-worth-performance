@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { deleteAssetCategory } from '~/store/actions';
+import { deleteAssetCategory, updateAssetCategory } from '~/store/actions';
 import SelectField from '~/components/SelectField';
+import UpdateNameModal from '~/components/UpdateNameModal';
 import AddCategoryRow from './AddCategoryRow';
 import DeletedRow from './DeletedRow';
 import Row from './Row';
@@ -19,6 +20,8 @@ const CategorySelectField = ({ goToAddCategory, onValueSelected, selectedValue }
   const categories = useSelector((state) => state.assetCategories);
   const [forceCloseActionSheet, setForceCloseActionSheet] = useState();
   const [options, setOptions] = useState([]);
+  const [editableOption, setEditableOption] = useState();
+  const newCategoryNameRef = useRef();
 
   useEffect(() => {
     const initialOptions = categories.map((category, i) => ({
@@ -26,6 +29,7 @@ const CategorySelectField = ({ goToAddCategory, onValueSelected, selectedValue }
         <Row
           label={category.name}
           onDelete={() => deleteOption(category.id)}
+          onEdit={() => onEditOption(category)}
           onSelected={onSelected}
           preview={i === 0}
         />
@@ -78,15 +82,36 @@ const CategorySelectField = ({ goToAddCategory, onValueSelected, selectedValue }
     goToAddCategory();
   };
 
+  const onEditOption = (option) => {
+    setForceCloseActionSheet(new Date());
+    setEditableOption(option);
+  };
+
+  const updateCategoryName = () => {
+    dispatch(updateAssetCategory(editableOption, newCategoryNameRef.current));
+    setEditableOption(null);
+  };
+
   return (
-    <SelectField
-      label={t('category')}
-      actionSheetTitle={t('categoryListTitle')}
-      actionSheetOptions={options}
-      onClose={removeDeletedRows}
-      selectedValue={selectedValue}
-      forceClose={forceCloseActionSheet}
-    />
+    <>
+      <SelectField
+        label={t('category')}
+        actionSheetTitle={t('categoryListTitle')}
+        actionSheetOptions={options}
+        onClose={removeDeletedRows}
+        selectedValue={selectedValue}
+        forceClose={forceCloseActionSheet}
+      />
+      {editableOption && (
+        <UpdateNameModal
+          title={t('updateCategoryName')}
+          defaultValue={editableOption.name}
+          onDismiss={() => { setEditableOption(null); }}
+          onChangeText={(value) => { newCategoryNameRef.current = value; }}
+          onSavePressed={updateCategoryName}
+        />
+      )}
+    </>
   );
 };
 
