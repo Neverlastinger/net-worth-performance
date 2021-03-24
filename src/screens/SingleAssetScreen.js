@@ -1,19 +1,23 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import styled from 'styled-components/native';
 import { useDispatch, useSelector } from 'react-redux';
-import { convertToBaseCurrency } from '~/store/reducers';
+import { convertToBaseCurrency, assetListWithBaseCurrency } from '~/store/reducers';
 import { updateAsset } from '~/store/actions';
 import { dateKeyToHumanReadable } from '~/lib/dates';
 import AssetCard from '~/components/AssetCard';
 import UpdateMonthModal from '~/components/UpdateMonthModal';
 
 const SingleAssetScreen = ({ route }) => {
-  const { asset: initialAsset } = route.params;
+  const { assetId } = route.params;
   const dispatch = useDispatch();
+  const assetList = useSelector(assetListWithBaseCurrency);
   const reduxState = useSelector((state) => state);
-  const [asset, setAsset] = useState(initialAsset);
   const [editableMonth, setEditableMonth] = useState();
   const [inputValue, setInputValue] = useState();
+
+  const asset = useMemo(() => (
+    assetList.find((ass) => ass.id === assetId)
+  ), [assetId, assetList]);
 
   const onMonthPress = (monthKey) => {
     setEditableMonth(monthKey);
@@ -40,8 +44,6 @@ const SingleAssetScreen = ({ route }) => {
       }
     };
 
-    setAsset(newAsset);
-
     dispatch(updateAsset(newAsset));
     setEditableMonth(null);
   };
@@ -52,8 +54,6 @@ const SingleAssetScreen = ({ route }) => {
       amount: filterObject(asset.amount, editableMonth),
       amountInBaseCurrency: filterObject(asset.amountInBaseCurrency, editableMonth)
     };
-
-    setAsset(newAsset);
 
     dispatch(updateAsset(newAsset));
     setEditableMonth(null);

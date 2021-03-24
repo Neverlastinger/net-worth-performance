@@ -35,7 +35,7 @@ const UpdateExistingAssetsScreen = ({ navigation }) => {
   };
 
   const onMoreDetailsPressed = () => {
-    navigation.navigate('SingleAsset', { asset: editableAsset });
+    navigation.navigate('SingleAsset', { assetId: editableAsset.id });
     setEditableAsset(null);
   };
 
@@ -51,7 +51,7 @@ const UpdateExistingAssetsScreen = ({ navigation }) => {
               const onAssetPress = () => {
                 isAssetOutdated
                   ? setEditableAsset(asset)
-                  : navigation.navigate('SingleAsset', { asset });
+                  : navigation.navigate('SingleAsset', { assetId: asset.id });
               };
 
               return (

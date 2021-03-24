@@ -70,6 +70,8 @@ export default {
     loginRegisterWithEmail: 'Login / Register with Email',
     useDifferentLoginMethod: 'Use a different login method',
     unableToLoginWithGoogle: 'Unable to login with Google right now',
-    unableToLoginWithFacebook: 'Unable to login with Facebook right now'
+    unableToLoginWithFacebook: 'Unable to login with Facebook right now',
+    changeAssetName: 'Change asset title',
+    addNewNameHere: 'Add the new name here'
   }
 };
