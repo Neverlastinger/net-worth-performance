@@ -1,13 +1,14 @@
 import React from 'react';
 import styled from 'styled-components/native';
 import logoIcon from '~/assets/icon.png';
-import { BRAND_COLOR_RED, LIGHT_BACKGROUND_COLOR } from '../styles';
+import { LIGHT_BACKGROUND_COLOR } from '../styles';
+import GradientText from './GradientText';
 
 const AuthenticationView = ({ children }) => (
   <Wrapper>
     <ContentWrapper contentContainerStyle={{ justifyContent: 'center', minHeight: '100%' }}>
       <Logo source={logoIcon} />
-      <AppName>Net Worth Performance</AppName>
+      <GradientText text="NET WORTH PERFORMANCE" />
 
       <ChildrenWrapper>
         {children}
@@ -36,16 +37,6 @@ const Logo = styled.Image`
   width: 70%;
   height: undefined;
   aspectRatio: 1;
-`;
-
-const AppName = styled.Text`
-  height: 64px;
-  line-height: 64px;
-  font-size: 14px;
-  align-self: center;
-  color: ${BRAND_COLOR_RED};
-  font-weight: bold;
-  text-transform: uppercase;
 `;
 
 const ChildrenWrapper = styled.View`
