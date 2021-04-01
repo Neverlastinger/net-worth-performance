@@ -1,30 +1,24 @@
 import React from 'react';
 import styled from 'styled-components/native';
-import background from '~/assets/pat-whelen-FFDcZr49Dmw-unsplash.jpg';
+import logoIcon from '~/assets/icon.png';
+import { BRAND_COLOR_RED, LIGHT_BACKGROUND_COLOR } from '../styles';
 
 const AuthenticationView = ({ children }) => (
   <Wrapper>
-    <Background source={background} />
     <ContentWrapper contentContainerStyle={{ justifyContent: 'center', minHeight: '100%' }}>
-      <Logo>
-        <Line1 />
-        <Line2 />
-        <Line3 />
-        <Line4 />
-      </Logo>
+      <Logo source={logoIcon} />
+      <AppName>Net Worth Performance</AppName>
 
-      {children}
+      <ChildrenWrapper>
+        {children}
+      </ChildrenWrapper>
     </ContentWrapper>
   </Wrapper>
 );
 
 const Wrapper = styled.View`
   flex: 1;
-`;
-
-const Background = styled.Image`
-  flex: 1;
-  resize-mode: stretch;
+  background-color: ${LIGHT_BACKGROUND_COLOR};
 `;
 
 const ContentWrapper = styled.ScrollView`
@@ -34,43 +28,29 @@ const ContentWrapper = styled.ScrollView`
   right: 0;
   bottom: 0;
   padding: 16px;
-  opacity: 0.75;
 `;
 
-const Logo = styled.View`
+const Logo = styled.Image`
   align-self: center;
-  flex-direction: row;
-  align-items: flex-end;
-  justify-content: space-between;
-  margin-bottom: 32px;
-  padding: 30px 36px;
-  width: 200px;
-  height: 200px;
-  border: 12px solid black;
-  border-radius: 36px;
+  margin-top: 40px;
+  width: 70%;
+  height: undefined;
+  aspectRatio: 1;
 `;
 
-const Line = styled.View`
-  width: 12px;
-  height: 150px;
-  background-color: black;
-  border-radius: 6px;
+const AppName = styled.Text`
+  height: 64px;
+  line-height: 64px;
+  font-size: 14px;
+  align-self: center;
+  color: ${BRAND_COLOR_RED};
+  font-weight: bold;
+  text-transform: uppercase;
 `;
 
-const Line1 = styled(Line)`
-  height: 38px;
-`;
-
-const Line2 = styled(Line)`
-  height: 84px;
-`;
-
-const Line3 = styled(Line)`
-  height: 70px;
-`;
-
-const Line4 = styled(Line)`
-  height: 116px;
+const ChildrenWrapper = styled.View`
+  margin-top: 6px;
+  margin-bottom: 6px;
 `;
 
 export default AuthenticationView;
