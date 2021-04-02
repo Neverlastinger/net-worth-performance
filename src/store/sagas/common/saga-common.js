@@ -15,7 +15,6 @@ export const runFirebaseChannel = ({ path }) => (
         emitter(getDocsByShapshot(snapshot));
       },
       async () => {
-        // eslint-disable-next-line no-alert, no-undef
         alert(t('errorFetchingData'));
       }
     );

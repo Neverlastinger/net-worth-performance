@@ -1,5 +1,4 @@
-import { ADD_ASSET_CATEGORY } from '~/store/actions/actionTypes';
-import { UPDATE_ASSET_CATEGORY } from '../actions/actionTypes';
+import { ADD_ASSET_CATEGORY, UPDATE_ASSET_CATEGORY } from '~/store/actions/actionTypes';
 
 const mostRecentCategory = (state = null, action) => {
   switch (action.type) {

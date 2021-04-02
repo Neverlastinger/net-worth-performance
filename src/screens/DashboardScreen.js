@@ -11,12 +11,14 @@ import CategoryPieChart from '~/components/Charts/CategoryPieChart';
 import AssetBarChart from '~/components/Charts/AssetBarChart';
 import CategoryBarChart from '~/components/Charts/CategoryBarChart';
 import RangeChart from '~/components/Charts/RangeChart';
+import Loader from '~/components/Loader';
 import { BRAND_COLOR_BLUE } from '~/styles';
 
 const DashboardScreen = ({ navigation }) => {
   const [viewTouched, setViewTouched] = useState();
   const dropDownAlertRef = useRef();
   const selectedMonth = useSelector((state) => state.selectedMonth);
+  const assetsLoaded = useSelector((state) => state.assetsLoaded);
   const assetList = useSelector((state) => assetListForChart(state, selectedMonth));
   const activeMonths = useSelector(getActiveMonths);
   const currentMonthKey = getDateKey();
@@ -67,6 +69,8 @@ const DashboardScreen = ({ navigation }) => {
             <CategoryBarChart month={selectedMonth} />
           </ChartCard>
         </ChartView>
+      ) : !assetsLoaded ? (
+        <Loader />
       ) : (
         <NoAsset goToAddAsset={() => { navigation.navigate('AddAsset'); }} />
       )}

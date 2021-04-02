@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import SplashScreen from 'react-native-splash-screen'
+import SplashScreen from 'react-native-splash-screen';
 import AnimatedSplash from 'react-native-animated-splash-screen';
 import { Provider } from 'react-redux';
 import store from '~/store';
@@ -12,7 +12,8 @@ import { LIGHT_BACKGROUND_COLOR } from './src/styles';
  * Displays splash screen initially and then navigates to the Root component.
  */
 const App = () => {
-  const [isLoaded, setIsLoaded] = useState(false);
+  const [initialTimeoutExpired, setInitialTimeoutExpired] = useState(false);
+  const [isInitialized, setIsInitialized] = useState(false);
 
   useEffect(() => {
     setTimeout(() => {
@@ -20,7 +21,7 @@ const App = () => {
     }, 600);
 
     setTimeout(() => {
-      setIsLoaded(true);
+      setInitialTimeoutExpired(true);
     }, 1200);
   }, []);
 
@@ -28,13 +29,13 @@ const App = () => {
     <Provider store={store}>
       <AnimatedSplash
         translucent
-        isLoaded={isLoaded}
+        isLoaded={initialTimeoutExpired && isInitialized}
         logoImage={icon}
         backgroundColor={LIGHT_BACKGROUND_COLOR}
         logoHeight={256}
         logoWidth={256}
       >
-        <Root />
+        <Root onInitialized={() => { setIsInitialized(true); }} />
       </AnimatedSplash>
     </Provider>
   );

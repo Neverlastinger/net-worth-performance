@@ -1,9 +1,8 @@
 import { takeEvery, call, put, select } from 'redux-saga/effects';
 import { firebase } from '@react-native-firebase/firestore';
 import { watchFirebaseListener } from '~/store/sagas/common/saga-common';
-import { SAVE_ASSET, UPDATE_ASSET, DELETE_ASSET } from '~/store/actions/actionTypes';
+import { SAVE_ASSET, UPDATE_ASSET, DELETE_ASSET, UPDATE_ASSET_CATEGORY } from '~/store/actions/actionTypes';
 import { setAssetList } from '~/store/actions';
-import { UPDATE_ASSET_CATEGORY } from '../actions/actionTypes';
 
 const getFirebasePath = (email) => (
   `users/${email}/assets`
@@ -36,7 +35,6 @@ function* save({ data }) {
     try {
       await firebase.firestore().collection(getFirebasePath(email)).add(data);
     } catch (error) {
-      // eslint-disable-next-line no-alert, no-undef
       alert(t('errorSavingData'));
     }
   });

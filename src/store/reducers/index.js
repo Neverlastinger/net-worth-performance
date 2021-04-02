@@ -3,6 +3,7 @@ import { sortAssetsByAmountInBaseCurrency } from '~/lib/dates';
 import AssetGrowth from '~/lib/AssetGrowth';
 import assetCategories from './assetCategories';
 import assetList, * as fromAssetList from './assetList';
+import assetsLoaded from './assetsLoaded';
 import currencyData, * as fromCurrencyData from './currencyData';
 import user from './user';
 import selectedMonth from './selectedMonth';
@@ -11,10 +12,11 @@ import mostRecentCategory from './mostRecentCategory';
 export default combineReducers({
   assetCategories,
   assetList,
+  assetsLoaded,
   currencyData,
   user,
   selectedMonth,
-  mostRecentCategory
+  mostRecentCategory,
 });
 
 export const assetListWithBaseCurrency = (state) => {
