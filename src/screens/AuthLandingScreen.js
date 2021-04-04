@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components/native';
-import { useAsyncStorage } from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import Button from '~/components/Button';
 import AuthenticationView from '~/components/AuthenticationView';
 import LoginWithFacebook from '~/components/LoginWithFacebook';
@@ -13,11 +13,10 @@ import LoginWithGoogle from '../components/LoginWithGoogle';
  * @param {Object} navigation
  */
 const AuthLandingScreen = ({ navigation }) => {
-  const { getItem: getLoginUsed } = useAsyncStorage('login-used');
   const [isLoginUsed, setIsLoginUsed] = useState();
 
   const readStorage = async () => {
-    const loginUsed = await getLoginUsed();
+    const loginUsed = await AsyncStorage.getItem('login-used');
     setIsLoginUsed(loginUsed);
   };
 

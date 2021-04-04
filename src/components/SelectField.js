@@ -12,11 +12,12 @@ import ActionSheet from '~/components/ActionSheet';
  * @param {String} actionSheetTitle
  * @param {Array} actionSheetOptions: array of components or strings, each one representing a row in the action sheet.
  * @param {Function} onClose: called when the action sheet closes
+ * @param {Function} onOpen: called when the action sheet opens
  * @param {String} selectedValue: a custom-selected value for this component;
  *                                 when not provided, the ActionSheet itself is responsible for providing the selected value
  * @param {hack} forceClose: a random value used to close the ActionSheet
  */
-const SelectField = ({ label, actionSheetTitle, actionSheetOptions, onClose, selectedValue, forceClose, onValueSelected }) => {
+const SelectField = ({ label, actionSheetTitle, actionSheetOptions, onClose, onOpen, selectedValue, forceClose, onValueSelected }) => {
   const [value, setValue] = useState();
   const [isActionSheetOpen, setIsActionSheetOpen] = useState(false);
 
@@ -30,6 +31,7 @@ const SelectField = ({ label, actionSheetTitle, actionSheetOptions, onClose, sel
 
   const openActionSheet = () => {
     setIsActionSheetOpen(true);
+    onOpen && onOpen();
   };
 
   const closeActionSheet = () => {

@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { useAsyncStorage } from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import AuthNavigationRoot from './AuthNavigationRoot';
 import AppNavigationRoot from './AppNavigationRoot';
 
@@ -11,12 +11,11 @@ import AppNavigationRoot from './AppNavigationRoot';
  * @param {Boolean} isInitializing: indicates if the firebase authentication is still in progress so the application content cannot be displayed
  */
 const NavigationRoot = ({ isInitializing }) => {
-  const { setItem: setLoginUsed } = useAsyncStorage('login-used');
   const user = useSelector((state) => state.user);
   const hasAssets = useSelector((state) => state.assetList).length > 0;
 
   useEffect(() => {
-    user.email && setLoginUsed('YES');
+    user.email && AsyncStorage.setItem('login-used', 'YES');
   }, [user]);
 
   if (isInitializing) {

@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import styled from 'styled-components/native';
 import { getDateKey, dateKeyToHumanReadable } from '~/lib/dates';
 import useKeyboardShown from '~/hooks/useKeyboardShown';
+import useAsyncValue from '~/hooks/useAsyncValue';
 import { saveAsset } from '~/store/actions';
 import TextField from '~/components/TextField';
 import CategorySelectField from '~/components/CategorySelectField/CategorySelectField';
@@ -20,6 +22,11 @@ const AddAssetScreen = ({ navigation }) => {
   const [reactKey, setReactKey] = useState(Date.now());
   const month = getDateKey(new Date());
   const monthName = dateKeyToHumanReadable(month);
+
+  const hasCategoryPreviewBeenShown = useAsyncValue(async () => {
+    const value = await AsyncStorage.getItem('category-preview-shown');
+    return !!value;
+  });
 
   useEffect(() => {
     setIsButtonDisabled(!asset.name || !asset.amount || !asset.category || !asset.currency);
@@ -86,6 +93,7 @@ const AddAssetScreen = ({ navigation }) => {
             goToAddCategory={() => { navigation.navigate('AddCategory'); }}
             onValueSelected={saveCategory}
             selectedValue={asset.category}
+            hasCategoryPreviewBeenShown={hasCategoryPreviewBeenShown}
           />
           <CurrencySelectField onValueSelected={saveCurrency} />
         </View>
