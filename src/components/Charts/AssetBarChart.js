@@ -4,7 +4,7 @@ import { View, ScrollView, Dimensions } from 'react-native';
 import { BarChart, Grid } from 'react-native-svg-charts';
 import { Text } from 'react-native-svg';
 import { formatCurrency } from '~/lib/currency';
-import { BRAND_COLOR_BLUE } from '~/styles';
+import { COLORS } from './colors';
 
 const BAR_ITEM_MIN_WIDTH = 100;
 
@@ -66,10 +66,13 @@ const AssetBarChart = ({ data }) => {
       <BarChartView style={getViewStyles()}>
         <BarChart
           style={getBarChartStyles()}
-          data={data.map((asset) => (
-            asset.latestAmountInBaseCurrency
-          ))}
-          svg={{ fill: BRAND_COLOR_BLUE }}
+          data={data.map((asset, i) => ({
+            value: asset.latestAmountInBaseCurrency,
+            svg: {
+              fill: COLORS[i % COLORS.length],
+            },
+          }))}
+          yAccessor={({ item }) => item.value}
           contentInset={{ top: 10, bottom: 10 }}
           spacing={0.2}
           gridMin={0}

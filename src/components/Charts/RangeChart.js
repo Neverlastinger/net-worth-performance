@@ -7,7 +7,8 @@ import { subMonthKey, dateKeyToHumanReadable, getMonthNumber, getMonthDifference
 import { formatCurrency, formatCurrencyGrowth } from '~/lib/currency';
 import { getGrowthPercentage } from '~/lib/number';
 import useTotalAmountArray from '~/hooks/useTotalAmountArray';
-import { BRAND_COLOR_BLUE } from '~/styles';
+import Gradient from './Gradient';
+import { BRAND_COLOR_BLUE, BRAND_COLOR_RED } from '~/styles';
 
 /**
  * Returns an array of texts used for the X Axis of the RangeChart.
@@ -102,7 +103,7 @@ const RangeChart = ({ month, monthCount, earliestRecordedMonth, displayChart }) 
         <AmountText>{formatCurrency({ amount: currentMonthAmount, currency: baseCurrency })}</AmountText>
         {displayChart && (
           <GrowthText
-            style={{ color: amountGrowth > 0 ? 'green' : 'red' }}
+            style={{ color: amountGrowth > 0 ? BRAND_COLOR_BLUE : BRAND_COLOR_RED }}
           >
             {formatCurrencyGrowth({ amount: amountGrowth, currency: baseCurrency })}
             &nbsp;
@@ -156,9 +157,10 @@ const RangeChart = ({ month, monthCount, earliestRecordedMonth, displayChart }) 
                 style={{ flex: 1 }}
                 data={amounts}
                 contentInset={verticalContentInset}
-                svg={{ stroke: BRAND_COLOR_BLUE, strokeWidth: 2 }}
+                svg={{ stroke: 'url(#gradient)', strokeWidth: 3 }}
               >
                 <Grid />
+                <Gradient />
               </LineChart>
               <XAxis
                 style={{ marginHorizontal: -10, height: xAxisHeight }}
@@ -180,13 +182,15 @@ const HeaderView = styled.View`
 `;
 
 const AmountText = styled.Text`
-  font-size: 16px;
+  font-size: 18px;
   font-weight: bold;
+  color: ${BRAND_COLOR_BLUE};
 `;
 
 const GrowthText = styled.Text`
   margin-top: 6px;
   font-size: 12px;
+  font-weight: 500;
 `;
 
 const PeriodButton = ({ isActive, text, ...props }) => (

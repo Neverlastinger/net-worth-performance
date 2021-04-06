@@ -5,9 +5,9 @@ import { Animated, View } from 'react-native';
 import useRecentPoint from '~/hooks/useRecentPoint';
 import useAnimatedValue from '~/hooks/useAnimatedValue';
 import PieChartLegend from '~/components/PieChartLegend';
+import { COLORS } from './colors';
 
-const COLORS = ['#0063CC', '#0070EA', '#007BFF', '#3D82CC', '#4DA3FF', '#75b8ff', '#85c0ff', '#99CAFF'];
-const ACTIVE_COLOR = '#003E80';
+const ACTIVE_COLOR = 'black';
 const ANIMATION_DURATION = 200;
 
 /**

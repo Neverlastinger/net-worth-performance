@@ -6,7 +6,7 @@ import { Text } from 'react-native-svg';
 import { useSelector } from 'react-redux';
 import { formatCurrency } from '~/lib/currency';
 import { assetCategoryList } from '~/store/reducers/';
-import { BRAND_COLOR_BLUE } from '~/styles';
+import { COLORS } from './colors';
 
 const BAR_ITEM_MIN_WIDTH = 100;
 
@@ -66,10 +66,13 @@ const CategoryBarChart = ({ month }) => {
       <BarChartView style={getViewStyles()}>
         <BarChart
           style={getBarChartStyles()}
-          data={categoryList.map((category) => (
-            category.amountInBaseCurrency
-          ))}
-          svg={{ fill: BRAND_COLOR_BLUE }}
+          data={categoryList.map((category, i) => ({
+            value: category.amountInBaseCurrency,
+            svg: {
+              fill: COLORS[i % COLORS.length],
+            },
+          }))}
+          yAccessor={({ item }) => item.value}
           contentInset={{ top: 10, bottom: 10 }}
           spacing={0.2}
           gridMin={0}
