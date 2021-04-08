@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components/native';
 import { PieChart as RNPieChart } from 'react-native-svg-charts';
+import { Text } from 'react-native-svg';
 import { Animated, View } from 'react-native';
 import useRecentPoint from '~/hooks/useRecentPoint';
 import useAnimatedValue from '~/hooks/useAnimatedValue';
@@ -121,6 +122,41 @@ const PieChart = ({ slices, blurDetected, getTooltipData }) => {
     }, 1);
   };
 
+  const Labels = ({ slices: sliceList }) => {
+    let displayData = true;
+
+    return sliceList.map((slice) => {
+      const { pieCentroid, startAngle, endAngle, data } = slice;
+
+      const angle = endAngle - startAngle;
+      const offset = angle > 2
+        ? 1
+        : angle > 1
+          ? 1.15
+          : 1.30;
+
+      if (angle > 0.3 && angle < 0.6) {
+        displayData = !displayData;
+      }
+
+      return (
+        <Text
+          key={data.key}
+          x={pieCentroid[0] * offset}
+          y={pieCentroid[1] * offset}
+          fill="white"
+          textAnchor="middle"
+          alignmentBaseline="middle"
+          fontSize={12}
+          stroke="white"
+          strokeWidth={0.5}
+        >
+          {angle >= 0.6 || (angle > 0.3 && displayData) ? data.key : ''}
+        </Text>
+      );
+    });
+  };
+
   const onWrapperLayout = (e) => {
     wrapperWidth.current = e.nativeEvent.layout.width;
   };
@@ -134,7 +170,9 @@ const PieChart = ({ slices, blurDetected, getTooltipData }) => {
           outerRadius="90%"
           innerRadius={1}
           data={pieChartData}
-        />
+        >
+          <Labels />
+        </RNPieChart>
         <Tooltip style={{
           top: tooltipTop,
           left: tooltipLeft,
