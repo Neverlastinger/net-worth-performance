@@ -21,7 +21,10 @@ function* watchUpdate() {
 }
 
 function* watchFirebaseListenerForCategories() {
-  yield watchFirebaseListener('categories', onFirebaseEmit);
+  yield watchFirebaseListener({
+    firebasePath: 'categories',
+    onFirebaseEmit
+  });
 }
 
 /**

@@ -1,4 +1,4 @@
-import { SET_ASSET_LIST, SET_CURRENCY_DATA, UPDATE_ASSET, SAVE_ASSET, LOG_OUT } from '~/store/actions/actionTypes';
+import { SET_ASSET_LIST, SET_CURRENCY_DATA, UPDATE_ASSET, SAVE_ASSET, SET_USER_DATA, LOG_OUT } from '~/store/actions/actionTypes';
 
 /**
  * Keeps the asset list.
@@ -15,7 +15,8 @@ const assetList = (state = [], action) => {
     }
 
     case SET_CURRENCY_DATA:
-    case SAVE_ASSET: {
+    case SAVE_ASSET:
+    case SET_USER_DATA: {
       const nextState = [...state];
       nextState.id = Date.now();
       return nextState;

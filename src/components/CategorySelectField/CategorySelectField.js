@@ -7,6 +7,7 @@ import UpdateNameModal from '~/components/UpdateNameModal';
 import AddCategoryRow from './AddCategoryRow';
 import DeletedRow from './DeletedRow';
 import Row from './Row';
+import { STORAGE_KEYS } from '~/const';
 
 /**
  * Represents a SelectField for asset categories.
@@ -50,7 +51,7 @@ const CategorySelectField = ({ goToAddCategory, onValueSelected, selectedValue, 
   }, [categories, hasCategoryPreviewBeenShown]);
 
   const onOpen = async () => {
-    await AsyncStorage.setItem('category-preview-shown', 'YES');
+    await AsyncStorage.setItem(STORAGE_KEYS.CATEGORY_PREVIEW_SHOWN, 'YES');
   };
 
   const onSelected = (value) => {

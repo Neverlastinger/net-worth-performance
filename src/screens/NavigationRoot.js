@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import AuthNavigationRoot from './AuthNavigationRoot';
 import AppNavigationRoot from './AppNavigationRoot';
+import { STORAGE_KEYS } from '~/const';
 
 /**
  * Main entry point of the application.
@@ -15,7 +16,7 @@ const NavigationRoot = ({ isInitializing }) => {
   const hasAssets = useSelector((state) => state.assetList).length > 0;
 
   useEffect(() => {
-    user.email && AsyncStorage.setItem('login-used', 'YES');
+    user.email && AsyncStorage.setItem(STORAGE_KEYS.LOGIN_USED, 'YES');
   }, [user]);
 
   if (isInitializing) {

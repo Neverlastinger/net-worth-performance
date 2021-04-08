@@ -75,6 +75,11 @@ export default {
     addNewNameHere: 'Add the new name here',
     deleteAsset: 'Delete asset',
     deleteAssetForever: 'Delete {{assetName}} data forever?',
-    yes: 'yes'
+    yes: 'yes',
+    changeBaseCurrencyQuestion: "We've noticed you have assets in different currencies. Would you like to change your default base currency from {{baseCurrency}} to another one?",
+    keep: 'Keep {{baseCurrency}}',
+    seeAvailableOptions: 'See Available Options',
+    selectYourBaseCurrency: 'Select you base currency used to display your net worth',
+    baseCurrency: 'Base Currency'
   }
 };

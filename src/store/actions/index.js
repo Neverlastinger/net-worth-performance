@@ -9,6 +9,16 @@ export const setUser = (data) => ({
   data
 });
 
+export const setUserData = (data) => ({
+  type: actions.SET_USER_DATA,
+  data
+});
+
+export const saveBaseCurrency = (currency) => ({
+  type: actions.SAVE_BASE_CURRENCY,
+  currency
+});
+
 export const logOut = () => ({
   type: actions.LOG_OUT
 });
@@ -62,4 +72,12 @@ export const updateAsset = (data) => ({
 export const deleteAsset = (id) => ({
   type: actions.DELETE_ASSET,
   id
+});
+
+export const askAboutBaseCurrency = () => ({
+  type: actions.ASK_ABOUT_BASE_CURRENCY
+});
+
+export const closeBaseCurrencyQuestion = () => ({
+  type: actions.CLOSE_BASE_CURRENCY_QUESTION
 });

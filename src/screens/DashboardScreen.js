@@ -12,6 +12,7 @@ import AssetBarChart from '~/components/Charts/AssetBarChart';
 import CategoryBarChart from '~/components/Charts/CategoryBarChart';
 import RangeChart from '~/components/Charts/RangeChart';
 import Loader from '~/components/Loader';
+import BaseCurrencyQuestion from '~/components/BaseCurrencyQuestion';
 import { BRAND_COLOR_BLUE } from '~/styles';
 
 const DashboardScreen = ({ navigation }) => {
@@ -80,6 +81,8 @@ const DashboardScreen = ({ navigation }) => {
         infoColor={BRAND_COLOR_BLUE}
         onTap={() => { navigation.navigate('UpdateExistingAssets'); }}
       />
+
+      <BaseCurrencyQuestion />
     </SafeArea>
   );
 };

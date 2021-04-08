@@ -41,18 +41,27 @@ const EUR_OPTION = {
   value: 'EUR'
 };
 
-const OPTIONS = [EUR_OPTION].concat(CURRENCIES.split(',').map((currency) => ({
+export const OPTIONS = [EUR_OPTION].concat(CURRENCIES.split(',').map((currency) => ({
   component: <CurrencyItem id={currency} label={currency} />,
   height: 48,
   value: currency
 })));
 
-const CurrencySelectField = ({ onValueSelected }) => (
+/**
+ * Represents a select field for currency selection.
+ * An action sheet with all available currencies is opened when the user taps on the component.
+ *
+ * @param {Function} onValueSelected: called when an action sheet value is selected
+ * @param {String} label: an optional label
+ * @param {String} selectedValue: an optional selected value to make this component controlled
+ */
+const CurrencySelectField = ({ onValueSelected, label, selectedValue }) => (
   <SelectField
-    label={t('currency')}
+    label={label || t('currency')}
     actionSheetTitle={t('currencyListTitle')}
     actionSheetOptions={OPTIONS}
     onValueSelected={onValueSelected}
+    selectedValue={selectedValue}
   />
 );
 

@@ -41,7 +41,7 @@ const SelectField = ({ label, actionSheetTitle, actionSheetOptions, onClose, onO
 
   const onSelected = (newValue) => {
     setValue(newValue);
-    onValueSelected(newValue);
+    onValueSelected && onValueSelected(newValue);
   };
 
   return (

@@ -6,13 +6,14 @@ import { SET_USER, LOG_OUT } from '~/store/actions/actionTypes';
 /**
  * Watches for firebase changes and updates redux store.
  *
- * @param {String}   path: firebase collection path
+ * @param {String}  path: firebase collection path
+ * @param {Boolean} isWatchingDocument: true if the given path points to a document instead of a collection
  */
-export const runFirebaseChannel = ({ path }) => (
+export const runFirebaseChannel = ({ path, isWatchingDocument }) => (
   eventChannel((emitter) => {
-    const unsubscribe = firebase.firestore().collection(path).onSnapshot(
+    const unsubscribe = firebase.firestore()[isWatchingDocument ? 'doc' : 'collection'](path).onSnapshot(
       async (snapshot) => {
-        emitter(getDocsByShapshot(snapshot));
+        emitter(isWatchingDocument ? getDocData(snapshot) : getDocsByShapshot(snapshot));
       },
       async () => {
         alert(t('errorFetchingData'));
@@ -23,23 +24,24 @@ export const runFirebaseChannel = ({ path }) => (
   })
 );
 
-export function* watchFirebaseListener(firebasePath, onFirebaseEmit) {
+export function* watchFirebaseListener({ firebasePath, onFirebaseEmit, watchUserDoc = false }) {
   if (yield call(isUserLoggedIn)) {
-    yield call(runUserFirebaseChannel);
+    yield call(runUserFirebaseChannel, firebasePath, onFirebaseEmit, watchUserDoc);
     return;
   }
 
   while (true) {
     yield take(SET_USER);
-    yield call(runUserFirebaseChannel, firebasePath, onFirebaseEmit);
+    yield call(runUserFirebaseChannel, firebasePath, onFirebaseEmit, watchUserDoc);
   }
 }
 
-function* runUserFirebaseChannel(firebasePath, onFirebaseEmit) {
+function* runUserFirebaseChannel(firebasePath, onFirebaseEmit, watchUserDoc) {
   const { email } = yield select((state) => state.user);
 
   const channel = yield call(runFirebaseChannel, {
-    path: `users/${email}/${firebasePath}`
+    path: watchUserDoc ? `users/${email}` : `users/${email}/${firebasePath}`,
+    isWatchingDocument: watchUserDoc
   });
 
   yield takeEvery(channel, onFirebaseEmit);
@@ -57,14 +59,23 @@ function* isUserLoggedIn() {
  * Extracts data by the given collection snapshot.
  * Adds the document id to the final result.
  *
- * @param  {Object} snapshot
- * @return {Array}
+ * @param  {Array} snapshot: firebase snapshot representation of a collection
+ * @return {Array} usable JavaScript array of objects
  */
 const getDocsByShapshot = (snapshot) => (
-  snapshot.docs.map((doc) => (
-    {
-      ...doc.data(),
-      id: doc.id
-    }
+  snapshot.docs.map((docSnapshot) => (
+    getDocData(docSnapshot)
   ))
 );
+
+/**
+ * Extracts data by the given document snapshot.
+ * Adds the document id to the final result.
+ *
+ * @param  {Object} snapshot: firebase snapshot representation of a document
+ * @return {Object} usable JavaScript object
+ */
+const getDocData = (snapshot) => ({
+  ...snapshot.data(),
+  id: snapshot.id
+});

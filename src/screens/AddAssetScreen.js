@@ -12,6 +12,7 @@ import CategorySelectField from '~/components/CategorySelectField/CategorySelect
 import CurrencySelectField from '~/components/CurrencySelectField';
 import ActionButton from '~/components/ActionButton';
 import ScrollWrapper from '~/components/ScrollWrapper';
+import { STORAGE_KEYS } from '~/const';
 
 const AddAssetScreen = ({ navigation }) => {
   const dispatch = useDispatch();
@@ -24,7 +25,7 @@ const AddAssetScreen = ({ navigation }) => {
   const monthName = dateKeyToHumanReadable(month);
 
   const hasCategoryPreviewBeenShown = useAsyncValue(async () => {
-    const value = await AsyncStorage.getItem('category-preview-shown');
+    const value = await AsyncStorage.getItem(STORAGE_KEYS.CATEGORY_PREVIEW_SHOWN);
     return !!value;
   });
 

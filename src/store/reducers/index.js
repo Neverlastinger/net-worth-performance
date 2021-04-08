@@ -8,6 +8,7 @@ import currencyData, * as fromCurrencyData from './currencyData';
 import user from './user';
 import selectedMonth from './selectedMonth';
 import mostRecentCategory from './mostRecentCategory';
+import showBaseCurrencyQuestion from './showBaseCurrencyQuestion';
 
 export default combineReducers({
   assetCategories,
@@ -17,6 +18,7 @@ export default combineReducers({
   user,
   selectedMonth,
   mostRecentCategory,
+  showBaseCurrencyQuestion
 });
 
 export const assetListWithBaseCurrency = (state) => {

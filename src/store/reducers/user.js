@@ -1,7 +1,7 @@
-import { SET_USER, LOG_OUT } from '~/store/actions/actionTypes';
+import { SET_USER, SET_USER_DATA, LOG_OUT } from '~/store/actions/actionTypes';
 
 const INITIAL_STATE = {
-  baseCurrency: 'BGN'
+  baseCurrency: null
 };
 
 const user = (state = INITIAL_STATE, action) => {
@@ -10,6 +10,12 @@ const user = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         email: action.data.email
+      };
+
+    case SET_USER_DATA:
+      return {
+        ...state,
+        ...action.data
       };
 
     case LOG_OUT:

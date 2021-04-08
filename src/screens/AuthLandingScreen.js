@@ -4,7 +4,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import Button from '~/components/Button';
 import AuthenticationView from '~/components/AuthenticationView';
 import LoginWithFacebook from '~/components/LoginWithFacebook';
-import LoginWithGoogle from '../components/LoginWithGoogle';
+import LoginWithGoogle from '~/components/LoginWithGoogle';
+import { STORAGE_KEYS } from '~/const';
 
 /**
  * Represents the initial screen the user sees before login.
@@ -16,7 +17,7 @@ const AuthLandingScreen = ({ navigation }) => {
   const [isLoginUsed, setIsLoginUsed] = useState();
 
   const readStorage = async () => {
-    const loginUsed = await AsyncStorage.getItem('login-used');
+    const loginUsed = await AsyncStorage.getItem(STORAGE_KEYS.LOGIN_USED);
     setIsLoginUsed(loginUsed);
   };
 
