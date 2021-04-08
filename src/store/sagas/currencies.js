@@ -32,9 +32,9 @@ function* watchInitCurrencyData() {
 
 function* storeCurrencyData() {
   yield delay(2000);
-  const currentMonthKey = yield select((state) => state.currencyData[getDateKey()]);
+  const existingCurrencyData = yield select((state) => state.currencyData[getDateKey()]);
 
-  if (currentMonthKey) {
+  if (existingCurrencyData) {
     return;
   }
 

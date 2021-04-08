@@ -46,6 +46,16 @@ const OPTIONS = [
     value: 'USD'
   },
   {
+    component: <CurrencyItem id="CHF" label="CHF" />,
+    height: 48,
+    value: 'CHF'
+  },
+  {
+    component: <CurrencyItem id="GBP" label="GBP" />,
+    height: 48,
+    value: 'GBP'
+  },
+  {
     component: <CurrencyItem id="BG" label="BGN" />,
     height: 48,
     value: 'BGN'
