@@ -2,8 +2,8 @@ import React from 'react';
 import styled from 'styled-components/native';
 import { View, ScrollView, Dimensions } from 'react-native';
 import { BarChart, Grid } from 'react-native-svg-charts';
-import { Text } from 'react-native-svg';
 import { formatCurrency } from '~/lib/currency';
+import renderBarChartLabels from './renderBarChartLabels';
 import { COLORS } from './colors';
 
 const BAR_ITEM_MIN_WIDTH = 100;
@@ -14,39 +14,6 @@ const BAR_ITEM_MIN_WIDTH = 100;
  * @param {Array} data: asset list
  */
 const AssetBarChart = ({ data }) => {
-  const CUT_OFF = data[0] && data[0].latestAmountInBaseCurrency * 0.75;
-
-  const Labels = ({ x, y, bandwidth }) => (
-    data.map((asset, index) => (
-      <React.Fragment key={asset.name}>
-        <Text
-          x={x(index) + (bandwidth / 2)}
-          y={asset.latestAmountInBaseCurrency < CUT_OFF ? y(asset.latestAmountInBaseCurrency) - 30 : y(asset.latestAmountInBaseCurrency) + 20}
-          fontSize={12}
-          fontWeight="bold"
-          fill={asset.latestAmountInBaseCurrency >= CUT_OFF ? 'white' : 'black'}
-          alignmentBaseline="middle"
-          textAnchor="middle"
-        >
-          {asset.name}
-        </Text>
-        <Text
-          x={x(index) + (bandwidth / 2)}
-          y={asset.latestAmountInBaseCurrency < CUT_OFF ? y(asset.latestAmountInBaseCurrency) - 15 : y(asset.latestAmountInBaseCurrency) + 35}
-          fontSize={12}
-          fill={asset.latestAmountInBaseCurrency >= CUT_OFF ? 'white' : 'black'}
-          alignmentBaseline="middle"
-          textAnchor="middle"
-        >
-          {formatCurrency({
-            amount: asset.latestAmount,
-            currency: asset.currency
-          })}
-        </Text>
-      </React.Fragment>
-    ))
-  );
-
   const shouldScroll = () => (
     Dimensions.get('window').width / data.length < BAR_ITEM_MIN_WIDTH
   );
@@ -78,7 +45,16 @@ const AssetBarChart = ({ data }) => {
           gridMin={0}
         >
           <Grid direction={Grid.Direction.HORIZONTAL} />
-          <Labels />
+          {renderBarChartLabels({
+            data,
+            fieldName: 'latestAmountInBaseCurrency',
+            displayValue: (item) => (
+              formatCurrency({
+                amount: item.latestAmount,
+                currency: item.currency
+              })
+            )
+          })}
         </BarChart>
       </BarChartView>
     </Wrapper>

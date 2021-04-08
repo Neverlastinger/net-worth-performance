@@ -2,10 +2,10 @@ import React from 'react';
 import styled from 'styled-components/native';
 import { View, ScrollView, Dimensions } from 'react-native';
 import { BarChart, Grid } from 'react-native-svg-charts';
-import { Text } from 'react-native-svg';
 import { useSelector } from 'react-redux';
 import { formatCurrency } from '~/lib/currency';
 import { assetCategoryList } from '~/store/reducers/';
+import renderBarChartLabels from './renderBarChartLabels';
 import { COLORS } from './colors';
 
 const BAR_ITEM_MIN_WIDTH = 100;
@@ -13,39 +13,6 @@ const BAR_ITEM_MIN_WIDTH = 100;
 const CategoryBarChart = ({ month }) => {
   const categoryList = useSelector((state) => assetCategoryList(state, month));
   const baseCurrency = useSelector((state) => state.user.baseCurrency);
-
-  const CUT_OFF = categoryList[0] && categoryList[0].amountInBaseCurrency * 0.75;
-
-  const Labels = ({ x, y, bandwidth }) => (
-    categoryList.map((category, index) => (
-      <React.Fragment key={category.name}>
-        <Text
-          x={x(index) + (bandwidth / 2)}
-          y={category.amountInBaseCurrency < CUT_OFF ? y(category.amountInBaseCurrency) - 30 : y(category.amountInBaseCurrency) + 20}
-          fontSize={12}
-          fontWeight="bold"
-          fill={category.amountInBaseCurrency >= CUT_OFF ? 'white' : 'black'}
-          alignmentBaseline="middle"
-          textAnchor="middle"
-        >
-          {category.name}
-        </Text>
-        <Text
-          x={x(index) + (bandwidth / 2)}
-          y={category.amountInBaseCurrency < CUT_OFF ? y(category.amountInBaseCurrency) - 15 : y(category.amountInBaseCurrency) + 35}
-          fontSize={12}
-          fill={category.amountInBaseCurrency >= CUT_OFF ? 'white' : 'black'}
-          alignmentBaseline="middle"
-          textAnchor="middle"
-        >
-          {formatCurrency({
-            amount: category.amountInBaseCurrency,
-            currency: baseCurrency
-          })}
-        </Text>
-      </React.Fragment>
-    ))
-  );
 
   const shouldScroll = () => (
     Dimensions.get('window').width / categoryList.length < BAR_ITEM_MIN_WIDTH
@@ -78,7 +45,16 @@ const CategoryBarChart = ({ month }) => {
           gridMin={0}
         >
           <Grid direction={Grid.Direction.HORIZONTAL} />
-          <Labels />
+          {renderBarChartLabels({
+            data: categoryList,
+            fieldName: 'amountInBaseCurrency',
+            displayValue: (item) => (
+              formatCurrency({
+                amount: item.amountInBaseCurrency,
+                currency: baseCurrency
+              })
+            )
+          })}
         </BarChart>
       </BarChartView>
     </Wrapper>
