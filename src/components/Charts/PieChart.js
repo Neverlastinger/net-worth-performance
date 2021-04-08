@@ -3,12 +3,12 @@ import styled from 'styled-components/native';
 import { PieChart as RNPieChart } from 'react-native-svg-charts';
 import { Text } from 'react-native-svg';
 import { Animated, View } from 'react-native';
+import { pSBC } from '~/lib/pSBC';
 import useRecentPoint from '~/hooks/useRecentPoint';
 import useAnimatedValue from '~/hooks/useAnimatedValue';
 import PieChartLegend from '~/components/PieChartLegend';
 import { COLORS } from './colors';
 
-const ACTIVE_COLOR = 'black';
 const ANIMATION_DURATION = 200;
 
 /**
@@ -106,7 +106,7 @@ const PieChart = ({ slices, blurDetected, getTooltipData }) => {
               ...item,
               svg: {
                 ...item.svg,
-                fill: ACTIVE_COLOR
+                fill: pSBC(-0.75, item.svg.fill)
               },
               arc: { outerRadius: '102%' }
             }
@@ -147,11 +147,11 @@ const PieChart = ({ slices, blurDetected, getTooltipData }) => {
           fill="white"
           textAnchor="middle"
           alignmentBaseline="middle"
-          fontSize={12}
+          fontSize={angle < 1 && data.key.length > 14 ? 8 : 12}
           stroke="white"
           strokeWidth={0.5}
         >
-          {angle >= 0.6 || (angle > 0.3 && displayData) ? data.key : ''}
+          {angle >= 0.6 || (angle > 0.3 && displayData) ? data.key.substr(0, 20) : ''}
         </Text>
       );
     });
