@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components/native';
 import { Flag } from 'react-native-svg-flagkit';
+import { CURRENCIES } from 'config';
 import { BRAND_COLOR_BLUE } from '~/styles';
 import SelectField from '~/components/SelectField';
 
@@ -34,33 +35,17 @@ const CurrencyItem = ({ id, label }) => (
   </CurrencyView>
 );
 
-const OPTIONS = [
-  {
-    component: <CurrencyItem id="EU" label="EUR" />,
-    height: 48,
-    value: 'EUR'
-  },
-  {
-    component: <CurrencyItem id="USA" label="USD" />,
-    height: 48,
-    value: 'USD'
-  },
-  {
-    component: <CurrencyItem id="CHF" label="CHF" />,
-    height: 48,
-    value: 'CHF'
-  },
-  {
-    component: <CurrencyItem id="GBP" label="GBP" />,
-    height: 48,
-    value: 'GBP'
-  },
-  {
-    component: <CurrencyItem id="BG" label="BGN" />,
-    height: 48,
-    value: 'BGN'
-  }
-];
+const EUR_OPTION = {
+  component: <CurrencyItem id="EU" label="EUR" />,
+  height: 48,
+  value: 'EUR'
+};
+
+const OPTIONS = [EUR_OPTION].concat(CURRENCIES.split(',').map((currency) => ({
+  component: <CurrencyItem id={currency} label={currency} />,
+  height: 48,
+  value: currency
+})));
 
 const CurrencySelectField = ({ onValueSelected }) => (
   <SelectField
