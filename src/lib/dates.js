@@ -1,4 +1,4 @@
-import { format, subMonths, subYears, parse } from 'date-fns';
+import { format, subMonths, subYears, addMonths, parse } from 'date-fns';
 
 const KEY_FORMAT = 'yyyy-MM';
 
@@ -20,8 +20,30 @@ export const subMonthKey = (dateKey, number) => (
   getDateKey(subMonths(getDateByKey(dateKey), number))
 );
 
+export const addMonthKey = (dateKey, number) => (
+  getDateKey(addMonths(getDateByKey(dateKey), number))
+);
+
+/**
+ * Gets the previous month key by the given current dateKey.
+ * E.g. when given 2021-01, it returns 2020-12.
+ *
+ * @param {String} dateKey: yyyy-mm
+ * @return {String}
+ */
 export const getPrevMonth = (dateKey) => (
   subMonthKey(dateKey, 1)
+);
+
+/**
+ * Gets the next month key by the given current dateKey.
+ * E.g. when given 2021-01, it returns 2021-02.
+ *
+ * @param {String} dateKey: yyyy-mm
+ * @return {String}
+ */
+export const getNextMonth = (dateKey) => (
+  addMonthKey(dateKey, 1)
 );
 
 export const getPrevYear = (dateKey) => (

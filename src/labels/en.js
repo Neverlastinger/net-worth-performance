@@ -80,6 +80,9 @@ export default {
     keep: 'Keep {{baseCurrency}}',
     seeAvailableOptions: 'See Available Options',
     selectYourBaseCurrency: 'Select you base currency used to display your net worth',
-    baseCurrency: 'Base Currency'
+    baseCurrency: 'Base Currency',
+    noPrevMonthAddHistoricalData: 'There is no asset data for a period earlier than {{month}}. You can see dashboard statistics once you add historical data. Would you like to do it now?',
+    noThanks: 'No, thanks',
+    addHistoricalData: 'Add Historical Datas'
   }
 };

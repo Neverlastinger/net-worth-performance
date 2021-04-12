@@ -45,10 +45,10 @@ const AppNavigationRoot = ({ hasAssets }) => (
             <Stack.Screen
               name="Dashboard"
               component={DashboardScreen}
-              options={{
+              options={({ navigation }) => ({
                 headerShown: hasAssets,
-                headerTitle: (props) => <MonthSelectorHeader {...props} />
-              }}
+                headerTitle: (props) => <MonthSelectorHeader {...props} navigation={navigation} />
+              })}
             />
           </Stack.Navigator>
         )}
