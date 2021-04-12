@@ -81,3 +81,7 @@ export const askAboutBaseCurrency = () => ({
 export const closeBaseCurrencyQuestion = () => ({
   type: actions.CLOSE_BASE_CURRENCY_QUESTION
 });
+
+export const initDefaultAssetCategories = () => ({
+  type: actions.INIT_DEFAULT_ASSET_CATEGORIES
+});

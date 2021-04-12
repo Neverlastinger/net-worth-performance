@@ -1,7 +1,8 @@
 import { takeEvery, call, put, select } from 'redux-saga/effects';
 import { firebase } from '@react-native-firebase/firestore';
+import { DEFAULT_CATEGORIES } from 'config';
 import { watchFirebaseListener } from '~/store/sagas/common/saga-common';
-import { DELETE_ASSET_CATEGORY, ADD_ASSET_CATEGORY, UPDATE_ASSET_CATEGORY } from '~/store/actions/actionTypes';
+import { DELETE_ASSET_CATEGORY, ADD_ASSET_CATEGORY, UPDATE_ASSET_CATEGORY, INIT_DEFAULT_ASSET_CATEGORIES } from '~/store/actions/actionTypes';
 import { setAssetCategories } from '~/store/actions';
 
 const getFirebasePath = (email) => (
@@ -18,6 +19,10 @@ function* watchAdd() {
 
 function* watchUpdate() {
   yield takeEvery(UPDATE_ASSET_CATEGORY, update);
+}
+
+function* watchInitDefault() {
+  yield takeEvery(INIT_DEFAULT_ASSET_CATEGORIES, initDefault);
 }
 
 function* watchFirebaseListenerForCategories() {
@@ -57,7 +62,6 @@ function* add({ name }) {
         name
       });
     } catch (error) {
-      // eslint-disable-next-line no-alert, no-undef
       alert(t('errorSavingData'));
     }
   });
@@ -71,6 +75,25 @@ function* update({ data, newName }) {
     await firebase.firestore().collection(getFirebasePath(email)).doc(id).update({
       name: newName
     });
+  });
+}
+
+function* initDefault() {
+  const { email } = yield select((state) => state.user);
+
+  yield call(async () => {
+    try {
+      const batch = firebase.firestore().batch();
+
+      DEFAULT_CATEGORIES.forEach(async (category) => {
+        const docRef = firebase.firestore().collection(getFirebasePath(email)).doc();
+        batch.set(docRef, { name: category });
+      });
+
+      batch.commit();
+    } catch (error) {
+      alert(t('errorSavingData'));
+    }
   });
 }
 
@@ -88,5 +111,6 @@ export default [
   watchDelete,
   watchAdd,
   watchUpdate,
+  watchInitDefault,
   watchFirebaseListenerForCategories
 ];
