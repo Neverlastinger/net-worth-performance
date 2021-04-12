@@ -22,9 +22,10 @@ const useTotalAmountArray = (month, range) => {
   );
 
   const amount = useMemo(() => (
-    indexArray.map((index) => (
-      calculateAmount(subMonthKey(month, index)) || null
-    ))
+    indexArray.map((index) => {
+      const result = calculateAmount(subMonthKey(month, index)) || null;
+      return result ? parseInt(result, 10) : null;
+    })
   ), [assetList.id, month, range]);
 
   return amount;

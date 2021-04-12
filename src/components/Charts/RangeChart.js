@@ -91,6 +91,16 @@ const RangeChart = ({ month, monthCount, earliestRecordedMonth, displayChart }) 
   const verticalContentInset = { top: 10, bottom: 10 };
   const xAxisHeight = 30;
 
+  const yAxisData = useMemo(() => {
+    const uniques = [...new Set(amounts)].filter((item) => !!item);
+
+    if (uniques.length !== 1) {
+      return amounts;
+    }
+
+    return [uniques[0], parseInt(uniques[0] * 1.1, 10)];
+  }, [amounts]);
+
   // Layout of an x-axis together with a y-axis is a problem that stems from flexbox.
   // All react-native-svg-charts components support full flexbox and therefore all
   // layout problems should be approached with the mindset "how would I layout regular Views with flex in this way".
@@ -147,7 +157,7 @@ const RangeChart = ({ month, monthCount, earliestRecordedMonth, displayChart }) 
           </PeriodView>
           <ChartView>
             <YAxis
-              data={amounts}
+              data={yAxisData}
               style={{ marginBottom: xAxisHeight }}
               contentInset={verticalContentInset}
               svg={axesSvg}
