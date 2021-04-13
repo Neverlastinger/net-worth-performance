@@ -10,7 +10,7 @@ import { Dialog, Portal, Button } from 'react-native-paper';
  * @param {React.Component} content
  * @param {Array}           buttons
  */
-const Modal = ({ onDismiss, title, content, buttons }) => (
+const Modal = ({ onDismiss, title, content, buttons = [] }) => (
   <Portal>
     <Dialog visible onDismiss={onDismiss}>
       <Dialog.Title>{title}</Dialog.Title>

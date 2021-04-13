@@ -34,6 +34,7 @@ const CategoryDashboardScreen = ({ navigation, route }) => {
             earliestRecordedMonth={activeMonths[activeMonths.length - 1]}
             displayChart={activeMonths.length > 1}
             category={category}
+            navigation={navigation}
           />
         </ChartCard>
 
@@ -45,6 +46,7 @@ const CategoryDashboardScreen = ({ navigation, route }) => {
             earliestRecordedMonth={activeMonths[activeMonths.length - 1]}
             displayChart={activeMonths.length > 1}
             category={category}
+            navigation={navigation}
           />
         </ChartCard>
       </ChartView>

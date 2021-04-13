@@ -34,6 +34,7 @@ const AssetDashboardScreen = ({ navigation, route }) => {
             earliestRecordedMonth={activeMonths[activeMonths.length - 1]}
             displayChart={activeMonths.length > 1}
             assetId={assetId}
+            navigation={navigation}
           />
         </ChartCard>
 
@@ -45,6 +46,7 @@ const AssetDashboardScreen = ({ navigation, route }) => {
             earliestRecordedMonth={activeMonths[activeMonths.length - 1]}
             displayChart={activeMonths.length > 1}
             assetId={assetId}
+            navigation={navigation}
           />
         </ChartCard>
       </ChartView>

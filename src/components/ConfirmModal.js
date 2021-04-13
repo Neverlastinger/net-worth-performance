@@ -7,15 +7,17 @@ import { BRAND_COLOR_RED } from '~/styles';
  * The user can cancel or confirm an action.
  *
  * @param {String} title
+ * @param {React.Component} content, optional content component
  * @param {Function} onCancel
  * @param {Function} onConfirm
  * @param {String} cancelLabel: optional cancel label
  * @param {String} confirmLabel: optional confirm label
  */
-const ConfirmModal = ({ title, onCancel, onConfirm, cancelLabel, confirmLabel }) => (
+const ConfirmModal = ({ title, content, onCancel, onConfirm, cancelLabel, confirmLabel }) => (
   <Modal
     onDismiss={onCancel}
     title={title}
+    content={content}
     buttons={[
       {
         color: 'black',

@@ -5,6 +5,7 @@ import styled from 'styled-components/native';
 import { subMonthKey, dateKeyToHumanReadable, getMonthNumber, getMonthDifference } from '~/lib/dates';
 import { formatCurrency, formatCurrencyGrowth } from '~/lib/currency';
 import { getGrowthPercentage } from '~/lib/number';
+import PlaceholderRangeChart from './PlaceholderRangeChart';
 import Gradient from '../Gradient';
 import { BRAND_COLOR_BLUE, BRAND_COLOR_RED } from '~/styles';
 
@@ -63,8 +64,9 @@ const getDefaultRange = (monthCount) => (
  * @param {String} earliestRecordedMonth: date key represented the time of the initial data entry, used for the Max range
  * @param {Function} onRangeNumberChange: called when the user changes the range (e.g. from 1 year to 6 months)
  * @param {Boolean} displayChart: indicates if the chart itself should be displayed
+ * @param {Object} navigation: react-native-navigation's navigation object
  */
-const RangeChart = ({ amounts, currency, month, monthCount, earliestRecordedMonth, onRangeNumberChange, isPercent, displayChart }) => {
+const RangeChart = ({ amounts, currency, month, monthCount, earliestRecordedMonth, onRangeNumberChange, isPercent, displayChart, navigation }) => {
   const [range, setRange] = useState(getDefaultRange(monthCount));
 
   const getMaxRange = () => (
@@ -131,7 +133,7 @@ const RangeChart = ({ amounts, currency, month, monthCount, earliestRecordedMont
           </GrowthText>
         )}
       </HeaderView>
-      {displayChart && (
+      {displayChart ? (
         <>
           <PeriodView>
             <PeriodButton
@@ -192,7 +194,7 @@ const RangeChart = ({ amounts, currency, month, monthCount, earliestRecordedMont
             </LineView>
           </ChartView>
         </>
-      )}
+      ) : <PlaceholderRangeChart initialAmount={currentMonthAmount} navigation={navigation} xAxisHeight={xAxisHeight} verticalContentInset={verticalContentInset} axesSvg={axesSvg} />}
     </View>
   );
 };

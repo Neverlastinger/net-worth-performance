@@ -87,6 +87,9 @@ export default {
     longTapToSeeDetails: 'Long tap on a pie slice to see details',
     assetRangeChartTitle: '{{asset}} value over time',
     assetRelativeToNetWorthRangeChartTitle: '{{asset}} % of your entire net worth over time',
-    plusPercentagePoints: '{{text}} p.p.'
+    plusPercentagePoints: '{{text}} p.p.',
+    rangeMessageTitle: 'Range Chart',
+    rangeChartPlaceholderMessage: 'A range chart like this one will appear once you add future or historic data for assets.',
+    addHistoricalDataNow: 'Add historical data now?'
   }
 };

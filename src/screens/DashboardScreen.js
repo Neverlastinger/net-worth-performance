@@ -58,6 +58,7 @@ const DashboardScreen = ({ navigation }) => {
               monthCount={fillEmptyMonths(activeMonths).length}
               earliestRecordedMonth={activeMonths[activeMonths.length - 1]}
               displayChart={activeMonths.length > 1}
+              navigation={navigation}
             />
           </ChartCard>
           <ChartCard>
