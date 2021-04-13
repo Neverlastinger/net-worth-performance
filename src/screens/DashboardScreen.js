@@ -70,11 +70,11 @@ const DashboardScreen = ({ navigation }) => {
           </ChartCard>
           <ChartCard>
             <ChartTitle>{t('assetByAbsoluteValueChartTitle')}</ChartTitle>
-            <AssetBarChart data={assetList} />
+            <AssetBarChart data={assetList} navigation={navigation} />
           </ChartCard>
           <ChartCard>
             <ChartTitle>{t('categoryByAbsoluteValueChartTitle')}</ChartTitle>
-            <CategoryBarChart month={selectedMonth} />
+            <CategoryBarChart month={selectedMonth} navigation={navigation} />
           </ChartCard>
         </ChartView>
       ) : !assetsLoaded ? (

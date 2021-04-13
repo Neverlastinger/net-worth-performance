@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { formatCurrency } from '~/lib/currency';
 import AssetGrowth from '~/lib/AssetGrowth';
-import GrowthText from '../GrowthText';
 import PieChart from './PieChart';
 
 /**
@@ -34,21 +33,10 @@ const AssetPieChart = ({ data, month, blurDetected, navigation }) => {
   const getTooltipData = (index) => {
     const asset = data[index];
     const growth = AssetGrowth({ asset, month });
-    const growthText = `(${growth.calculateMonthlyGrowthAbsolute()} | ${growth.calculateMonthlyGrowthPercentage()})`;
 
     return {
       firstLine: `${asset.name}, ${((growth.getLatestAmountInBaseCurrency() / totalAmount) * 100).toFixed(2)}%`,
-      secondLine: (
-        <>
-          {formatCurrency({ amount: growth.getLatestAmount(), currency: asset.currency })}
-          <GrowthText
-            isVisible={growth.hasMonthyGrowth()}
-            isPositive={growth.isMonthlyGrowthPositive()}
-            text={growthText}
-          />
-        </>
-      ),
-      thirdLine: !asset.isInBaseCurrency && formatCurrency({ amount: growth.getLatestAmountInBaseCurrency(), currency: asset.baseCurrency })
+      secondLine: formatCurrency({ amount: growth.getLatestAmountInBaseCurrency(), currency: asset.baseCurrency })
     };
   };
 

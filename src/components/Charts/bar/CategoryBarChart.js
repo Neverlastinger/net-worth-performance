@@ -10,7 +10,7 @@ import { COLORS } from '../colors';
 
 const BAR_ITEM_MIN_WIDTH = 100;
 
-const CategoryBarChart = ({ month }) => {
+const CategoryBarChart = ({ month, navigation }) => {
   const categoryList = useSelector((state) => assetCategoryList(state, month));
   const baseCurrency = useSelector((state) => state.user.baseCurrency);
 
@@ -37,6 +37,9 @@ const CategoryBarChart = ({ month }) => {
             value: category.amountInBaseCurrency,
             svg: {
               fill: COLORS[i % COLORS.length],
+              onLongPress: () => {
+                navigation.navigate('CategoryDashboard', { name: category.name });
+              }
             },
           }))}
           yAccessor={({ item }) => item.value}

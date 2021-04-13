@@ -13,7 +13,7 @@ const BAR_ITEM_MIN_WIDTH = 100;
  *
  * @param {Array} data: asset list
  */
-const AssetBarChart = ({ data }) => {
+const AssetBarChart = ({ data, navigation }) => {
   const shouldScroll = () => (
     Dimensions.get('window').width / data.length < BAR_ITEM_MIN_WIDTH
   );
@@ -37,6 +37,9 @@ const AssetBarChart = ({ data }) => {
             value: asset.latestAmountInBaseCurrency,
             svg: {
               fill: COLORS[i % COLORS.length],
+              onLongPress: () => {
+                navigation.navigate('AssetDashboard', { assetId: asset.id, name: asset.name });
+              }
             },
           }))}
           yAccessor={({ item }) => item.value}
