@@ -18,7 +18,9 @@ const CategoryRelativeToPortfolioRangeChar = ({ month, category, ...props }) => 
 
   const relativeAmounts = useMemo(() => (
     netWorthAmounts.map((nwAmount, index) => (
-      Number(((categoryAmounts[index] / nwAmount) * 100).toFixed(2))
+      categoryAmounts[index] && nwAmount
+        ? Number(((categoryAmounts[index] / nwAmount) * 100).toFixed(2))
+        : null
     ))
   ), [netWorthAmounts, categoryAmounts]);
 

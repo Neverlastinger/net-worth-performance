@@ -17,7 +17,9 @@ const AssetRelativeToPortfolioRangeChart = ({ month, assetId, ...props }) => {
 
   const relativeAmounts = useMemo(() => (
     netWorthAmounts.map((nwAmount, index) => (
-      Number(((assetAmounts[index] / nwAmount) * 100).toFixed(2))
+      assetAmounts[index] && nwAmount
+        ? Number(((assetAmounts[index] / nwAmount) * 100).toFixed(2))
+        : null
     ))
   ), [netWorthAmounts, assetAmounts]);
 
