@@ -85,3 +85,12 @@ export const closeBaseCurrencyQuestion = () => ({
 export const initDefaultAssetCategories = () => ({
   type: actions.INIT_DEFAULT_ASSET_CATEGORIES
 });
+
+export const setInfoMessage = (data) => ({
+  type: actions.SET_INFO_MESSAGE,
+  data
+});
+
+export const clearInfoMessage = () => ({
+  type: actions.CLEAR_INFO_MESSAGE
+});

@@ -1,12 +1,10 @@
-import React, { useState, useMemo } from 'react';
-import { useSelector } from 'react-redux';
+import React, { useState, useMemo, useEffect } from 'react';
 import { View } from 'react-native';
 import { Grid, LineChart, XAxis, YAxis } from 'react-native-svg-charts';
 import styled from 'styled-components/native';
 import { subMonthKey, dateKeyToHumanReadable, getMonthNumber, getMonthDifference } from '~/lib/dates';
 import { formatCurrency, formatCurrencyGrowth } from '~/lib/currency';
 import { getGrowthPercentage } from '~/lib/number';
-import useTotalAmountArray from '~/hooks/useTotalAmountArray';
 import Gradient from './Gradient';
 import { BRAND_COLOR_BLUE, BRAND_COLOR_RED } from '~/styles';
 
@@ -56,16 +54,18 @@ const getDefaultRange = (monthCount) => (
 );
 
 /**
- * Represents a range chart, so the user sees how their wealth grows over time.
+ * Represents a reusable range chart.
  *
+ * @param {Array} amounts: amounts to display, an array of Numbers
+ * @param {String} currency: amout currency
  * @param {String} month: selected month, the chart ends with this month
  * @param {Number} monthCount: the number of months with available data
  * @param {String} earliestRecordedMonth: date key represented the time of the initial data entry, used for the Max range
- * @param {Boolean} displayChart: indicates if the chart itself should be display
+ * @param {Function} onRangeNumberChange: called when the user changes the range (e.g. from 1 year to 6 months)
+ * @param {Boolean} displayChart: indicates if the chart itself should be displayed
  */
-const RangeChart = ({ month, monthCount, earliestRecordedMonth, displayChart }) => {
+const RangeChart = ({ amounts, currency, month, monthCount, earliestRecordedMonth, onRangeNumberChange, isPercent, displayChart }) => {
   const [range, setRange] = useState(getDefaultRange(monthCount));
-  const baseCurrency = useSelector((state) => state.user.baseCurrency);
 
   const getMaxRange = () => (
     getMonthDifference(month, earliestRecordedMonth) - 1
@@ -79,7 +79,10 @@ const RangeChart = ({ month, monthCount, earliestRecordedMonth, displayChart }) 
         : range
   ), [range, month]);
 
-  const amounts = useTotalAmountArray(month, rangeNumber);
+  useEffect(() => {
+    onRangeNumberChange(rangeNumber);
+  }, [rangeNumber]);
+
   const currentMonthAmount = amounts[amounts.length - 1];
   const initialMonthAmount = amounts[0];
   const amountGrowth = currentMonthAmount - initialMonthAmount;
@@ -110,12 +113,19 @@ const RangeChart = ({ month, monthCount, earliestRecordedMonth, displayChart }) 
   return (
     <View>
       <HeaderView>
-        <AmountText>{formatCurrency({ amount: currentMonthAmount, currency: baseCurrency })}</AmountText>
+        <AmountText>
+          {isPercent
+            ? `${currentMonthAmount}%`
+            : formatCurrency({ amount: currentMonthAmount, currency })
+          }
+        </AmountText>
         {displayChart && (
           <GrowthText
             style={{ color: amountGrowth > 0 ? BRAND_COLOR_BLUE : BRAND_COLOR_RED }}
           >
-            {formatCurrencyGrowth({ amount: amountGrowth, currency: baseCurrency })}
+            {isPercent
+              ? t('plusPercentagePoints', { text: `${amountGrowth > 0 ? '+' : ''}${amountGrowth.toFixed(2)}` })
+              : formatCurrencyGrowth({ amount: amountGrowth, currency })}
             &nbsp;
             {growthInPercentage && `(${growthInPercentage})`}
           </GrowthText>

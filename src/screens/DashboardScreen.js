@@ -10,11 +10,18 @@ import AssetPieChart from '~/components/Charts/AssetPieChart';
 import CategoryPieChart from '~/components/Charts/CategoryPieChart';
 import AssetBarChart from '~/components/Charts/AssetBarChart';
 import CategoryBarChart from '~/components/Charts/CategoryBarChart';
-import RangeChart from '~/components/Charts/RangeChart';
+import NetWorthRangeChart from '~/components/Charts/NetWorthRangeChart';
 import Loader from '~/components/Loader';
 import BaseCurrencyQuestion from '~/components/BaseCurrencyQuestion';
+import InfoMessage from '~/components/InfoMessage';
 import { BRAND_COLOR_BLUE } from '~/styles';
 
+/**
+ * Represents the main dashboard screen of the application.
+ * Displays various charts related to the user's net worth.
+ *
+ * @param {Object} navigation: react-native-navigation's navigation object
+ */
 const DashboardScreen = ({ navigation }) => {
   const [viewTouched, setViewTouched] = useState();
   const dropDownAlertRef = useRef();
@@ -46,7 +53,7 @@ const DashboardScreen = ({ navigation }) => {
       {assetList.length > 0 ? (
         <ChartView onTouchStart={onViewTouch}>
           <ChartCard>
-            <RangeChart
+            <NetWorthRangeChart
               month={selectedMonth}
               monthCount={fillEmptyMonths(activeMonths).length}
               earliestRecordedMonth={activeMonths[activeMonths.length - 1]}
@@ -55,11 +62,11 @@ const DashboardScreen = ({ navigation }) => {
           </ChartCard>
           <ChartCard>
             <ChartTitle>{t('assetChartTitle')}</ChartTitle>
-            <AssetPieChart data={assetList} month={selectedMonth} blurDetected={viewTouched} />
+            <AssetPieChart data={assetList} month={selectedMonth} blurDetected={viewTouched} navigation={navigation} />
           </ChartCard>
           <ChartCard>
             <ChartTitle>{t('categoryChartTitle')}</ChartTitle>
-            <CategoryPieChart month={selectedMonth} blurDetected={viewTouched} />
+            <CategoryPieChart month={selectedMonth} blurDetected={viewTouched} navigation={navigation} />
           </ChartCard>
           <ChartCard>
             <ChartTitle>{t('assetByAbsoluteValueChartTitle')}</ChartTitle>
@@ -83,6 +90,7 @@ const DashboardScreen = ({ navigation }) => {
       />
 
       <BaseCurrencyQuestion />
+      <InfoMessage />
     </SafeArea>
   );
 };

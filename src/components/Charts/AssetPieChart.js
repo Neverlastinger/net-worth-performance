@@ -11,8 +11,9 @@ import PieChart from './PieChart';
  * @param {String} month: data displayed is related to this given month key
  * @param {any} blurDetected: when this prop changes,
  *                             it means the user blurs this chart and the chart state (tooltip & active slice) should be reset to default
+ * @param {Object} navigation: react-native-navigation's navigation object
  */
-const AssetPieChart = ({ data, month, blurDetected }) => {
+const AssetPieChart = ({ data, month, blurDetected, navigation }) => {
   const [slices, setSlices] = useState([]);
 
   useEffect(() => {
@@ -51,11 +52,17 @@ const AssetPieChart = ({ data, month, blurDetected }) => {
     };
   };
 
+  const onItemLongPress = (index) => {
+    const asset = data[index];
+    navigation.navigate('AssetDashboard', { assetId: asset.id, name: asset.name });
+  };
+
   return (
     <PieChart
       slices={slices}
       blurDetected={blurDetected}
       getTooltipData={getTooltipData}
+      onItemLongPress={onItemLongPress}
     />
   );
 };

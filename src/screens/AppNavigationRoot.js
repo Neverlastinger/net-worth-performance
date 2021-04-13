@@ -4,6 +4,7 @@ import { createMaterialBottomTabNavigator } from '@react-navigation/material-bot
 import { createStackNavigator } from '@react-navigation/stack';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import DashboardScreen from './DashboardScreen';
+import AssetDashboardScreen from './AssetDashboardScreen';
 import AddAssetScreen from './AddAssetScreen';
 import AddCategoryScreen from './AddCategoryScreen';
 import ConfirmAddAssetScreen from './ConfirmAddAssetScreen';
@@ -48,6 +49,14 @@ const AppNavigationRoot = ({ hasAssets }) => (
               options={({ navigation }) => ({
                 headerShown: hasAssets,
                 headerTitle: (props) => <MonthSelectorHeader {...props} navigation={navigation} />
+              })}
+            />
+            <Stack.Screen
+              name="AssetDashboard"
+              component={AssetDashboardScreen}
+              options={({ route }) => ({
+                headerShown: true,
+                title: route.params.name
               })}
             />
           </Stack.Navigator>

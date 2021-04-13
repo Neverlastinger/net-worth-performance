@@ -83,6 +83,10 @@ export default {
     baseCurrency: 'Base Currency',
     noPrevMonthAddHistoricalData: 'There is no asset data for a period earlier than {{month}}. You can see dashboard statistics once you add historical data. Would you like to do it now?',
     noThanks: 'No, thanks',
-    addHistoricalData: 'Add Historical Datas'
+    addHistoricalData: 'Add Historical Datas',
+    longTapToSeeDetails: 'Long tap on a pie slice to see details',
+    assetRangeChartTitle: '{{asset}} value over time',
+    assetRelativeToNetWorthRangeChartTitle: '{{asset}} % of your entire net worth over time',
+    plusPercentagePoints: '{{text}} p.p.'
   }
 };

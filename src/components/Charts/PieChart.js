@@ -3,6 +3,8 @@ import styled from 'styled-components/native';
 import { PieChart as RNPieChart } from 'react-native-svg-charts';
 import { Text } from 'react-native-svg';
 import { Animated, View } from 'react-native';
+import { useDispatch } from 'react-redux';
+import { setInfoMessage } from '~/store/actions';
 import { pSBC } from '~/lib/pSBC';
 import useRecentPoint from '~/hooks/useRecentPoint';
 import useAnimatedValue from '~/hooks/useAnimatedValue';
@@ -19,8 +21,11 @@ const ANIMATION_DURATION = 200;
  *                          - value: relative value for the slice compared to the other slices
  * @param {any} blurDetected: when this prop changes,
  *                             it means the user blurs this chart and the chart state (tooltip & active slice) should be reset to default
+ * @param {Function} getTooltipData
+ * @param {Function} onItemLongPress: called when the user long-presses an item on the chart
  */
-const PieChart = ({ slices, blurDetected, getTooltipData }) => {
+const PieChart = ({ slices, blurDetected, getTooltipData, onItemLongPress }) => {
+  const dispatch = useDispatch();
   const [pieChartData, setPieChartData] = useState([]);
   const [tooltip, setTooltip] = useState({});
   const [tooltipOpacity, setTooltipOpacity] = useAnimatedValue(0, ANIMATION_DURATION);
@@ -51,7 +56,12 @@ const PieChart = ({ slices, blurDetected, getTooltipData }) => {
         fill: COLORS[i % COLORS.length],
         onPressIn: (e) => {
           onItemPress(i, e);
+          dispatch(setInfoMessage(t('longTapToSeeDetails')));
         },
+        onLongPress: () => {
+          onItemLongPress(i);
+        },
+        delayLongPress: 1000
       },
       arc: { outerRadius: '100%' }
     })));

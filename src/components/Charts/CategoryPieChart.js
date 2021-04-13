@@ -98,6 +98,7 @@ const CategoryPieChart = ({ month, blurDetected }) => {
       slices={slices}
       blurDetected={blurDetected}
       getTooltipData={getTooltipData}
+      onItemLongPress={() => {}} // TODO implement
     />
   );
 };
