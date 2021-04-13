@@ -82,8 +82,20 @@ const AppNavigationRoot = ({ hasAssets }) => (
       >
         {() => (
           <Stack.Navigator>
-            <Stack.Screen name="AddAsset" component={AddAssetScreen} />
-            <Stack.Screen name="AddCategory" component={AddCategoryScreen} />
+            <Stack.Screen
+              name="AddAsset"
+              component={AddAssetScreen}
+              options={{
+                title: t('addAssetHeader')
+              }}
+            />
+            <Stack.Screen
+              name="AddCategory"
+              component={AddCategoryScreen}
+              options={{
+                title: t('addCategoryHeader')
+              }}
+            />
             <Stack.Screen
               name="Confirm"
               component={ConfirmAddAssetScreen}
@@ -109,7 +121,8 @@ const AppNavigationRoot = ({ hasAssets }) => (
               name="UpdateExistingAssets"
               component={UpdateExistingAssetsScreen}
               options={{
-                headerShown: hasAssets
+                headerShown: hasAssets,
+                title: t('updateExistingAssetsHeader')
               }}
             />
             <Stack.Screen name="SingleAsset" component={SingleAssetScreen} />
@@ -130,6 +143,9 @@ const AppNavigationRoot = ({ hasAssets }) => (
             <Stack.Screen
               name="Profile"
               component={ProfileScreen}
+              options={{
+                title: t('profileHeader')
+              }}
             />
           </Stack.Navigator>
         )}
