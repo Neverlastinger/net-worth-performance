@@ -1,4 +1,5 @@
 import React from 'react';
+import { Text } from 'react-native';
 import ConfirmModal from '~/components/ConfirmModal';
 
 /**
@@ -8,7 +9,10 @@ const NoPrevMonthQuestion = ({ isActive, onCancel, onConfirm, earlierMonth }) =>
   <>
     {isActive && (
       <ConfirmModal
-        title={t('noPrevMonthAddHistoricalData', { month: earlierMonth })}
+        title={t('noDataPrior', { month: earlierMonth })}
+        content={(
+          <Text>{t('noPrevMonthAddHistoricalData', { month: earlierMonth })}</Text>
+        )}
         cancelLabel={t('noThanks')}
         confirmLabel={t('addHistoricalData')}
         onCancel={onCancel}

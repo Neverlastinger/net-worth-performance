@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react';
+import { Text } from 'react-native';
+import styled from 'styled-components/native';
 import { useDispatch, useSelector } from 'react-redux';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { closeBaseCurrencyQuestion, saveBaseCurrency } from '~/store/actions';
@@ -46,7 +48,17 @@ const BaseCurrencyQuestion = () => {
     <>
       {showQuestion && (
         <ConfirmModal
-          title={t('changeBaseCurrencyQuestion', { baseCurrency })}
+          title={t('baseCurrencyQuestion')}
+          content={(
+            <>
+              <Text>
+                {t('changeBaseCurrencyQuestion', { baseCurrency })}
+              </Text>
+              <AdditionalParagraph>
+                {t('youCanAlwaysConfigure', { baseCurrency })}
+              </AdditionalParagraph>
+            </>
+          )}
           cancelLabel={t('keep', { baseCurrency })}
           confirmLabel={t('seeAvailableOptions')}
           onCancel={cancelBaseCurrencyQuestion}
@@ -66,5 +78,9 @@ const BaseCurrencyQuestion = () => {
     </>
   );
 };
+
+const AdditionalParagraph = styled.Text`
+  margin-top: 18px;
+`;
 
 export default BaseCurrencyQuestion;
