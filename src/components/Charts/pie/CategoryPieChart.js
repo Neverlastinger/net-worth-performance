@@ -14,8 +14,9 @@ import GrowthText from '../GrowthText';
  * @param {String} month: data displayed is related to this given month key
  * @param {any} blurDetected: when this prop changes,
  *                             it means the user blurs this chart and the chart state (tooltip & active slice) should be reset to default
+ * @param {Object} navigation: react-native-navigation's navigation object
  */
-const CategoryPieChart = ({ month, blurDetected }) => {
+const CategoryPieChart = ({ month, blurDetected, navigation }) => {
   const categoryList = useSelector((state) => assetCategoryList(state, month));
 
   const slices = useMemo(() => (
@@ -93,12 +94,17 @@ const CategoryPieChart = ({ month, blurDetected }) => {
     };
   };
 
+  const onItemLongPress = (index) => {
+    const category = categoryList[index];
+    navigation.navigate('CategoryDashboard', { name: category.name });
+  };
+
   return (
     <PieChart
       slices={slices}
       blurDetected={blurDetected}
       getTooltipData={getTooltipData}
-      onItemLongPress={() => {}} // TODO implement
+      onItemLongPress={onItemLongPress}
     />
   );
 };

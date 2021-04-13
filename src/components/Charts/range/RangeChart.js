@@ -119,7 +119,7 @@ const RangeChart = ({ amounts, currency, month, monthCount, earliestRecordedMont
             : formatCurrency({ amount: currentMonthAmount, currency })
           }
         </AmountText>
-        {displayChart && (
+        {displayChart && !!amountGrowth && (
           <GrowthText
             style={{ color: amountGrowth > 0 ? BRAND_COLOR_BLUE : BRAND_COLOR_RED }}
           >

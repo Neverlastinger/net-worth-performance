@@ -5,6 +5,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import DashboardScreen from './DashboardScreen';
 import AssetDashboardScreen from './AssetDashboardScreen';
+import CategoryDashboardScreen from './CategoryDashboardScreen';
 import AddAssetScreen from './AddAssetScreen';
 import AddCategoryScreen from './AddCategoryScreen';
 import ConfirmAddAssetScreen from './ConfirmAddAssetScreen';
@@ -54,6 +55,14 @@ const AppNavigationRoot = ({ hasAssets }) => (
             <Stack.Screen
               name="AssetDashboard"
               component={AssetDashboardScreen}
+              options={({ route }) => ({
+                headerShown: true,
+                title: route.params.name
+              })}
+            />
+            <Stack.Screen
+              name="CategoryDashboard"
+              component={CategoryDashboardScreen}
               options={({ route }) => ({
                 headerShown: true,
                 title: route.params.name
