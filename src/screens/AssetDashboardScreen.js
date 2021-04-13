@@ -5,8 +5,8 @@ import { Card } from 'react-native-paper';
 import { fillEmptyMonths } from '~/lib/dates';
 import { getActiveMonths } from '~/store/reducers';
 import MonthSelectorHeader from '~/components/MonthSelectorHeader';
-import AssetRangeChart from '~/components/Charts/AssetRangeChart';
-import AssetRelativeToPortfolioRangeChart from '~/components/Charts/AssetRelativeToPortfolioRangeChart';
+import AssetRangeChart from '~/components/Charts/range/AssetRangeChart';
+import AssetRelativeToPortfolioRangeChart from '~/components/Charts/range/AssetRelativeToPortfolioRangeChart';
 
 /**
  * Represents a dashboard for a single asset.

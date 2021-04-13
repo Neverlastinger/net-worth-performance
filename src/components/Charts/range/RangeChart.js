@@ -5,7 +5,7 @@ import styled from 'styled-components/native';
 import { subMonthKey, dateKeyToHumanReadable, getMonthNumber, getMonthDifference } from '~/lib/dates';
 import { formatCurrency, formatCurrencyGrowth } from '~/lib/currency';
 import { getGrowthPercentage } from '~/lib/number';
-import Gradient from './Gradient';
+import Gradient from '../Gradient';
 import { BRAND_COLOR_BLUE, BRAND_COLOR_RED } from '~/styles';
 
 /**

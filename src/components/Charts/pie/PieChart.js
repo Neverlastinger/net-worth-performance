@@ -9,7 +9,7 @@ import { pSBC } from '~/lib/pSBC';
 import useRecentPoint from '~/hooks/useRecentPoint';
 import useAnimatedValue from '~/hooks/useAnimatedValue';
 import PieChartLegend from '~/components/PieChartLegend';
-import { COLORS } from './colors';
+import { COLORS } from '../colors';
 
 const ANIMATION_DURATION = 200;
 

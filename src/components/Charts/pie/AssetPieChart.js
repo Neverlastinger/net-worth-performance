@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { formatCurrency } from '~/lib/currency';
 import AssetGrowth from '~/lib/AssetGrowth';
-import GrowthText from './GrowthText';
+import GrowthText from '../GrowthText';
 import PieChart from './PieChart';
 
 /**

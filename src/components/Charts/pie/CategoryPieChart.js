@@ -6,7 +6,7 @@ import { getGrowthPercentage } from '~/lib/number';
 import AssetGrowth from '~/lib/AssetGrowth';
 import { assetCategoryList } from '~/store/reducers/';
 import PieChart from './PieChart';
-import GrowthText from './GrowthText';
+import GrowthText from '../GrowthText';
 
 /**
  * Represents a PieChart displaying asset categories.

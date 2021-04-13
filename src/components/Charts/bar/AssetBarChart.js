@@ -4,7 +4,7 @@ import { View, ScrollView, Dimensions } from 'react-native';
 import { BarChart, Grid } from 'react-native-svg-charts';
 import { formatCurrency } from '~/lib/currency';
 import renderBarChartLabels from './renderBarChartLabels';
-import { COLORS } from './colors';
+import { COLORS } from '../colors';
 
 const BAR_ITEM_MIN_WIDTH = 100;
 

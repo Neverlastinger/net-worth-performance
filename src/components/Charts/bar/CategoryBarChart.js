@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux';
 import { formatCurrency } from '~/lib/currency';
 import { assetCategoryList } from '~/store/reducers/';
 import renderBarChartLabels from './renderBarChartLabels';
-import { COLORS } from './colors';
+import { COLORS } from '../colors';
 
 const BAR_ITEM_MIN_WIDTH = 100;
 
