@@ -1,5 +1,9 @@
 export default {
   translation: {
+    walkthroughSlide1: 'Track your asset distribution',
+    walkthroughSlide2: 'See where your wealth is concentrated in',
+    walkthroughSlide3: 'Follow your net worth performance as you update asset values in the future',
+    walkthroughSlideLast: 'Getting started...',
     initialQuote: 'Know what you own, and know why you own it.',
     initialQuoteAuthor: 'Peter Lynch',
     dashboardTab: 'Dashboard',
