@@ -13,18 +13,18 @@ const PlaceholderRangeChart = ({ initialAmount, navigation, xAxisHeight, vertica
 
   const amounts = [
     initialAmount,
-    initialAmount * 1.5,
-    initialAmount * 1.2,
-    initialAmount * 1.6,
-    initialAmount * 2,
-    initialAmount * 1.9,
-    initialAmount * 1.7,
-    initialAmount * 1.3,
-    initialAmount * 1.1,
-    initialAmount * 2.2,
-    initialAmount * 2.2,
-    initialAmount * 2.3,
-    initialAmount * 2.4
+    initialAmount * 1.0237,
+    initialAmount * 1.0296,
+    initialAmount * 1.0715,
+    initialAmount * 1.0696,
+    initialAmount * 1.0679,
+    initialAmount * 1.0588,
+    initialAmount * 1.2855,
+    initialAmount * 1.2736,
+    initialAmount * 1.2372,
+    initialAmount * 1.3892,
+    initialAmount * 1.407,
+    initialAmount * 1.4571
   ];
 
   const onPress = () => {
