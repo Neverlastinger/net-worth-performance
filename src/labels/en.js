@@ -101,6 +101,9 @@ export default {
     plusPercentagePoints: '{{text}} p.p.',
     rangeMessageTitle: 'Range Chart',
     rangeChartPlaceholderMessage: 'A range chart like this one will appear once you add future or historical data for assets.',
-    addHistoricalDataNow: 'Add historical data now?'
+    addHistoricalDataNow: 'Add historical data now?',
+    welcomeToNewMonthModalMessage: 'As it is a new month already, it is time to add new asset values. Charts will automatically be updated to reflect the new outlook of your net worth.',
+    maybeLater: 'Maybe later',
+    addDataFor: 'Add data for {{month}}'
   }
 };

@@ -14,6 +14,7 @@ import NetWorthRangeChart from '~/components/Charts/range/NetWorthRangeChart';
 import Loader from '~/components/Loader';
 import BaseCurrencyQuestion from '~/components/BaseCurrencyQuestion';
 import InfoMessage from '~/components/InfoMessage';
+import NotificationHandler from '~/components/NotificationHandler';
 import { BRAND_COLOR_BLUE } from '~/styles';
 
 /**
@@ -92,6 +93,7 @@ const DashboardScreen = ({ navigation }) => {
 
       <BaseCurrencyQuestion />
       <InfoMessage />
+      <NotificationHandler navigation={navigation} />
     </SafeArea>
   );
 };

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+// import messaging from '@react-native-firebase/messaging';
 import SplashScreen from 'react-native-splash-screen';
 import AnimatedSplash from 'react-native-animated-splash-screen';
 import { Provider } from 'react-redux';
@@ -6,6 +7,10 @@ import store from '~/store';
 import Root from '~/Root';
 import icon from '~/assets/icon.png';
 import { LIGHT_BACKGROUND_COLOR } from './src/styles';
+
+// messaging().setBackgroundMessageHandler(async (remoteMessage) => {
+//   console.log('Message handled in the background!', remoteMessage);
+// });
 
 /**
  * App entry point.
