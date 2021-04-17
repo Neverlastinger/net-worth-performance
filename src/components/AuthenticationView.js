@@ -1,15 +1,12 @@
 import React from 'react';
 import styled from 'styled-components/native';
-import logoIcon from '~/assets/icon.png';
+import logoIcon from '~/assets/logo-full.png';
 import { LIGHT_BACKGROUND_COLOR } from '../styles';
-import GradientText from './GradientText';
 
 const AuthenticationView = ({ children }) => (
   <Wrapper>
     <ContentWrapper contentContainerStyle={{ justifyContent: 'center', minHeight: '100%' }}>
       <Logo source={logoIcon} />
-      <GradientText text="NET WORTH PERFORMANCE" />
-
       <ChildrenWrapper>
         {children}
       </ChildrenWrapper>
@@ -33,10 +30,10 @@ const ContentWrapper = styled.ScrollView`
 
 const Logo = styled.Image`
   align-self: center;
-  margin-top: 40px;
-  width: 70%;
+  margin-bottom: 36px;
+  width: 90%;
   height: undefined;
-  aspectRatio: 1;
+  aspectRatio: 4.1;
 `;
 
 const ChildrenWrapper = styled.View`
