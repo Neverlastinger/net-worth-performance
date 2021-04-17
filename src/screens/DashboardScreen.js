@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useRef, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components/native';
 import { Card } from 'react-native-paper';
@@ -15,6 +15,7 @@ import Loader from '~/components/Loader';
 import BaseCurrencyQuestion from '~/components/BaseCurrencyQuestion';
 import InfoMessage from '~/components/InfoMessage';
 import NotificationHandler from '~/components/NotificationHandler';
+import NotificationCard from '~/components/NotificationCard';
 import { BRAND_COLOR_BLUE } from '~/styles';
 
 /**
@@ -36,23 +37,27 @@ const DashboardScreen = ({ navigation }) => {
     setViewTouched(Date.now());
   };
 
-  useEffect(() => {
+  /**
+   * Returns true if the user does not have any assets updated for the current month
+   */
+  const isNewMonth = useMemo(() => (
     activeMonths[0] && currentMonthKey && activeMonths[0] !== currentMonthKey
-      && setTimeout(() => {
-        dropDownAlertRef.current.alertWithType(
-          'info',
-          t('welcomeToNewMonthTitle', { month: dateKeyToHumanReadable(currentMonthKey) }),
-          t('welcomeToNewMonthMessage'),
-          null,
-          10000
-        );
-      }, 1000);
-  }, [activeMonths[0], currentMonthKey]);
+  ), [activeMonths[0], currentMonthKey]);
 
   return (
     <SafeArea>
       {assetList.length > 0 ? (
         <ChartView onTouchStart={onViewTouch}>
+          <NotificationCards>
+            {isNewMonth && (
+              <NotificationCard
+                title={t('welcomeToNewMonthTitle', { month: dateKeyToHumanReadable(currentMonthKey) })}
+                message={t('welcomeToNewMonthMessage')}
+                onPress={() => { navigation.navigate('UpdateExistingAssets'); }}
+              />
+            )}
+          </NotificationCards>
+
           <ChartCard>
             <NetWorthRangeChart
               month={selectedMonth}
@@ -100,6 +105,10 @@ const DashboardScreen = ({ navigation }) => {
 
 const SafeArea = styled.SafeAreaView`
   flex: 1
+`;
+
+const NotificationCards = styled.View`
+  padding: 0 6px 12px 6px;
 `;
 
 const ChartView = styled.ScrollView`
