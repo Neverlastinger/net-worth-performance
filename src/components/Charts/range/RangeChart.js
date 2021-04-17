@@ -117,7 +117,7 @@ const RangeChart = ({ amounts, currency, month, monthCount, earliestRecordedMont
       <HeaderView>
         <AmountText>
           {isPercent
-            ? `${currentMonthAmount}%`
+            ? currentMonthAmount !== null && `${currentMonthAmount}%`
             : formatCurrency({ amount: currentMonthAmount, currency })
           }
         </AmountText>

@@ -1,5 +1,6 @@
 import { useMemo } from 'react';
 import { useSelector } from 'react-redux';
+import AssetGrowth from '~/lib/AssetGrowth';
 import { subMonthKey } from '~/lib/dates';
 import { assetListWithBaseCurrency } from '~/store/reducers';
 
@@ -22,11 +23,11 @@ const useAssetAmountArray = (month, range, assetId) => {
   ), [assetList.id, assetId]);
 
   const getAmount = (monthKey) => (
-    asset.amount[monthKey]
+    AssetGrowth({ asset, month: monthKey }).getLatestAmount()
   );
 
   const getAmountInBaseCurrency = (monthKey) => (
-    asset.amountInBaseCurrency[monthKey]
+    AssetGrowth({ asset, month: monthKey }).getLatestAmountInBaseCurrency()
   );
 
   const amounts = useMemo(() => (

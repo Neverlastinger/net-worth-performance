@@ -6,7 +6,7 @@ import { formatCurrencyGrowth } from '~/lib/currency';
  * Wraps the given asset object (as it is defined in redux / database) and returns utility functions mainly used to calculate growth.
  *
  * @param {Object} asset: an asset as it is defined in redux / database
- * @param {[type]} month: a month related to the given asset; data calculated for growth is for this given month
+ * @param {String} month: a month related to the given asset; data calculated for growth is for this given month
  */
 const AssetGrowth = ({ asset, month }) => {
   const getLatestMonthWithAvailableData = (field) => (
