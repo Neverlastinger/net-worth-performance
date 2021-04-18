@@ -27,6 +27,7 @@ const ProfileScreen = () => {
     <SafeArea>
       <ScrollWrapper>
         <View>
+          <DescriptionText>{t('selectYourBaseCurrencyLongDescription')}</DescriptionText>
           <CurrencySelectField
             label={t('baseCurrency')}
             selectedValue={baseCurrency}
@@ -34,7 +35,7 @@ const ProfileScreen = () => {
           />
         </View>
         <ButtonView>
-          <TextLink label={t('logout')} onPress={logout} />
+          <TextLink label={t('logout')} color="#AAA" onPress={logout} />
         </ButtonView>
       </ScrollWrapper>
     </SafeArea>
@@ -42,14 +43,22 @@ const ProfileScreen = () => {
 };
 
 const SafeArea = styled.SafeAreaView`
-  flex: 1
+  flex: 1;
+`;
+
+const DescriptionText = styled.Text`
+  margin-top: 6px;
+  padding: 12px 12px 6px 12px;
+  color: #444;
+  font-size: 12px;
+  line-height: 16px;
 `;
 
 const ButtonView = styled.View`
   flex: 1;
   align-items: center;
-  justify-content: flex-end;
-  margin-bottom: 30px;
+  justify-content: flex-start;
+  margin-top: 30px;
 `;
 
 export default ProfileScreen;

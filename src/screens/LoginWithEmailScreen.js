@@ -64,8 +64,8 @@ const LoginWithEmailScreen = ({ navigation }) => {
       </ButtonView>
 
       <FooterView>
-        <TextLink label={t('registerInstead')} theme="black" onPress={() => { navigation.navigate('Register'); }} />
-        <TextLink label={t('useDifferentLoginMethod')} theme="black" onPress={() => { navigation.navigate('AuthLandingPage'); }} />
+        <TextLink label={t('registerInstead')} color="black" onPress={() => { navigation.navigate('Register'); }} />
+        <TextLink label={t('useDifferentLoginMethod')} color="black" onPress={() => { navigation.navigate('AuthLandingPage'); }} />
       </FooterView>
     </AuthenticationView>
   );
