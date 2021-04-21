@@ -43,7 +43,7 @@ export default {
     quickUpdateAssetTitle: 'Amount for {{month}}',
     moreOptions: 'More Options',
     currentAmount: 'Currently {{amount}}',
-    addHistoricDataButton: 'Add historic data',
+    addHistoricDataButton: 'Add historical data',
     deleteAmount: 'Delete month data',
     growth1m: '1m Growth',
     growth1y: '1y Growth',
@@ -105,6 +105,7 @@ export default {
     addHistoricalDataNow: 'Add historical data now?',
     welcomeToNewMonthModalMessage: 'As it is a new month already, it is time to add new asset values. Charts will automatically be updated to reflect the new outlook of your net worth.',
     maybeLater: 'Maybe later',
-    addDataFor: 'Add data for {{month}}'
+    addDataFor: 'Add data for {{month}}',
+    singleAssetHeader: 'Update Single Asset'
   }
 };

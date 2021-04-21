@@ -125,7 +125,13 @@ const AppNavigationRoot = ({ hasAssets }) => (
                 title: t('updateExistingAssetsHeader')
               }}
             />
-            <Stack.Screen name="SingleAsset" component={SingleAssetScreen} />
+            <Stack.Screen
+              name="SingleAsset"
+              component={SingleAssetScreen}
+              options={{
+                title: t('singleAssetHeader')
+              }}
+            />
           </Stack.Navigator>
         )}
       </Tab.Screen>
