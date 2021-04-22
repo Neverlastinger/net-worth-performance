@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Text } from 'react-native';
 import messaging from '@react-native-firebase/messaging';
-import { dateKeyToHumanReadable } from '~/lib/dates';
 import ConfirmModal from '~/components/ConfirmModal';
 import Modal from '~/components/Modal';
 
@@ -48,7 +47,7 @@ const NotificationHandler = ({ navigation }) => {
                 <Text>{remoteData.notification.body}</Text>
               )}
               cancelLabel={t('maybeLater')}
-              confirmLabel={t('addDataFor', { month: dateKeyToHumanReadable(remoteData.dateKey) })}
+              confirmLabel={t('updateAssetValues')}
               onCancel={() => { setRemoteData(false); }}
               onConfirm={() => { navigation.navigate('UpdateExistingAssets'); setRemoteData(false); }}
             />

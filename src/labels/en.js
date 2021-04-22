@@ -106,6 +106,7 @@ export default {
     welcomeToNewMonthModalMessage: 'As it is a new month already, it is time to add new asset values. Charts will automatically be updated to reflect the new outlook of your net worth.',
     maybeLater: 'Maybe later',
     addDataFor: 'Add data for {{month}}',
+    updateAssetValues: 'Update assets',
     singleAssetHeader: 'Update Single Asset'
   }
 };
