@@ -7,3 +7,6 @@
 - Fix images on iOS: https://github.com/facebook/react-native/issues/29279#issuecomment-658244428
 - `npx react-native start --reset-cache`
 - `npx react-native run-ios / run-android`
+
+## To release
+- https://reactnative.dev/docs/signed-apk-android
