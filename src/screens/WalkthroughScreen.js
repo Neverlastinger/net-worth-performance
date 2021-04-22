@@ -78,9 +78,6 @@ const Screen = styled.View`
 
 const TopBar = styled.View`
   padding-top: 40px;
-  flex-basis: 130px;
-  height: 130px;
-  background-color: black;
 `;
 
 const SwiperWrapper = styled(Swiper)`
@@ -118,6 +115,7 @@ const Logo = styled.Image`
   align-self: center;
   width: 80%;
   height: undefined;
+  max-height: 120px;
   aspectRatio: 4.1;
 `;
 

@@ -38,15 +38,10 @@ target 'NetWorthPerformance' do
   pod 'glog', :podspec => '../node_modules/react-native/third-party-podspecs/glog.podspec'
   pod 'Folly', :podspec => '../node_modules/react-native/third-party-podspecs/Folly.podspec'
 
-  pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
 
-  pod 'RNReanimated', :path => '../node_modules/react-native-reanimated'
 
-  pod 'RNGestureHandler', :path => '../node_modules/react-native-gesture-handler'
 
-  pod 'RNScreens', :path => '../node_modules/react-native-screens'
 
-  pod 'react-native-safe-area-context', :path => '../node_modules/react-native-safe-area-context'
 
   pod 'GoogleSignIn', '~> 5.0.2'
 
