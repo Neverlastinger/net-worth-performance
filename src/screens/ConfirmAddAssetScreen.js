@@ -5,7 +5,12 @@ import ActionButton from '~/components/ActionButton';
 
 const ConfirmAddAssetScreen = ({ navigation }) => {
   const goToDashboard = () => {
-    navigation.popToTop();
+    try {
+      navigation.popToTop();
+    } catch (e) {
+      // do nothing
+    }
+
     navigation.navigate('Dashboard');
   };
 
