@@ -10,10 +10,8 @@ import { LIGHT_BACKGROUND_COLOR } from './styles';
 /**
  * Root component of the application.
  * Authenticates the user in firebase.
- *
- * @param {Function} onInitialized: should be called when the firebase authentication is initialized so the parent component can hide the splash screen
  */
-const Root = ({ onInitialized }) => {
+const Root = () => {
   const dispatch = useDispatch();
   const [isInitializing, setIsInitializing] = useState(true);
 
@@ -24,7 +22,6 @@ const Root = ({ onInitialized }) => {
   const onAuthStateChanged = (u) => {
     dispatch(u ? setUser(u._user) : logOut());
     setIsInitializing(false);
-    onInitialized();
   };
 
   useEffect(() => (

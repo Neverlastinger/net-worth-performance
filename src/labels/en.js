@@ -1,8 +1,11 @@
 export default {
   translation: {
-    walkthroughSlide1: 'Track your asset distribution',
-    walkthroughSlide2: 'See where your wealth is concentrated in',
-    walkthroughSlide3: 'Follow your net worth performance as you update asset values in the future',
+    walkthroughSlide1Title: 'Track your asset distribution',
+    walkthroughSlide1Description: 'By adding the monetary value of your assets, you get pie charts out of the box.',
+    walkthroughSlide2Title: 'See where your wealth is concentrated in',
+    walkthroughSlide2Description: 'Group assets by categories to see the bigger picture of your net worth distribution',
+    walkthroughSlide3Title: 'Follow your net worth performance',
+    walkthroughSlide3Description: 'As you update asset values once per month, you get a history chart of your net worth, each category, and individual assets',
     walkthroughSlideLast: 'Getting started...',
     initialQuote: 'Know what you own, and know why you own it.',
     initialQuoteAuthor: 'Peter Lynch',

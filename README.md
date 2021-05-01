@@ -1,4 +1,8 @@
-# net-worth-performance
+# Net Worth Performance
+
+This is the source code of the [Net Worth Performance App](https://www.getnetworthapp.com/).
+
+## To develop
 
 - Generate `debug.keystore` and register the SHA1 in Firebase
 - Add `.env` (`WEB_CLIENT_ID`, `EXCHANGERATESAPI_ACCESS_KEY`), `/android/app/google-services.json` & `/ios/GoogleService-Info.plist`

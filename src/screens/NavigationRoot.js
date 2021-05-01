@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import useAsyncValue from '~/hooks/useAsyncValue';
 import AuthNavigationRoot from './AuthNavigationRoot';
 import AppNavigationRoot from './AppNavigationRoot';
 import { STORAGE_KEYS } from '~/const';
@@ -20,18 +19,13 @@ const NavigationRoot = ({ isInitializing }) => {
     user.email && AsyncStorage.setItem(STORAGE_KEYS.LOGIN_USED, 'YES');
   }, [user]);
 
-  const hasWalkthroughBeenShown = useAsyncValue(async () => {
-    const value = await AsyncStorage.getItem(STORAGE_KEYS.WALKTHROUGH_SHOWN);
-    return !!value;
-  });
-
-  if (isInitializing || hasWalkthroughBeenShown === undefined) {
+  if (isInitializing) {
     return null;
   }
 
   return user.email
     ? <AppNavigationRoot hasAssets={hasAssets} />
-    : <AuthNavigationRoot showWalkthrough={!hasWalkthroughBeenShown} />;
+    : <AuthNavigationRoot />;
 };
 
 export default NavigationRoot;
