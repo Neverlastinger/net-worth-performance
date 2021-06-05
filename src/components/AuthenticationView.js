@@ -1,22 +1,32 @@
 import React from 'react';
 import styled from 'styled-components/native';
+import { DynamicStyleSheet, DynamicValue, useDynamicStyleSheet } from 'react-native-dark-mode';
 import logoIcon from '~/assets/logo-full.png';
 import { LIGHT_BACKGROUND_COLOR } from '../styles';
 
-const AuthenticationView = ({ children }) => (
-  <Wrapper>
-    <ContentWrapper contentContainerStyle={{ justifyContent: 'center', minHeight: '100%' }}>
-      <Logo source={logoIcon} />
-      <ChildrenWrapper>
-        {children}
-      </ChildrenWrapper>
-    </ContentWrapper>
-  </Wrapper>
-);
+const AuthenticationView = ({ children }) => {
+  const styles = useDynamicStyleSheet(dynamicStyles);
+
+  return (
+    <Wrapper style={styles.wrapper}>
+      <ContentWrapper contentContainerStyle={{ justifyContent: 'center', minHeight: '100%' }}>
+        <Logo source={logoIcon} />
+        <ChildrenWrapper>
+          {children}
+        </ChildrenWrapper>
+      </ContentWrapper>
+    </Wrapper>
+  );
+};
+
+const dynamicStyles = new DynamicStyleSheet({
+  wrapper: {
+    backgroundColor: new DynamicValue(LIGHT_BACKGROUND_COLOR, 'black'),
+  },
+});
 
 const Wrapper = styled.View`
   flex: 1;
-  background-color: ${LIGHT_BACKGROUND_COLOR};
 `;
 
 const ContentWrapper = styled.ScrollView`

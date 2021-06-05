@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { StatusBar } from 'react-native';
 import { Provider } from 'react-native-paper';
+import { useDarkMode } from 'react-native-dark-mode'
 import { useDispatch } from 'react-redux';
 import auth from '@react-native-firebase/auth';
 import NavigationRoot from '~/screens/NavigationRoot';
@@ -14,6 +15,7 @@ import { LIGHT_BACKGROUND_COLOR } from './styles';
 const Root = () => {
   const dispatch = useDispatch();
   const [isInitializing, setIsInitializing] = useState(true);
+  const isDarkMode = useDarkMode();
 
   useEffect(() => {
     dispatch(initApplication());
@@ -30,7 +32,7 @@ const Root = () => {
 
   return (
     <Provider>
-      <StatusBar backgroundColor={LIGHT_BACKGROUND_COLOR} barStyle="dark-content" />
+      <StatusBar backgroundColor={isDarkMode ? 'black' : LIGHT_BACKGROUND_COLOR} barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
       <NavigationRoot isInitializing={isInitializing} />
     </Provider>
   );

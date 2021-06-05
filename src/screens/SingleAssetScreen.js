@@ -4,8 +4,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { convertToBaseCurrency, assetListWithBaseCurrency } from '~/store/reducers';
 import { updateAsset } from '~/store/actions';
 import { dateKeyToHumanReadable } from '~/lib/dates';
+import useColors from '~/hooks/useColors';
 import AssetCard from '~/components/AssetCard';
 import UpdateMonthModal from '~/components/UpdateMonthModal';
+import ScreenWrapper from '~/components/ScreenWrapper';
 
 const SingleAssetScreen = ({ navigation, route }) => {
   const { assetId } = route.params;
@@ -14,6 +16,7 @@ const SingleAssetScreen = ({ navigation, route }) => {
   const reduxState = useSelector((state) => state);
   const [editableMonth, setEditableMonth] = useState();
   const [inputValue, setInputValue] = useState();
+  const colors = useColors();
 
   const asset = useMemo(() => (
     assetList.find((ass) => ass.id === assetId)
@@ -70,7 +73,7 @@ const SingleAssetScreen = ({ navigation, route }) => {
   };
 
   return (
-    <SafeArea>
+    <ScreenWrapper>
       <ScrollWrapper>
         <AssetCard asset={asset} showEmptyMonths showAddHistoricData showDeleteAsset onMonthPress={onMonthPress} />
 
@@ -84,13 +87,13 @@ const SingleAssetScreen = ({ navigation, route }) => {
             onSavePressed={onSavePressed}
             additionalButtons={[{
               label: t('deleteAmount'),
-              color: 'black',
+              color: colors.black,
               onPress: onDeletePressed
             }]}
           />
         )}
       </ScrollWrapper>
-    </SafeArea>
+    </ScreenWrapper>
   );
 };
 
@@ -99,10 +102,6 @@ const filterObject = (obj, prop) => {
   delete result[prop];
   return result;
 };
-
-const SafeArea = styled.SafeAreaView`
-  flex: 1
-`;
 
 const ScrollWrapper = styled.ScrollView`
   flex: 1;

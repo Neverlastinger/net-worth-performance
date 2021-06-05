@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { formatCurrency } from '~/lib/currency';
+import useColors from '~/hooks/useColors';
 import Modal from '~/components/Modal';
 import TextField from '~/components/TextField';
-import { BRAND_COLOR_RED } from '~/styles';
 
 const UpdateMonthModal = ({ onDismiss, title, currency, currentAmount, onChangeText, onSavePressed, additionalButtons = [] }) => {
   const [isSaveDisabled, setIsSaveDisabled] = useState(true);
+  const colors = useColors();
 
   const onValueChanged = (value) => {
     setIsSaveDisabled(value.length === 0);
@@ -29,7 +30,7 @@ const UpdateMonthModal = ({ onDismiss, title, currency, currentAmount, onChangeT
       buttons={[
         ...additionalButtons,
         {
-          color: BRAND_COLOR_RED,
+          color: colors.BRAND_COLOR_RED,
           onPress: onSavePressed,
           label: t('save'),
           disabled: isSaveDisabled

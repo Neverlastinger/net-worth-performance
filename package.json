@@ -30,7 +30,7 @@
     "react-native": "0.61.5",
     "react-native-animated-splash-screen": "^2.0.5",
     "react-native-custom-actionsheet": "^0.1.1",
-    "react-native-dropdownalert": "^4.2.1",
+    "react-native-dark-mode": "^0.2.2",
     "react-native-fbsdk": "^2.0.0",
     "react-native-gesture-handler": "^1.6.0",
     "react-native-paper": "^3.5.1",

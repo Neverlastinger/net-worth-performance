@@ -1,6 +1,6 @@
 import React from 'react';
 import Modal from '~/components/Modal';
-import { BRAND_COLOR_RED } from '~/styles';
+import useColors from '~/hooks/useColors';
 
 /**
  * Represents a confirm modal.
@@ -13,24 +13,28 @@ import { BRAND_COLOR_RED } from '~/styles';
  * @param {String} cancelLabel: optional cancel label
  * @param {String} confirmLabel: optional confirm label
  */
-const ConfirmModal = ({ title, content, onCancel, onConfirm, cancelLabel, confirmLabel }) => (
-  <Modal
-    onDismiss={onCancel}
-    title={title}
-    content={content}
-    buttons={[
-      {
-        color: 'black',
-        onPress: onCancel,
-        label: cancelLabel || t('cancel')
-      },
-      {
-        color: BRAND_COLOR_RED,
-        onPress: onConfirm,
-        label: confirmLabel || t('yes')
-      }
-    ]}
-  />
-);
+const ConfirmModal = ({ title, content, onCancel, onConfirm, cancelLabel, confirmLabel }) => {
+  const colors = useColors();
+
+  return (
+    <Modal
+      onDismiss={onCancel}
+      title={title}
+      content={content}
+      buttons={[
+        {
+          color: colors.black,
+          onPress: onCancel,
+          label: cancelLabel || t('cancel')
+        },
+        {
+          color: colors.BRAND_COLOR_RED,
+          onPress: onConfirm,
+          label: confirmLabel || t('yes')
+        }
+      ]}
+    />
+  );
+};
 
 export default ConfirmModal;

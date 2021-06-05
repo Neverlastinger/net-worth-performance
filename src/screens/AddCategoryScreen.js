@@ -5,6 +5,7 @@ import styled from 'styled-components/native';
 import { addAssetCategory } from '~/store/actions';
 import TextField from '~/components/TextField';
 import ActionButton from '~/components/ActionButton';
+import ScreenWrapper from '~/components/ScreenWrapper';
 
 const AddCategoryScreen = ({ navigation }) => {
   const dispatch = useDispatch();
@@ -20,20 +21,16 @@ const AddCategoryScreen = ({ navigation }) => {
   };
 
   return (
-    <SafeArea>
+    <ScreenWrapper>
       <View>
         <TextField label={t('addCategory')} onChangeText={onChangeText} />
       </View>
       <ButtonView>
         <ActionButton label={t('save')} onPress={onSavePress} />
       </ButtonView>
-    </SafeArea>
+    </ScreenWrapper>
   );
 };
-
-const SafeArea = styled.SafeAreaView`
-  flex: 1
-`;
 
 const ButtonView = styled.View`
   flex: 1;

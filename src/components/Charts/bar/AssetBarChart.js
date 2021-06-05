@@ -4,7 +4,8 @@ import { View, ScrollView, Dimensions } from 'react-native';
 import { BarChart, Grid } from 'react-native-svg-charts';
 import { formatCurrency } from '~/lib/currency';
 import renderBarChartLabels from './renderBarChartLabels';
-import { COLORS } from '../colors';
+import useChartColors from '~/hooks/useChartColors';
+import useColors from '~/hooks/useColors';
 
 const BAR_ITEM_MIN_WIDTH = 100;
 
@@ -14,6 +15,9 @@ const BAR_ITEM_MIN_WIDTH = 100;
  * @param {Array} data: asset list
  */
 const AssetBarChart = ({ data, navigation }) => {
+  const chartColors = useChartColors();
+  const colors = useColors();
+
   const shouldScroll = () => (
     Dimensions.get('window').width / data.length < BAR_ITEM_MIN_WIDTH
   );
@@ -36,7 +40,7 @@ const AssetBarChart = ({ data, navigation }) => {
           data={data.map((asset, i) => ({
             value: asset.latestAmountInBaseCurrency,
             svg: {
-              fill: COLORS[i % COLORS.length],
+              fill: chartColors[i % chartColors.length],
               onLongPress: () => {
                 navigation.navigate('AssetDashboard', { assetId: asset.id, name: asset.name });
               }
@@ -51,6 +55,7 @@ const AssetBarChart = ({ data, navigation }) => {
           {renderBarChartLabels({
             data,
             fieldName: 'latestAmountInBaseCurrency',
+            colors,
             displayValue: (item) => (
               formatCurrency({
                 amount: item.latestAmount,

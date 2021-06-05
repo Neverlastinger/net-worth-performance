@@ -1,12 +1,13 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components/native';
-import { Card } from 'react-native-paper';
 import { fillEmptyMonths } from '~/lib/dates';
 import { getActiveMonths } from '~/store/reducers';
 import MonthSelectorHeader from '~/components/MonthSelectorHeader';
 import CategoryRangeChart from '~/components/Charts/range/CategoryRangeChart';
 import CategoryRelativeToPortfolioRangeChar from '~/components/Charts/range/CategoryRelativeToPortfolioRangeChar';
+import ScreenWrapper from '~/components/ScreenWrapper';
+import MarginCard from '~/components/MarginCard';
 
 /**
  * Represents a dashboard for a category.
@@ -20,13 +21,13 @@ const CategoryDashboardScreen = ({ navigation, route }) => {
   const activeMonths = useSelector(getActiveMonths);
 
   return (
-    <SafeArea>
+    <ScreenWrapper>
       <ChartView>
-        <ChartCard>
+        <MarginCard>
           <MonthSelectorHeader navigation={navigation} />
-        </ChartCard>
+        </MarginCard>
 
-        <ChartCard>
+        <MarginCard>
           <ChartTitle>{t('assetRangeChartTitle', { asset: route.params.name })}</ChartTitle>
           <CategoryRangeChart
             month={selectedMonth}
@@ -36,9 +37,9 @@ const CategoryDashboardScreen = ({ navigation, route }) => {
             category={category}
             navigation={navigation}
           />
-        </ChartCard>
+        </MarginCard>
 
-        <ChartCard>
+        <MarginCard>
           <ChartTitle>{t('assetRelativeToNetWorthRangeChartTitle', { asset: route.params.name })}</ChartTitle>
           <CategoryRelativeToPortfolioRangeChar
             month={selectedMonth}
@@ -48,23 +49,15 @@ const CategoryDashboardScreen = ({ navigation, route }) => {
             category={category}
             navigation={navigation}
           />
-        </ChartCard>
+        </MarginCard>
       </ChartView>
-    </SafeArea>
+    </ScreenWrapper>
   );
 };
-
-const SafeArea = styled.SafeAreaView`
-  flex: 1
-`;
 
 const ChartView = styled.ScrollView`
   flex: 1;
   padding-top: 12px;
-`;
-
-const ChartCard = styled(Card)`
-  margin: 0 6px 12px 6px;
 `;
 
 const ChartTitle = styled.Text`

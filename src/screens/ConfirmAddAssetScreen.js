@@ -1,9 +1,16 @@
 import React from 'react';
 import styled from 'styled-components/native';
+import { useDarkMode, DynamicStyleSheet, DynamicValue, useDynamicStyleSheet } from 'react-native-dark-mode';
 import LottieView from 'lottie-react-native';
 import ActionButton from '~/components/ActionButton';
+import ScreenWrapper from '~/components/ScreenWrapper';
+
+/* eslint-disable global-require */
 
 const ConfirmAddAssetScreen = ({ navigation }) => {
+  const isDarkMode = useDarkMode();
+  const styles = useDynamicStyleSheet(dynamicStyles);
+
   const goToDashboard = () => {
     try {
       navigation.popToTop();
@@ -15,21 +22,36 @@ const ConfirmAddAssetScreen = ({ navigation }) => {
   };
 
   return (
-    <SafeArea>
-      <Confirm>
-        { /* eslint-disable-next-line global-require */ }
-        <Lottie source={require('~/assets/lf30_editor_ujZKnM.json')} autoPlay loop={false} speed={0.5} />
-        <MainText>{t('confirmAddAssetMainText')}</MainText>
-        <DescriptionText>{t('confirmAddAssetDescriptionText')}</DescriptionText>
-      </Confirm>
-      <ButtonView>
-        <ActionButton label={t('done')} onPress={goToDashboard} />
-      </ButtonView>
-    </SafeArea>
+    <ScreenWrapper>
+      <Wrapper>
+        <Confirm>
+          <Lottie
+            source={isDarkMode ? require('~/assets/lf30_editor_ujZKnM_light.json') : require('~/assets/lf30_editor_ujZKnM.json')}
+            autoPlay
+            loop={false}
+            speed={0.5}
+          />
+          <MainText style={styles.mainText}>{t('confirmAddAssetMainText')}</MainText>
+          <DescriptionText style={styles.descriptionText}>{t('confirmAddAssetDescriptionText')}</DescriptionText>
+        </Confirm>
+        <ButtonView>
+          <ActionButton label={t('done')} onPress={goToDashboard} />
+        </ButtonView>
+      </Wrapper>
+    </ScreenWrapper>
   );
 };
 
-const SafeArea = styled.SafeAreaView`
+const dynamicStyles = new DynamicStyleSheet({
+  mainText: {
+    color: new DynamicValue('black', 'white')
+  },
+  descriptionText: {
+    color: new DynamicValue('#404040', '#bfbfbf')
+  }
+});
+
+const Wrapper = styled.View`
   flex: 1;
   align-items: center;
   justify-content: center;
@@ -57,7 +79,6 @@ const MainText = styled.Text`
 const DescriptionText = styled.Text`
   margin-top: 6px;
   font-size: 12px;
-  color: #404040;
   text-align: center;
 `;
 

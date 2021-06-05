@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { Text } from 'react-native';
 import styled from 'styled-components/native';
 import { useDispatch, useSelector } from 'react-redux';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -7,6 +6,7 @@ import { closeBaseCurrencyQuestion, saveBaseCurrency } from '~/store/actions';
 import ConfirmModal from '~/components/ConfirmModal';
 import ActionSheet from '~/components/ActionSheet';
 import { OPTIONS as CURRENCY_OPTIONS } from '~/components/CurrencySelectField';
+import GreyText from '~/components/GreyText';
 import { STORAGE_KEYS } from '~/const';
 
 /**
@@ -51,9 +51,9 @@ const BaseCurrencyQuestion = () => {
           title={t('baseCurrencyQuestion')}
           content={(
             <>
-              <Text>
+              <GreyText>
                 {t('changeBaseCurrencyQuestion', { baseCurrency })}
-              </Text>
+              </GreyText>
               <AdditionalParagraph>
                 {t('youCanAlwaysConfigure', { baseCurrency })}
               </AdditionalParagraph>
@@ -79,7 +79,7 @@ const BaseCurrencyQuestion = () => {
   );
 };
 
-const AdditionalParagraph = styled.Text`
+const AdditionalParagraph = styled(GreyText)`
   margin-top: 18px;
 `;
 

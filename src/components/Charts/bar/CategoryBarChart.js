@@ -6,13 +6,16 @@ import { useSelector } from 'react-redux';
 import { formatCurrency } from '~/lib/currency';
 import { assetCategoryList } from '~/store/reducers/';
 import renderBarChartLabels from './renderBarChartLabels';
-import { COLORS } from '../colors';
+import useChartColors from '~/hooks/useChartColors';
+import useColors from '~/hooks/useColors';
 
 const BAR_ITEM_MIN_WIDTH = 100;
 
 const CategoryBarChart = ({ month, navigation }) => {
   const categoryList = useSelector((state) => assetCategoryList(state, month));
   const baseCurrency = useSelector((state) => state.user.baseCurrency);
+  const chartColors = useChartColors();
+  const colors = useColors();
 
   const shouldScroll = () => (
     Dimensions.get('window').width / categoryList.length < BAR_ITEM_MIN_WIDTH
@@ -36,7 +39,7 @@ const CategoryBarChart = ({ month, navigation }) => {
           data={categoryList.map((category, i) => ({
             value: category.amountInBaseCurrency,
             svg: {
-              fill: COLORS[i % COLORS.length],
+              fill: chartColors[i % chartColors.length],
               onLongPress: () => {
                 navigation.navigate('CategoryDashboard', { name: category.name });
               }
@@ -51,6 +54,7 @@ const CategoryBarChart = ({ month, navigation }) => {
           {renderBarChartLabels({
             data: categoryList,
             fieldName: 'amountInBaseCurrency',
+            colors,
             displayValue: (item) => (
               formatCurrency({
                 amount: item.amountInBaseCurrency,

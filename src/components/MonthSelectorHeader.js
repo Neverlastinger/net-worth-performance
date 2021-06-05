@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import styled from 'styled-components/native';
+import { DynamicStyleSheet, DynamicValue, useDynamicStyleSheet } from 'react-native-dark-mode';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { dateKeyToHumanReadable, getPrevMonth, getNextMonth, fillEmptyMonths } from '~/lib/dates';
 import { getActiveMonths } from '~/store/reducers';
@@ -19,6 +20,8 @@ const MonthSelectorHeader = ({ navigation }) => {
   const selectedMonth = useSelector((state) => state.selectedMonth);
   const [isActionSheetOpen, setIsActionSheetOpen] = useState(false);
   const [isHistoricalDataQuestionOpen, setIsHistoricalDataQuestionOpen] = useState(false);
+
+  const styles = useDynamicStyleSheet(dynamicStyles);
 
   useEffect(() => {
     months[0] && dispatch(setSelectedMonth(months[0]));
@@ -57,16 +60,16 @@ const MonthSelectorHeader = ({ navigation }) => {
   return (
     <Title>
       <PrevMonth onPress={onPrev}>
-        <Icon name="chevron-left" size={18} />
+        <Icon name="chevron-left" size={18} style={styles.chevron} />
       </PrevMonth>
 
       <Wrapper onPress={openActionSheet}>
-        <MonthText>{selectedMonth && dateKeyToHumanReadable(selectedMonth)}</MonthText>
-        <DropdownIcon name="chevron-down" size={8} color="black" />
+        <MonthText style={styles.monthText}>{selectedMonth && dateKeyToHumanReadable(selectedMonth)}</MonthText>
+        <DropdownIcon name="chevron-down" size={8} style={styles.dropdownIcon} />
       </Wrapper>
 
       <NextMonth onPress={onNext}>
-        <Icon name="chevron-right" size={18} />
+        <Icon name="chevron-right" size={18} style={styles.chevron} />
       </NextMonth>
 
       <ActionSheet
@@ -86,6 +89,18 @@ const MonthSelectorHeader = ({ navigation }) => {
     </Title>
   );
 };
+
+const dynamicStyles = new DynamicStyleSheet({
+  monthText: {
+    color: new DynamicValue('black', 'white'),
+  },
+  dropdownIcon: {
+    color: new DynamicValue('black', 'white'),
+  },
+  chevron: {
+    color: new DynamicValue('black', 'white'),
+  }
+});
 
 const Title = styled.View`
   padding: 0;

@@ -5,11 +5,13 @@ import styled from 'styled-components/native';
 import { updateAsset } from '~/store/actions';
 import { dateKeyToHumanReadable, getSortedMonthKeys, getDateKey } from '~/lib/dates';
 import { assetListWithBaseCurrency } from '~/store/reducers';
+import useColors from '~/hooks/useColors';
 import NoAsset from '~/components/NoAsset';
 import ActionButton from '~/components/ActionButton';
 import AssetCard from '~/components/AssetCard';
 import UpdateMonthModal from '~/components/UpdateMonthModal';
 import ScrollWrapper from '~/components/ScrollWrapper';
+import ScreenWrapper from '~/components/ScreenWrapper';
 
 const MAX_MONTHS_SHOWN = 3;
 
@@ -18,6 +20,7 @@ const UpdateExistingAssetsScreen = ({ navigation }) => {
   const assetList = useSelector(assetListWithBaseCurrency);
   const [editableAsset, setEditableAsset] = useState();
   const currentMonthKey = getDateKey(new Date());
+  const colors = useColors();
 
   const saveAmount = (amount) => {
     setEditableAsset((current) => ({
@@ -40,7 +43,7 @@ const UpdateExistingAssetsScreen = ({ navigation }) => {
   };
 
   return (
-    <SafeArea>
+    <ScreenWrapper>
       {assetList.length > 0 ? (
         <ScrollWrapper>
           <View>
@@ -76,7 +79,7 @@ const UpdateExistingAssetsScreen = ({ navigation }) => {
               onSavePressed={onSavePressed}
               additionalButtons={[{
                 label: t('moreOptions'),
-                color: 'black',
+                color: colors.black,
                 onPress: onMoreDetailsPressed
               }]}
             />
@@ -85,13 +88,9 @@ const UpdateExistingAssetsScreen = ({ navigation }) => {
       ) : (
         <NoAsset goToAddAsset={() => { navigation.navigate('AddAsset'); }} />
       )}
-    </SafeArea>
+    </ScreenWrapper>
   );
 };
-
-const SafeArea = styled.SafeAreaView`
-  flex: 1
-`;
 
 const ButtonView = styled.View`
   flex: 1;

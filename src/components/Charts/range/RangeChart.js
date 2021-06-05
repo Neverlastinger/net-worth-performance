@@ -7,7 +7,10 @@ import { formatCurrency, formatCurrencyGrowth } from '~/lib/currency';
 import { getGrowthPercentage } from '~/lib/number';
 import PlaceholderRangeChart from './PlaceholderRangeChart';
 import Gradient from '../Gradient';
-import { BRAND_COLOR_BLUE, BRAND_COLOR_RED } from '~/styles';
+import useColors from '~/hooks/useColors';
+import BrandedText from '../../BrandedText';
+import GreyText from '../../GreyText';
+import BlackText from '../../BlackText';
 
 /**
  * Returns an array of texts used for the X Axis of the RangeChart.
@@ -68,6 +71,7 @@ const getDefaultRange = (monthCount) => (
  */
 const RangeChart = ({ amounts, currency, month, monthCount, earliestRecordedMonth, onRangeNumberChange, isPercent, displayChart, navigation }) => {
   const [range, setRange] = useState(getDefaultRange(monthCount));
+  const colors = useColors();
 
   const getMaxRange = () => (
     getMonthDifference(month, earliestRecordedMonth) - 1
@@ -123,7 +127,7 @@ const RangeChart = ({ amounts, currency, month, monthCount, earliestRecordedMont
         </AmountText>
         {displayChart && !!amountGrowth && (
           <GrowthText
-            style={{ color: amountGrowth > 0 ? BRAND_COLOR_BLUE : BRAND_COLOR_RED }}
+            style={{ color: amountGrowth > 0 ? colors.BRAND_COLOR_BLUE : colors.BRAND_COLOR_RED }}
           >
             {isPercent
               ? t('plusPercentagePoints', { text: `${amountGrowth > 0 ? '+' : ''}${amountGrowth.toFixed(2)}` })
@@ -140,31 +144,37 @@ const RangeChart = ({ amounts, currency, month, monthCount, earliestRecordedMont
               text={t('months', { count: 1 })}
               isActive={range === 1}
               onPress={() => { setRange(1); }}
+              colors={colors}
             />
             <PeriodButton
               text={t('months', { count: 2 })}
               isActive={range === 2}
               onPress={() => { setRange(2); }}
+              colors={colors}
             />
             <PeriodButton
               text={t('months', { count: 6 })}
               isActive={range === 6}
               onPress={() => { setRange(6); }}
+              colors={colors}
             />
             <PeriodButton
               text={t('YTD')}
               isActive={range === 'YTD'}
               onPress={() => { setRange('YTD'); }}
+              colors={colors}
             />
             <PeriodButton
               text={t('years', { count: 1 })}
               isActive={range === 12}
               onPress={() => { setRange(12); }}
+              colors={colors}
             />
             <PeriodButton
               text={t('max')}
               isActive={range === 'MAX'}
               onPress={() => { setRange('MAX'); }}
+              colors={colors}
             />
           </PeriodView>
           <ChartView>
@@ -203,10 +213,9 @@ const HeaderView = styled.View`
   padding: 16px 0 16px 16px;
 `;
 
-const AmountText = styled.Text`
+const AmountText = styled(BrandedText)`
   font-size: 18px;
   font-weight: bold;
-  color: ${BRAND_COLOR_BLUE};
 `;
 
 const GrowthText = styled.Text`
@@ -215,9 +224,9 @@ const GrowthText = styled.Text`
   font-weight: 500;
 `;
 
-const PeriodButton = ({ isActive, text, ...props }) => (
+const PeriodButton = ({ isActive, text, colors, ...props }) => (
   isActive
-    ? <PeriodActiveButtonWrapper {...props}><PeriodTextActive>{text}</PeriodTextActive></PeriodActiveButtonWrapper>
+    ? <PeriodActiveButtonWrapper {...props} style={{ borderBottomColor: colors.black }}><PeriodTextActive>{text}</PeriodTextActive></PeriodActiveButtonWrapper>
     : <PeriodButtonWrapper {...props}><PeriodText>{text}</PeriodText></PeriodButtonWrapper>
 );
 
@@ -236,19 +245,16 @@ const PeriodActiveButtonWrapper = styled.TouchableOpacity`
   flex: 1;
   padding: 10px 0;
   border-bottom-width: 2px;
-  border-bottom-color: black;
 `;
 
-const PeriodText = styled.Text`
+const PeriodText = styled(GreyText)`
   text-align: center;
   font-size: 10px;
-  color: hsla(0, 0%, 0%, 0.62);
 `;
 
-const PeriodTextActive = styled.Text`
+const PeriodTextActive = styled(BlackText)`
   text-align: center;
   font-size: 10px;
-  color: hsla(0, 0%, 0%, 1);
 `;
 
 const ChartView = styled.View`

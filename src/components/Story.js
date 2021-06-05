@@ -1,6 +1,7 @@
 import React, { useEffect, useReducer } from 'react';
 import { Dimensions, StatusBar } from 'react-native';
 import styled from 'styled-components/native';
+import ScreenWrapper from '~/components/ScreenWrapper';
 
 const NEXT_STORY = 'NEXT_STORY';
 const PREV_STORY = 'PREV_STORY';
@@ -141,7 +142,7 @@ const Story = ({ stories, onStoryEnd }) => {
   };
 
   return (
-    <SafeArea>
+    <ScreenWrapper>
       <StatusBar hidden />
       <TouchableWrapper onPress={onPress} onPressIn={onPressIn} onLongPress={onLongPress} onPressOut={onPressEnd}>
         <Wrapper>
@@ -155,13 +156,9 @@ const Story = ({ stories, onStoryEnd }) => {
           </StoryWrapper>
         </Wrapper>
       </TouchableWrapper>
-    </SafeArea>
+    </ScreenWrapper>
   );
 };
-
-const SafeArea = styled.SafeAreaView`
-  flex: 1;
-`;
 
 const TouchableWrapper = styled.TouchableWithoutFeedback`
   flex: 1;

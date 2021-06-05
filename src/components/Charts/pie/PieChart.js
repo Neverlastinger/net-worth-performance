@@ -8,8 +8,8 @@ import { setInfoMessage } from '~/store/actions';
 import { pSBC } from '~/lib/pSBC';
 import useRecentPoint from '~/hooks/useRecentPoint';
 import useAnimatedValue from '~/hooks/useAnimatedValue';
+import useChartColors from '~/hooks/useChartColors';
 import PieChartLegend from '~/components/PieChartLegend';
-import { COLORS } from '../colors';
 
 const ANIMATION_DURATION = 200;
 
@@ -33,6 +33,7 @@ const PieChart = ({ slices, blurDetected, getTooltipData, onItemLongPress }) => 
   const [tooltipLeft] = useAnimatedValue(0);
   const [recentPoint, restartRecentPoint] = useRecentPoint(500);
   const wrapperWidth = useRef();
+  const chartColors = useChartColors();
 
   useEffect(() => {
     initPieChartData();
@@ -53,7 +54,7 @@ const PieChart = ({ slices, blurDetected, getTooltipData, onItemLongPress }) => 
     setPieChartData(slices.map((item, i) => ({
       ...item,
       svg: {
-        fill: COLORS[i % COLORS.length],
+        fill: chartColors[i % chartColors.length],
         onPressIn: (e) => {
           onItemPress(i, e);
           dispatch(setInfoMessage(t('longTapToSeeDetails')));
@@ -124,7 +125,7 @@ const PieChart = ({ slices, blurDetected, getTooltipData, onItemLongPress }) => 
               ...item,
               svg: {
                 ...item.svg,
-                fill: COLORS[i % COLORS.length]
+                fill: chartColors[i % chartColors.length]
               },
               arc: { outerRadius: '100%' }
             }

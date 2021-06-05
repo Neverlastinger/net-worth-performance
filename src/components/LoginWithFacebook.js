@@ -48,6 +48,7 @@ const LoginWithFacebook = () => {
       label={t('continueWithFacebook')}
       icon="facebook"
       color="#415dae"
+      dark
       onPress={onFacebookButtonPress}
       loading={isLoading}
     />

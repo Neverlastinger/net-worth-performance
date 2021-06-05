@@ -3,17 +3,19 @@ import { TouchableOpacity } from 'react-native';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components/native';
 import { Surface } from 'react-native-paper';
+import { DynamicStyleSheet, DynamicValue, useDynamicStyleSheet } from 'react-native-dark-mode';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { updateAsset, deleteAsset as deleteAssetAction } from '~/store/actions';
 import { formatCurrency } from '~/lib/currency';
 import { dateKeyToHumanReadable, getSortedMonthKeys, getDateKey, fillEmptyMonths, addTrailingMonths } from '~/lib/dates';
 import { getGrowthPercentage } from '~/lib/number';
+import useColors from '~/hooks/useColors';
 import TappableWrapper from '~/components/TappableWrapper';
 import ActionButton from '~/components/ActionButton';
 import UpdateNameModal from '~/components/UpdateNameModal';
 import TextLink from '~/components/TextLink';
 import ConfirmModal from '~/components/ConfirmModal';
-import { BRAND_COLOR_RED, LIGHT_TEXT_COLOR } from '~/styles';
+import { BRAND_COLOR_RED, LIGHT_TEXT_COLOR, DARK_MODE_TAB_BLACK, DARK_MODE_RED } from '~/styles';
 
 const TRAILING_MONTHS_BATCH = 3;
 
@@ -24,8 +26,11 @@ const AssetCard = ({ asset, onPress, onMonthPress, maxMonthsShown, showEmptyMont
   const [trailingMonths, setTrailingMonths] = useState(0);
   const [isEditTitleOpen, setIsEditTitleOpen] = useState(false);
   const newAssetNameRef = useRef();
+  const colors = useColors();
 
   const [isDeleteConfirmShown, setIsDeleteConfirmShown] = useState(false);
+
+  const styles = useDynamicStyleSheet(dynamicStyles);
 
   useEffect(() => {
     let monthList = getSortedMonthKeys(asset.amount);
@@ -47,7 +52,7 @@ const AssetCard = ({ asset, onPress, onMonthPress, maxMonthsShown, showEmptyMont
 
   const renderMonth = (monthKey) => (
     dateKeyToHumanReadable(monthKey).split(' ').map((word) => (
-      <MonthWord key={word}>{word}</MonthWord>
+      <MonthWord style={styles.monthWord} key={word}>{word}</MonthWord>
     ))
   );
 
@@ -87,47 +92,47 @@ const AssetCard = ({ asset, onPress, onMonthPress, maxMonthsShown, showEmptyMont
   };
 
   return (
-    <AssetWrapper>
+    <AssetWrapper style={styles.assetWrapper}>
       <TappableWrapper onPress={onPress}>
         <Title>
-          <TitleText>
+          <TitleText style={styles.titleText}>
             {asset.name}
           </TitleText>
           <TouchableOpacity onPress={onTitlePress}>
-            <EditIcon name="edit" size={18} />
+            <EditIcon name="edit" size={18} color={colors.black} />
           </TouchableOpacity>
         </Title>
 
         {isAssetOutdated && (
           <TappableWrapper onPress={onMonthPress && (() => { onMonthPress(currentMonthKey); })}>
-            <MonthData key={currentMonthKey}>
+            <MonthData key={currentMonthKey} style={styles.monthData}>
               <Month>
                 {renderMonth(currentMonthKey)}
               </Month>
-              <OutdatedText>{t('outdatedAssetText')}</OutdatedText>
+              <OutdatedText style={styles.outdatedText}>{t('outdatedAssetText')}</OutdatedText>
             </MonthData>
           </TappableWrapper>
         )}
 
         {months.map((monthKey) => (
           <TappableWrapper key={monthKey} onPress={onMonthPress && (() => { onMonthPress(monthKey); })}>
-            <MonthData>
+            <MonthData style={styles.monthData}>
               <Month>
                 {renderMonth(monthKey)}
               </Month>
               <Amount>
-                <AmountText>
+                <AmountText style={styles.amountText}>
                   {asset.amount[monthKey] !== undefined
                     ? formatCurrency({
                       amount: asset.amount[monthKey],
                       currency: asset.currency
                     })
-                    : <OutdatedText>{t('outdatedAssetText')}</OutdatedText>
+                    : <OutdatedText style={styles.outdatedText}>{t('outdatedAssetText')}</OutdatedText>
                   }
                 </AmountText>
                 {growth[monthKey] && growth[monthKey].absolute !== null && growth[monthKey].absolute !== 0 && (
                   <>
-                    <AmountDetailsText style={{ color: growth[monthKey].isPositive ? 'green' : 'red' }}>
+                    <AmountDetailsText style={{ color: growth[monthKey].isPositive ? colors.BRAND_COLOR_BLUE : colors.BRAND_COLOR_RED }}>
                       {
                         `${growth[monthKey].isPositive ? '+' : ''}${formatCurrency({
                           amount: growth[monthKey].absolute,
@@ -135,7 +140,7 @@ const AssetCard = ({ asset, onPress, onMonthPress, maxMonthsShown, showEmptyMont
                         })}`
                       }
                     </AmountDetailsText>
-                    <AmountDetailsText style={{ color: growth[monthKey].isPositive ? 'green' : 'red' }}>
+                    <AmountDetailsText style={{ color: growth[monthKey].isPositive ? colors.BRAND_COLOR_BLUE : colors.BRAND_COLOR_RED }}>
                       {growth[monthKey].percentage}
                     </AmountDetailsText>
                   </>
@@ -156,7 +161,7 @@ const AssetCard = ({ asset, onPress, onMonthPress, maxMonthsShown, showEmptyMont
         {maxMonthsShown && months.length > maxMonthsShown && (
           <MonthData>
             <Month>
-              <MonthWord>
+              <MonthWord style={styles.monthWord}>
                 ...
               </MonthWord>
             </Month>
@@ -215,10 +220,30 @@ const calculateGrowth = (asset, months) => (
   }), {})
 );
 
+const dynamicStyles = new DynamicStyleSheet({
+  assetWrapper: {
+    backgroundColor: new DynamicValue('white', DARK_MODE_TAB_BLACK),
+  },
+  titleText: {
+    color: new DynamicValue('black', 'white'),
+  },
+  monthData: {
+    backgroundColor: new DynamicValue('white', 'hsl(0, 0%, 20%)'),
+  },
+  outdatedText: {
+    color: new DynamicValue(BRAND_COLOR_RED, DARK_MODE_RED),
+  },
+  monthWord: {
+    color: new DynamicValue('black', 'white'),
+  },
+  amountText: {
+    color: new DynamicValue('black', 'white'),
+  }
+});
+
 const AssetWrapper = styled(Surface)`
   margin: 12px;
   padding: 30px 18px;
-  backgroundColor: white;
   elevation: 2;
 `;
 
@@ -278,7 +303,6 @@ const OutdatedText = styled.Text`
   flex: 1;
   font-size: 11px;
   font-style: italic;
-  color: ${BRAND_COLOR_RED};
 `;
 
 const ButtonView = styled.View`

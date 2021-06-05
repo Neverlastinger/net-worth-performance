@@ -1,12 +1,14 @@
 import React from 'react';
 import { View } from 'react-native';
 import styled from 'styled-components/native';
+import { DynamicStyleSheet, DynamicValue, useDynamicStyleSheet } from 'react-native-dark-mode';
 import auth from '@react-native-firebase/auth';
 import { useDispatch, useSelector } from 'react-redux';
 import { saveBaseCurrency } from '~/store/actions';
 import ScrollWrapper from '~/components/ScrollWrapper';
 import CurrencySelectField from '~/components/CurrencySelectField';
 import TextLink from '~/components/TextLink';
+import ScreenWrapper from '~/components/ScreenWrapper';
 
 /**
  * Represents the profile screen containing user data and preferences.
@@ -14,6 +16,7 @@ import TextLink from '~/components/TextLink';
 const ProfileScreen = () => {
   const dispatch = useDispatch();
   const baseCurrency = useSelector((state) => state.user.baseCurrency);
+  const styles = useDynamicStyleSheet(dynamicStyles);
 
   const logout = async () => {
     await auth().signOut();
@@ -24,10 +27,10 @@ const ProfileScreen = () => {
   };
 
   return (
-    <SafeArea>
+    <ScreenWrapper>
       <ScrollWrapper>
         <View>
-          <DescriptionText>{t('selectYourBaseCurrencyLongDescription')}</DescriptionText>
+          <DescriptionText style={styles.descriptionText}>{t('selectYourBaseCurrencyLongDescription')}</DescriptionText>
           <CurrencySelectField
             label={t('baseCurrency')}
             selectedValue={baseCurrency}
@@ -38,18 +41,19 @@ const ProfileScreen = () => {
           <TextLink label={t('logout')} color="#AAA" onPress={logout} />
         </ButtonView>
       </ScrollWrapper>
-    </SafeArea>
+    </ScreenWrapper>
   );
 };
 
-const SafeArea = styled.SafeAreaView`
-  flex: 1;
-`;
+const dynamicStyles = new DynamicStyleSheet({
+  descriptionText: {
+    color: new DynamicValue('#444', 'hsl(0, 0%, 80%)')
+  }
+});
 
 const DescriptionText = styled.Text`
   margin-top: 6px;
   padding: 12px 12px 6px 12px;
-  color: #444;
   font-size: 12px;
   line-height: 16px;
 `;

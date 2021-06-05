@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components/native';
-import { Text } from 'react-native';
+import GreyText from './GreyText';
 
 /**
  * Represents the legend shown above a PieChart.
@@ -14,7 +14,7 @@ const PieChartLegend = ({ data }) => (
     {data.map((item) => (
       <Item key={item.key}>
         <ColorBox style={{ backgroundColor: item.svg.fill }} />
-        <Text>{item.key}</Text>
+        <GreyText>{item.key}</GreyText>
       </Item>
     ))}
   </Legend>

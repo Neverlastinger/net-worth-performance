@@ -1,7 +1,7 @@
 import React from 'react';
 import { Text } from 'react-native-svg';
 
-const renderBarChartLabels = ({ data, fieldName, displayValue }) => {
+const renderBarChartLabels = ({ data, fieldName, displayValue, colors }) => {
   const CUT_OFF = data[0] && data[0][fieldName] * 0.75;
 
   const Labels = ({ x, y, bandwidth }) => (
@@ -12,7 +12,7 @@ const renderBarChartLabels = ({ data, fieldName, displayValue }) => {
           y={item[fieldName] < CUT_OFF ? y(item[fieldName]) - 30 : y(item[fieldName]) + 20}
           fontSize={12}
           fontWeight="bold"
-          fill={item[fieldName] >= CUT_OFF ? 'white' : 'black'}
+          fill={item[fieldName] >= CUT_OFF ? 'white' : colors.black}
           alignmentBaseline="middle"
           textAnchor="middle"
         >
@@ -22,7 +22,7 @@ const renderBarChartLabels = ({ data, fieldName, displayValue }) => {
           x={x(index) + (bandwidth / 2)}
           y={item[fieldName] < CUT_OFF ? y(item[fieldName]) - 15 : y(item[fieldName]) + 35}
           fontSize={12}
-          fill={item[fieldName] >= CUT_OFF ? 'white' : 'black'}
+          fill={item[fieldName] >= CUT_OFF ? 'white' : colors.black}
           alignmentBaseline="middle"
           textAnchor="middle"
         >

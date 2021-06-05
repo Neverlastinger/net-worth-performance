@@ -1,31 +1,38 @@
 import React, { useState } from 'react';
 import styled from 'styled-components/native';
 import { TextInput } from 'react-native-paper';
+import { DynamicStyleSheet, DynamicValue, useDarkMode, useDynamicStyleSheet } from 'react-native-dark-mode';
 import { BRAND_COLOR_BLUE } from '~/styles';
 
 const TextField = ({ ...props }) => {
-  const [textColor, setTextColor] = useState('#000');
+  const isDarkMode = useDarkMode();
+  const defaultColor = isDarkMode ? '#bababa' : 'black';
+  const selectionColor = isDarkMode ? '#bababa' : BRAND_COLOR_BLUE;
+  const [textColor, setTextColor] = useState(defaultColor);
+  const styles = useDynamicStyleSheet(dynamicStyles);
 
   const onFocus = () => {
-    setTextColor(BRAND_COLOR_BLUE);
+    setTextColor(isDarkMode ? '#bababa' : BRAND_COLOR_BLUE);
   };
 
   const onBlur = () => {
-    setTextColor('#000');
+    setTextColor(defaultColor);
   };
 
   return (
     <Input
       type="outlined"
-      selectionColor={BRAND_COLOR_BLUE}
+      selectionColor={selectionColor}
       onFocus={onFocus}
       onBlur={onBlur}
       theme={{
         colors: {
-          primary: BRAND_COLOR_BLUE,
-          text: textColor
+          primary: selectionColor,
+          text: textColor,
+          placeholder: defaultColor,
         }
       }}
+      style={styles.input}
       {...props}
     />
   );
@@ -33,7 +40,12 @@ const TextField = ({ ...props }) => {
 
 const Input = styled(TextInput)`
   margin: 6px;
-  backgroundColor: hsla(0, 0%, 100%, 1);
 `;
+
+const dynamicStyles = new DynamicStyleSheet({
+  input: {
+    backgroundColor: new DynamicValue('white', '#444'),
+  },
+});
 
 export default TextField;

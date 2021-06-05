@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import styled from 'styled-components/native';
@@ -12,6 +11,7 @@ import CategorySelectField from '~/components/CategorySelectField/CategorySelect
 import CurrencySelectField from '~/components/CurrencySelectField';
 import ActionButton from '~/components/ActionButton';
 import ScrollWrapper from '~/components/ScrollWrapper';
+import ScreenWrapper from '~/components/ScreenWrapper';
 import { STORAGE_KEYS } from '~/const';
 
 const AddAssetScreen = ({ navigation }) => {
@@ -85,9 +85,9 @@ const AddAssetScreen = ({ navigation }) => {
   };
 
   return (
-    <SafeArea>
+    <ScreenWrapper>
       <ScrollWrapper>
-        <View key={reactKey}>
+        <FieldsWrapper key={reactKey}>
           <TextField label={t('assetName')} onChangeText={saveName} />
           <TextField label={t('amount', { month: monthName })} onChangeText={saveAmount} keyboardType="numeric" />
           <CategorySelectField
@@ -97,26 +97,25 @@ const AddAssetScreen = ({ navigation }) => {
             hasCategoryPreviewBeenShown={hasCategoryPreviewBeenShown}
           />
           <CurrencySelectField onValueSelected={saveCurrency} />
-        </View>
+        </FieldsWrapper>
         <ButtonView>
           {!isKeyboardShown && (
             <ActionButton label={t('saveAsset')} disabled={isButtonDisabled} onPress={onSavePressed} />
           )}
         </ButtonView>
       </ScrollWrapper>
-    </SafeArea>
+    </ScreenWrapper>
   );
 };
 
-const SafeArea = styled.SafeAreaView`
-  flex: 1
+const FieldsWrapper = styled.View`
+  padding-top: 18px;
 `;
 
 const ButtonView = styled.View`
   flex: 1;
   align-items: center;
-  justify-content: flex-end;
-  margin: 30px 0;
+  margin: 60px 0;
 `;
 
 export default AddAssetScreen;
