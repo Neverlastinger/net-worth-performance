@@ -146,8 +146,8 @@ android {
         applicationId "com.radoslavpopov.networthperformance"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 3
-        versionName "1.0"
+        versionCode 7
+        versionName "1.07"
         multiDexEnabled true
     }
     splits {

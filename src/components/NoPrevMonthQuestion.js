@@ -1,6 +1,6 @@
 import React from 'react';
-import { Text } from 'react-native';
 import ConfirmModal from '~/components/ConfirmModal';
+import GreyText from '~/components/GreyText';
 
 /**
  * Encapsulates a popup that is shown when the user selects the previous month but no assets have been added for it.
@@ -11,7 +11,7 @@ const NoPrevMonthQuestion = ({ isActive, onCancel, onConfirm, earlierMonth }) =>
       <ConfirmModal
         title={t('noDataPrior', { month: earlierMonth })}
         content={(
-          <Text>{t('noPrevMonthAddHistoricalData', { month: earlierMonth })}</Text>
+          <GreyText>{t('noPrevMonthAddHistoricalData', { month: earlierMonth })}</GreyText>
         )}
         cancelLabel={t('noThanks')}
         confirmLabel={t('addHistoricalData')}

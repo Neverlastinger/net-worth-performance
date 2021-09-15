@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { Text } from 'react-native';
 import { Grid, LineChart, XAxis, YAxis } from 'react-native-svg-charts';
 import styled from 'styled-components/native';
 import ConfirmModal from '~/components/ConfirmModal';
+import GreyText from '~/components/GreyText';
 import Gradient from '../Gradient';
 
 /**
@@ -86,7 +86,7 @@ const PlaceholderRangeChart = ({ initialAmount, navigation, xAxisHeight, vertica
           title={t('rangeMessageTitle')}
           content={(
             <>
-              <Text>{t('rangeChartPlaceholderMessage')}</Text>
+              <GreyText>{t('rangeChartPlaceholderMessage')}</GreyText>
               <ModalText>{t('addHistoricalDataNow')}</ModalText>
             </>
           )}
@@ -150,7 +150,7 @@ const LineView = styled.View`
   margin-left: 10px;
 `;
 
-const ModalText = styled.Text`
+const ModalText = styled(GreyText)`
   margin-top: 18px;
 `;
 

@@ -40,8 +40,13 @@ function* save({ data }) {
     yield put(saveBaseCurrency(data.currency));
   } else {
     const baseCurrencyQuestionAsked = yield call(AsyncStorage.getItem, STORAGE_KEYS.BASE_CURRENCY_QUESTION_ASKED);
+    const { assetList } = yield select((state) => state);
 
-    if (!baseCurrencyQuestionAsked) {
+    const currencies = assetList.map((asset) => asset.currency);
+    currencies.push(data.currency);
+    const uniqueCurrencies = new Set(currencies);
+
+    if (!baseCurrencyQuestionAsked && uniqueCurrencies.size > 1) {
       yield put(askAboutBaseCurrency());
     }
   }

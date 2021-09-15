@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { Text } from 'react-native';
 import messaging from '@react-native-firebase/messaging';
 import ConfirmModal from '~/components/ConfirmModal';
 import Modal from '~/components/Modal';
+import GreyText from '~/components/GreyText';
 
 const NOTIFICATION_TYPES = {
   NEW_MONTH: 'NEW_MONTH'
@@ -44,7 +44,7 @@ const NotificationHandler = ({ navigation }) => {
             <ConfirmModal
               title={remoteData.notification.title}
               content={(
-                <Text>{remoteData.notification.body}</Text>
+                <GreyText>{remoteData.notification.body}</GreyText>
               )}
               cancelLabel={t('maybeLater')}
               confirmLabel={t('updateAssetValues')}
@@ -55,7 +55,7 @@ const NotificationHandler = ({ navigation }) => {
             <Modal
               title={remoteData.notification.title}
               content={(
-                <Text>{remoteData.notification.body}</Text>
+                <GreyText>{remoteData.notification.body}</GreyText>
               )}
               onDismiss={() => { setRemoteData(false); }}
             />
