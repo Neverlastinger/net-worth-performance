@@ -3,12 +3,14 @@ import userSagas from './user';
 import assetCategorySagas from './assetCategories';
 import assetsSagas from './assets';
 import currencySagas from './currencies';
+import historicCurrencyInitializationSagas from './historicCurrencyInitialization';
 
 const sagas = [
   ...userSagas,
   ...assetCategorySagas,
   ...currencySagas,
-  ...assetsSagas
+  ...assetsSagas,
+  ...historicCurrencyInitializationSagas
 ];
 
 /**
