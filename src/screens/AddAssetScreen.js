@@ -17,6 +17,7 @@ import { STORAGE_KEYS } from '~/const';
 const AddAssetScreen = ({ navigation }) => {
   const dispatch = useDispatch();
   const mostRecentCategory = useSelector((state) => state.mostRecentCategory);
+  const baseCurrency = useSelector((state) => state.user.baseCurrency);
   const isKeyboardShown = useKeyboardShown();
   const [asset, setAsset] = useState({});
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
@@ -30,7 +31,7 @@ const AddAssetScreen = ({ navigation }) => {
   });
 
   useEffect(() => {
-    setIsButtonDisabled(!asset.name || !asset.amount || !asset.category || !asset.currency);
+    setIsButtonDisabled(!asset.name || !asset.amount || !asset.category || (!asset.currency && !baseCurrency));
   }, [asset]);
 
   useEffect(() => {
@@ -71,7 +72,10 @@ const AddAssetScreen = ({ navigation }) => {
    * Saves the asset to the server and navigates to the Confirmation screen.
    */
   const onSavePressed = () => {
-    dispatch(saveAsset(asset));
+    dispatch(saveAsset({
+      ...asset,
+      currency: asset.currency || baseCurrency
+    }));
     cleanUp();
     navigation.navigate('Confirm');
   };
@@ -96,7 +100,10 @@ const AddAssetScreen = ({ navigation }) => {
             selectedValue={asset.category}
             hasCategoryPreviewBeenShown={hasCategoryPreviewBeenShown}
           />
-          <CurrencySelectField onValueSelected={saveCurrency} />
+          <CurrencySelectField
+            onValueSelected={saveCurrency}
+            selectedValue={asset.currency || baseCurrency}
+          />
         </FieldsWrapper>
         <ButtonView>
           {!isKeyboardShown && (

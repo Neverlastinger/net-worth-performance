@@ -88,7 +88,7 @@ const DashboardScreen = ({ navigation }) => {
         <NoAsset goToAddAsset={() => { navigation.navigate('AddAsset'); }} />
       )}
 
-      <BaseCurrencyQuestion />
+      <BaseCurrencyQuestion navigation={navigation} />
       <NotificationHandler navigation={navigation} />
     </ScreenWrapper>
   );

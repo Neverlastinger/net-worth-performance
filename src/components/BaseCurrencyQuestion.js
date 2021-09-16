@@ -5,19 +5,20 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { closeBaseCurrencyQuestion, saveBaseCurrency } from '~/store/actions';
 import ConfirmModal from '~/components/ConfirmModal';
 import ActionSheet from '~/components/ActionSheet';
-import { OPTIONS as CURRENCY_OPTIONS } from '~/components/CurrencySelectField';
 import GreyText from '~/components/GreyText';
 import { STORAGE_KEYS } from '~/const';
+import useCurrencyComponents from '../hooks/useCurrencyComponents';
 
 /**
  * Encapsulates a popup that asks the user about their base currency preferences, as well as the currency action sheet selection.
  */
-const BaseCurrencyQuestion = () => {
+const BaseCurrencyQuestion = ({ navigation }) => {
   const dispatch = useDispatch();
   const showBaseCurrencyQuestion = useSelector((state) => state.showBaseCurrencyQuestion);
   const [showQuestion, setShowQuestion] = useState(false);
   const baseCurrency = useSelector((state) => state.user.baseCurrency);
   const [isCurrencySheetOpen, setIsCurrencySheetOpen] = useState(false);
+  const currencyOptions = useCurrencyComponents();
 
   useEffect(() => {
     if (showBaseCurrencyQuestion) {
@@ -40,6 +41,15 @@ const BaseCurrencyQuestion = () => {
   };
 
   const onCurrencySelected = (currency) => {
+    if (currency === 'SEPARATOR') {
+      return;
+    }
+
+    if (currency === 'VIEW_ALL') {
+      navigation.navigate('Profile');
+      return;
+    }
+
     dispatch(saveBaseCurrency(currency));
     dispatch(closeBaseCurrencyQuestion());
   };
@@ -72,7 +82,7 @@ const BaseCurrencyQuestion = () => {
           onClose={cancelBaseCurrencyQuestion}
           onValueSelected={onCurrencySelected}
           title={t('selectYourBaseCurrency')}
-          options={CURRENCY_OPTIONS}
+          options={currencyOptions}
         />
       )}
     </>
