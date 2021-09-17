@@ -110,6 +110,7 @@ export default {
     maybeLater: 'Maybe later',
     addDataFor: 'Add data for {{month}}',
     updateAssetValues: 'Update assets',
-    singleAssetHeader: 'Update Single Asset'
+    singleAssetHeader: 'Update Single Asset',
+    min6characters: '(min 6 characters)'
   }
 };

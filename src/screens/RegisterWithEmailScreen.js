@@ -7,6 +7,7 @@ import Button from '~/components/Button';
 import AuthenticationView from '~/components/AuthenticationView';
 import TextLink from '~/components/TextLink';
 import { ERROR_COLOR } from '~/styles';
+import GreyText from '~/components/GreyText';
 
 const RegisterWithEmailScreen = ({ navigation }) => {
   const styles = useDynamicStyleSheet(dynamicStyles);
@@ -59,7 +60,7 @@ const RegisterWithEmailScreen = ({ navigation }) => {
         error={emailError}
         onChangeText={onEmailChange}
       />
-      {emailError && <ErrorText>{emailError}</ErrorText>}
+      {emailError && <ErrorText style={styles.error}>{emailError}</ErrorText>}
 
       <TextField
         label={t('password')}
@@ -67,7 +68,9 @@ const RegisterWithEmailScreen = ({ navigation }) => {
         error={passwordError}
         onChangeText={onPasswordChange}
       />
-      {passwordError && <ErrorText>{passwordError}</ErrorText>}
+
+      <DescriptionText>{t('min6characters')}</DescriptionText>
+      {passwordError && <ErrorText style={styles.error}>{passwordError}</ErrorText>}
 
       <TextField
         label={t('confirmPassword')}
@@ -75,6 +78,7 @@ const RegisterWithEmailScreen = ({ navigation }) => {
         error={passwordConfirmError}
         onChangeText={onConfirmPasswordChange}
       />
+
       {passwordConfirmError && (
         <ErrorText style={styles.error}>{passwordConfirmError}</ErrorText>
       )}
@@ -115,6 +119,10 @@ const ButtonView = styled.View`
 
 const FooterView = styled.View`
   margin: 16px 0;
+`;
+
+const DescriptionText = styled(GreyText)`
+  margin: 0 0 6px 12px;
 `;
 
 export default RegisterWithEmailScreen;
