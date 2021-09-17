@@ -1,16 +1,20 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components/native';
+import { DynamicStyleSheet, useDynamicStyleSheet } from 'react-native-dark-mode';
 import useAuthAction from '~/hooks/useAuthAction';
 import TextField from '~/components/TextField';
 import Button from '~/components/Button';
 import AuthenticationView from '~/components/AuthenticationView';
 import TextLink from '~/components/TextLink';
+import { ERROR_COLOR } from '~/styles';
 
 const RegisterWithEmailScreen = ({ navigation }) => {
+  const styles = useDynamicStyleSheet(dynamicStyles);
+
   const [isLoading, setIsLoading] = useState();
-  const emailRef = useRef('');
-  const passwordRef = useRef('');
-  const passwordConfirmRef = useRef('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [passwordConfirm, setPasswordConfirm] = useState('');
 
   const [emailError, setEmailError] = useState(false);
   const [passwordError, setPasswordError] = useState(false);
@@ -23,27 +27,27 @@ const RegisterWithEmailScreen = ({ navigation }) => {
   const authAction = useAuthAction('createUserWithEmailAndPassword', { setEmailError, setPasswordError });
 
   const register = async () => {
-    if (passwordRef.current !== passwordConfirmRef.current) {
+    if (password !== passwordConfirm) {
       setPasswordConfirmError(t('passwordsDoNotMatch'));
       return;
     }
 
     setIsLoading(true);
-    authAction({ email: emailRef.current, password: passwordRef.current });
+    authAction({ email, password });
   };
 
   const onEmailChange = (text) => {
-    emailRef.current = text;
+    setEmail(text);
     setEmailError(false);
   };
 
   const onPasswordChange = (text) => {
-    passwordRef.current = text;
+    setPassword(text);
     setPasswordError(false);
   };
 
   const onConfirmPasswordChange = (text) => {
-    passwordConfirmRef.current = text;
+    setPasswordConfirm(text);
     setPasswordConfirmError(false);
   };
 
@@ -71,10 +75,18 @@ const RegisterWithEmailScreen = ({ navigation }) => {
         error={passwordConfirmError}
         onChangeText={onConfirmPasswordChange}
       />
-      {passwordConfirmError && <ErrorText>{passwordConfirmError}</ErrorText>}
+      {passwordConfirmError && (
+        <ErrorText style={styles.error}>{passwordConfirmError}</ErrorText>
+      )}
 
       <ButtonView>
-        <Button label={t('register')} icon="login" onPress={register} loading={isLoading} />
+        <Button
+          label={t('register')}
+          icon="login"
+          onPress={register}
+          loading={isLoading}
+          isDisabled={!email || !password || !passwordConfirm}
+        />
       </ButtonView>
 
       <FooterView>
@@ -85,11 +97,16 @@ const RegisterWithEmailScreen = ({ navigation }) => {
   );
 };
 
+const dynamicStyles = new DynamicStyleSheet({
+  error: {
+    color: ERROR_COLOR,
+  },
+});
+
 const ErrorText = styled.Text`
   margin: 0 0 10px 10px;
   font-size: 12px;
   font-weight: bold;
-  color: hsla(0, 100%, 26%, 1);
 `;
 
 const ButtonView = styled.View`

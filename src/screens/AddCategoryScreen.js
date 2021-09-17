@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useState } from 'react';
 import { View } from 'react-native';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components/native';
@@ -9,14 +9,14 @@ import ScreenWrapper from '~/components/ScreenWrapper';
 
 const AddCategoryScreen = ({ navigation }) => {
   const dispatch = useDispatch();
-  const inputValueRef = useRef();
+  const [inputValue, setInputValue] = useState('');
 
   const onChangeText = (text) => {
-    inputValueRef.current = text;
+    setInputValue(text);
   };
 
   const onSavePress = () => {
-    dispatch(addAssetCategory(inputValueRef.current));
+    dispatch(addAssetCategory(inputValue));
     navigation.goBack();
   };
 
@@ -26,7 +26,7 @@ const AddCategoryScreen = ({ navigation }) => {
         <TextField label={t('addCategory')} onChangeText={onChangeText} />
       </View>
       <ButtonView>
-        <ActionButton label={t('save')} onPress={onSavePress} />
+        <ActionButton label={t('save')} onPress={onSavePress} disabled={!inputValue} />
       </ButtonView>
     </ScreenWrapper>
   );
