@@ -13,9 +13,13 @@ import ActionButton from '~/components/ActionButton';
 import ScrollWrapper from '~/components/ScrollWrapper';
 import ScreenWrapper from '~/components/ScreenWrapper';
 import { STORAGE_KEYS } from '~/const';
+import useMostPopularCategory from '~/hooks/useMostPopularCategory';
 
 const AddAssetScreen = ({ navigation }) => {
   const dispatch = useDispatch();
+
+  const popuparCategory = useMostPopularCategory();
+
   const mostRecentCategory = useSelector((state) => state.mostRecentCategory);
   const baseCurrency = useSelector((state) => state.user.baseCurrency);
   const isKeyboardShown = useKeyboardShown();
@@ -31,7 +35,7 @@ const AddAssetScreen = ({ navigation }) => {
   });
 
   useEffect(() => {
-    setIsButtonDisabled(!asset.name || !asset.amount || !asset.category || (!asset.currency && !baseCurrency));
+    setIsButtonDisabled(!asset.name || !asset.amount || (!asset.category && !popuparCategory) || (!asset.currency && !baseCurrency));
   }, [asset]);
 
   useEffect(() => {
@@ -74,7 +78,8 @@ const AddAssetScreen = ({ navigation }) => {
   const onSavePressed = () => {
     dispatch(saveAsset({
       ...asset,
-      currency: asset.currency || baseCurrency
+      currency: asset.currency || baseCurrency,
+      category: asset.category || popuparCategory
     }));
     cleanUp();
     navigation.navigate('Confirm');
@@ -97,7 +102,7 @@ const AddAssetScreen = ({ navigation }) => {
           <CategorySelectField
             goToAddCategory={() => { navigation.navigate('AddCategory'); }}
             onValueSelected={saveCategory}
-            selectedValue={asset.category}
+            selectedValue={asset.category || popuparCategory}
             hasCategoryPreviewBeenShown={hasCategoryPreviewBeenShown}
           />
           <CurrencySelectField
